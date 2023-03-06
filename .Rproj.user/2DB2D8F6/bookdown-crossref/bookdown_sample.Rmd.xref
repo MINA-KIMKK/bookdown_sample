@@ -1,0 +1,28 @@
+h1:url-your-book-url-like-httpsbookdown.orgyihuibookdown url: your book url like https://bookdown.org/yihui/bookdown
+h1:cover-image-path-to-the-social-sharing-image-like-imagescover.jpg cover-image: path to the social sharing image like images/cover.jpg
+h1:about About
+h2:usage Usage
+h2:render-book Render book
+h2:preview-book Preview book
+h1:hello-bookdown Hello bookdown
+h2:a-section A section
+h3:an-unnumbered-section An unnumbered section
+h1:cross Cross-references
+h2:chapters-and-sub-chapters Chapters and sub-chapters
+h2:captioned-figures-and-tables Captioned figures and tables
+fig:nice-fig Here is a nice figure!
+tab:nice-tab Here is a nice table!
+h1:parts Parts
+h1:footnotes-and-citations Footnotes and citations
+h2:footnotes Footnotes
+h2:citations Citations
+h1:blocks Blocks
+h2:equations Equations
+h2:theorems-and-proofs Theorems and proofs
+h2:callout-blocks Callout blocks
+h1:sharing-your-book Sharing your book
+h2:publishing Publishing
+h2:pages 404 pages
+h2:metadata-for-sharing Metadata for sharing
+h1:references References
+
