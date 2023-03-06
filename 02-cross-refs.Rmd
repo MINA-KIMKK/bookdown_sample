@@ -1,34 +1,226 @@
-# Cross-references {#cross}
+# Propensity Score Matching    
+     
 
-Cross-references make it easier for your readers to find and link to elements in your book.
+**Covariate balance check**    
+    
 
-## Chapters and sub-chapters
+Covariate balance is the degree to which the distribution of covariates is similar across levels of the treatment.    
+SMD(Standardized Mean Difference) is the most widely used statistic for the assessment of balance after PSM.    
 
-There are two steps to cross-reference any heading:
+<br/>
 
-1. Label the heading: `# Hello world {#nice-label}`. 
-    - Leave the label off if you like the automated heading generated based on your heading title: for example, `# Hello world` = `# Hello world {#hello-world}`.
-    - To label an un-numbered heading, use: `# Hello world {-#nice-label}` or `{# Hello world .unnumbered}`.
+SMD for continuous variables :   
 
-1. Next, reference the labeled heading anywhere in the text using `\@ref(nice-label)`; for example, please see Chapter \@ref(cross). 
-    - If you prefer text as the link instead of a numbered reference use: [any text you want can go here](#cross).
+$$SMD=\frac{\bar X_1-\bar X_2}{\sqrt{(S^2_1+S^2_2)/2}}$$
 
-## Captioned figures and tables
+* $\bar X_1$ and $\bar X_2$ are sample mean for the treated and control groups.    
+* $S^2_1$ and $S^2_2$ are sample variance for the treated and control groups.    
 
-Figures and tables *with captions* can also be cross-referenced from elsewhere in your book using `\@ref(fig:chunk-label)` and `\@ref(tab:chunk-label)`, respectively.
+<br/>
 
-See Figure \@ref(fig:nice-fig).
+SMD for binary variables :     
 
-```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center', fig.alt='Plot with connected points showing that vapor pressure of mercury increases exponentially as temperature increases.'}
-par(mar = c(4, 4, .1, .1))
-plot(pressure, type = 'b', pch = 19)
+$$SMD=\frac{\hat p_1-\hat p_2}{\sqrt{[\hat p_1(1-\hat p_1)+\hat p_2(1-\hat p_2)]/2}}$$
+
+* $\hat p_1$ and $\hat p_2$ are prevalence of binary variables in the treated and control groups.    
+
+<br/>
+
+If the SMD after matching is less than **0.1**, it is determined that the difference by the covariates between the two groups is negligible.     
+
+
+<br/>
+
+----
+Using list **dat_imp_list**    
+Outcome variable : **HTN**     
+Follow-up period : **DATEDIFF**    
+Exposure variable : **DM**     
+Covariates : **Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)**   
+----
+
+<br/>
+
+```{r include=FALSE}
+library(MatchIt)
+library(dplyr)
+source("cobalt_3.9.0.R")
 ```
 
-Don't miss Table \@ref(tab:nice-tab).
-
-```{r nice-tab, tidy=FALSE}
-knitr::kable(
-  head(pressure, 10), caption = 'Here is a nice table!',
-  booktabs = TRUE
-)
+```{r, eval=F}
+## load library
+library(MatchIt)
+library(dplyr)
+source("cobalt_3.9.0.R")
 ```
+
+```{r}
+## load data
+load("Data/dat_imp_list.RData")
+final_com <- read.csv('Data/final_com.csv', header=T)
+```
+
+```{r}
+## Formula
+formula.mat <- formula(DM ~ AGE + SEX + SES + REGION + BMI + CCI + DYS + IHD)
+```
+
+<br/>
+
+* Use **matchit()** function in **MatchIt** package to create treatment and control groups balanced on included covariates. 
+  - method='nearest' : nearest neighbor matching on the propensity score
+  - ratio=k : the number of controls matched to each treated unit for k:1 matching     
+  - caliper : Units whose propensity score difference is larger than the caliper will not be paired, and some treated units may therefore not receive a match.
+
+
+## Complete data version
+
+**1:5 nearest matching _ caliper: 0.4**    
+
+```{r}
+## Optimal caliper
+ps <- glm(formula.mat,data=final_com, family = 'binomial')
+ps$pscore<- predict(ps, type='link')
+0.2*sd(ps$pscore)
+```
+
+```{r}
+set.seed(1)
+mat <- matchit(formula.mat, method = 'nearest', data=final_com, ratio=5, caliper=0.4)
+matdat <- match.data(mat) %>% select(-subclass) # 서버 R에서는 subclass 자동생성 안됨
+    
+# adding an matching index as a subclass to matdat and store as dat_mat
+# as.numeric(tmp[,1:ratio]), rep(c(1:nrow(tmp)),ratio+1) 
+tmp <- na.omit(mat$match.matrix)
+matid <- data.frame(rowid=c(as.numeric(rownames(tmp)), as.numeric(tmp[,1:5])), subclass=rep(c(1:nrow(tmp)),6))
+matid$RN_INDI <- final_com$RN_INDI[matid$row]
+dat_mat <- matdat %>% left_join(matid %>% select(RN_INDI,subclass),by = 'RN_INDI') %>% filter(is.na(subclass)==F)
+```
+
+```{r}
+## Save matching data
+save(dat_mat,file="Data/dat_mat.RData")
+```
+
+
+## Balance check (Complete)
+
+```{r}
+bal.ch <- function(before_data, after_data, group){
+  
+  group<-deparse(substitute(group))
+  
+  # SMD before matching
+  bal_check_un <- bal.tab.data.frame(before_data[covariates], treat=before_data[,group], binary="std", s.d.denom = "pooled")
+  un <- abs(bal_check_un$Balance$Diff.Un)
+
+  # SMD after matching
+  bal_check_adj <- bal.tab.data.frame(after_data[covariates], treat=after_data[,group], binary="std", s.d.denom = "pooled")
+  adj <- abs(bal_check_adj$Balance$Diff.Un)
+  
+  bal.res <- data.frame(un=round(un,3),adj=round(adj,3))
+  rownames(bal.res) <- rownames(bal_check_un$Balance)
+  return(bal.res)
+}
+
+covariates <- c("AGE","SEX","SES","REGION","BMI","CCI","DYS","IHD")
+```
+
+<br/>
+
+**bal.ch(before_matching_data, after_matching_data, group variable)**    
+
+```{r}
+bal.ch(final_com, dat_mat, DM)
+```
+
+
+<br/>
+
+## Missing data version
+
+**1:3 nearest matching _ caliper: 0.3, 0.35, 0.4**
+
+```{r}
+## Optimal caliper
+opt.clp <- c()
+for (i in 1:length(dat_imp_list)){
+  ps <- glm(formula.mat,data=dat_imp_list[[i]], family = 'binomial')
+  ps$pscore<- predict(ps, type='link')
+  opt.clp <- c(opt.clp, 0.2*sd(ps$pscore))
+}
+opt.clp; mean(opt.clp)
+```
+
+
+```{r}
+caliper <- c(0.3,0.35,0.4)
+
+for (i in 1:length(dat_imp_list)){
+  for (j in caliper){
+    set.seed(1)
+    mat <- matchit(formula.mat, method = 'nearest', data=dat_imp_list[[i]], ratio=3, caliper=j)
+    matdat <- match.data(mat) %>% select(-subclass) # 서버 R에서는 subclass 자동생성 안됨
+    
+    # adding an matching index as a subclass to matdat and store as dat_mati_j
+    # as.numeric(tmp[,1:ratio]), rep(c(1:nrow(tmp)),ratio+1) 
+    tmp <- na.omit(mat$match.matrix)
+    matid <- data.frame(rowid=c(as.numeric(rownames(tmp)), as.numeric(tmp[,1:3])), subclass=rep(c(1:nrow(tmp)),4))
+    matid$RN_INDI <- dat_imp_list[[i]]$RN_INDI[matid$row]
+    assign(paste0('dat_mat',i,"_",j), matdat %>% left_join(matid %>% select(RN_INDI,subclass),by = 'RN_INDI') %>% filter(is.na(subclass)==F))
+  }
+}
+```
+
+```{r}
+## list of 10 matched data 
+dat_mat_list_0.3 <- list(dat_mat1_0.3,dat_mat2_0.3,dat_mat3_0.3,dat_mat4_0.3,dat_mat5_0.3,dat_mat6_0.3,dat_mat7_0.3,dat_mat8_0.3,dat_mat9_0.3,dat_mat10_0.3)
+dat_mat_list_0.35 <- list(dat_mat1_0.35,dat_mat2_0.35,dat_mat3_0.35,dat_mat4_0.35,dat_mat5_0.35,dat_mat6_0.35,dat_mat7_0.35,dat_mat8_0.35,dat_mat9_0.35,dat_mat10_0.35)
+dat_mat_list_0.4 <- list(dat_mat1_0.4,dat_mat2_0.4,dat_mat3_0.4,dat_mat4_0.4,dat_mat5_0.4,dat_mat6_0.4,dat_mat7_0.4,dat_mat8_0.4,dat_mat9_0.4,dat_mat10_0.4)
+
+## Save list for matched data
+save(dat_mat_list_0.3,file="Data/dat_mat_list_0.3.RData")
+save(dat_mat_list_0.35,file="Data/dat_mat_list_0.35.RData")
+save(dat_mat_list_0.4,file="Data/dat_mat_list_0.4.RData")
+```
+
+
+## Balance check (Complete)
+
+```{r}
+
+bal.ch <- function(dat_imp_list, dat_mat_list, group){
+  
+  group<-deparse(substitute(group))
+  
+  # SMD before matching
+  bal_check_un <- dat_imp_list %>% lapply(function(x){
+    bal.tab.data.frame(x[covariates], 
+                       treat=x[,group], binary="std", s.d.denom = "pooled")})
+  un <- sapply(bal_check_un, function(x) (abs(x$Balance$Diff.Un)))
+  rownames(un) <- rownames(bal_check_un[[1]]$Balance)
+  
+  # SMD after matching
+  bal_check_adj <- dat_mat_list %>% lapply(function(x){
+    bal.tab.data.frame(x[covariates], 
+                       treat=x[,group], binary="std", s.d.denom = "pooled")})
+  adj <- sapply(bal_check_adj, function(x) (abs(x$Balance$Diff.Un)))
+  rownames(adj) <- rownames(bal_check_adj[[1]]$Balance)
+  
+  bal.res <- list(un=apply(un, 1, summary), adj=apply(adj, 1, summary))
+  return(data.frame(un=round(bal.res$un[6,],3),adj=round(bal.res$adj[6,],3)))
+}
+
+covariates <- c("AGE","SEX","SES","REGION","BMI","CCI","DYS","IHD")
+```
+
+<br/>
+
+**bal.ch(before_matching_list, after_matching_list, group variable)**    
+
+```{r}
+bal.ch(dat_imp_list, dat_mat_list_0.3, DM)
+bal.ch(dat_imp_list, dat_mat_list_0.35, DM)
+bal.ch(dat_imp_list, dat_mat_list_0.4, DM)
+```
+
