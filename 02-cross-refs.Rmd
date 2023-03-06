@@ -1,7 +1,7 @@
 # Propensity Score Matching    
      
 
-**Covariate balance check**    
+**Covariate balance**    
     
 
 Covariate balance is the degree to which the distribution of covariates is similar across levels of the treatment.    
@@ -185,7 +185,7 @@ save(dat_mat_list_0.4,file="Data/dat_mat_list_0.4.RData")
 ```
 
 
-## Balance check (Complete)
+## Balance check (Missing)
 
 ```{r}
 

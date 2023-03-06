@@ -1,0 +1,568 @@
+<div id="baseline-characteristic-table" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Baseline characteristic table</h1>
+<p>Baseline tables show the characteristics of research subjects included in a study. A table characterizing baseline characteristics is so important that it’s typically the first table that appears in any observational epidemiology (or clinical trial) manuscript, so it’s commonly referred to as a “Table 1”. The “Table 1” contain information about the mean and standard deviation(or median and IQR) for continue/scale variable, and proportion for categorical variable.<br />
+<br/></p>
+<p>Baseline characteristic table should be created before imputaion, matching, or weighting.</p>
+<p><br/></p>
+<table>
+<tbody>
+<tr class="odd">
+<td>Using data <strong>final_db</strong></td>
+</tr>
+<tr class="even">
+<td>Outcome variable : <strong>HTN</strong></td>
+</tr>
+<tr class="odd">
+<td>Follow-up period : <strong>DATEDIFF</strong></td>
+</tr>
+<tr class="even">
+<td>Exposure variable : <strong>DM</strong></td>
+</tr>
+<tr class="odd">
+<td>Covariates : <strong>Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)</strong></td>
+</tr>
+</tbody>
+</table>
+<p><br/></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load library</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(moonBook)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>final_db <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;Data/final_db.csv&#39;</span>, <span class="at">header=</span>T)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## formula</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>formula.bc <span class="ot">&lt;-</span> <span class="fu">formula</span>(DM <span class="sc">~</span> HTN <span class="sc">+</span> DATEDIFF <span class="sc">+</span> AGE <span class="sc">+</span> SEX <span class="sc">+</span> SES <span class="sc">+</span> REGION <span class="sc">+</span> BMI <span class="sc">+</span> CCI <span class="sc">+</span> DYS <span class="sc">+</span> IHD)</span></code></pre></div>
+<hr />
+<p><br/></p>
+<ul>
+<li>Use <strong>mytable()</strong> function in <strong>moonBook</strong> package to create baseline characteristic tables.
+<ul>
+<li>method=1 : forces analysis as normal-distributed<br />
+</li>
+<li>method=3 : performs a Shapiro-Wilk test to decide between normal or non-normal</li>
+</ul></li>
+</ul>
+<div id="baseline-characteristic-table-1" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Baseline characteristic table</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mytable</span>(formula.bc, <span class="at">data=</span>final_db, <span class="at">method=</span><span class="dv">3</span>) </span></code></pre></div>
+<pre><code>## 
+##               Descriptive Statistics by &#39;DM&#39;             
+## —————————————————————————————————————————————————————————— 
+##                     0                    1             p  
+##                 (N=2356)              (N=118)       
+## —————————————————————————————————————————————————————————— 
+##  HTN                                                 0.000
+##    - 0        2215 (94.0%)           69 (58.5%)           
+##    - 1         141 ( 6.0%)           49 (41.5%)           
+##  DATEDIFF 1685.0 [835.5;2460.5] 963.5 [324.0;1690.0] 0.000
+##  AGE        36.0 [22.0;48.0]      58.0 [50.0;68.0]   0.000
+##  SEX                                                 0.903
+##    - 1        1182 (50.2%)           58 (49.2%)           
+##    - 2        1174 (49.8%)           60 (50.8%)           
+##  SES                                                 0.393
+##    - 1         668 (29.6%)           29 (25.2%)           
+##    - 2         709 (31.4%)           34 (29.6%)           
+##    - 3         883 (39.1%)           52 (45.2%)           
+##  REGION                                              0.996
+##    - 1        1160 (49.5%)           58 (49.2%)           
+##    - 2         489 (20.9%)           25 (21.2%)           
+##    - 3         694 (29.6%)           35 (29.7%)           
+##  BMI        23.1 [21.0;25.2]      24.3 [22.6;26.1]   0.013
+##  CCI                                                 0.001
+##    - 0        1810 (76.8%)           80 (67.8%)           
+##    - 1         433 (18.4%)           23 (19.5%)           
+##    - 2         113 ( 4.8%)           15 (12.7%)           
+##  DYS                                                 0.000
+##    - 0        2285 (97.0%)          100 (84.7%)           
+##    - 1         71 ( 3.0%)            18 (15.3%)           
+##  IHD                                                 0.476
+##    - 0        2340 (99.3%)          116 (98.3%)           
+##    - 1         16 ( 0.7%)            2 ( 1.7%)            
+## ——————————————————————————————————————————————————————————</code></pre>
+</div>
+<div id="baseline-characteristic-table_total" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Baseline characteristic table_total</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tot1 <span class="ot">&lt;-</span> final_db <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">tmp=</span><span class="dv">1</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>tot2 <span class="ot">&lt;-</span> final_db <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">tmp=</span><span class="dv">2</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>tot3 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(tot1,tot2)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mytable</span>(tmp <span class="sc">~</span> HTN <span class="sc">+</span> DATEDIFF <span class="sc">+</span> AGE <span class="sc">+</span> SEX <span class="sc">+</span> SES <span class="sc">+</span> REGION <span class="sc">+</span> BMI <span class="sc">+</span> CCI <span class="sc">+</span> DYS <span class="sc">+</span> IHD, <span class="at">data=</span>tot3, <span class="at">method=</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## 
+##               Descriptive Statistics by &#39;tmp&#39;             
+## ——————————————————————————————————————————————————————————— 
+##                     1                     2             p  
+##                 (N=2474)              (N=2474)       
+## ——————————————————————————————————————————————————————————— 
+##  HTN                                                  1.000
+##    - 0        2284 (92.3%)          2284 (92.3%)           
+##    - 1         190 ( 7.7%)           190 ( 7.7%)           
+##  DATEDIFF 1656.0 [811.0;2458.0] 1656.0 [811.0;2458.0] 1.000
+##  AGE        36.0 [22.0;50.0]      36.0 [22.0;50.0]    1.000
+##  SEX                                                  1.000
+##    - 1        1240 (50.1%)          1240 (50.1%)           
+##    - 2        1234 (49.9%)          1234 (49.9%)           
+##  SES                                                  1.000
+##    - 1         697 (29.3%)           697 (29.3%)           
+##    - 2         743 (31.3%)           743 (31.3%)           
+##    - 3         935 (39.4%)           935 (39.4%)           
+##  REGION                                               1.000
+##    - 1        1218 (49.5%)          1218 (49.5%)           
+##    - 2         514 (20.9%)           514 (20.9%)           
+##    - 3         729 (29.6%)           729 (29.6%)           
+##  BMI        23.2 [21.0;25.3]      23.2 [21.0;25.3]    1.000
+##  CCI                                                  1.000
+##    - 0        1890 (76.4%)          1890 (76.4%)           
+##    - 1         456 (18.4%)           456 (18.4%)           
+##    - 2         128 ( 5.2%)           128 ( 5.2%)           
+##  DYS                                                  1.000
+##    - 0        2385 (96.4%)          2385 (96.4%)           
+##    - 1         89 ( 3.6%)            89 ( 3.6%)            
+##  IHD                                                  1.000
+##    - 0        2456 (99.3%)          2456 (99.3%)           
+##    - 1         18 ( 0.7%)            18 ( 0.7%)            
+## ———————————————————————————————————————————————————————————</code></pre>
+<!--chapter:end:index.Rmd-->
+</div>
+</div>
+<div id="multiple-imputation" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Multiple imputation</h1>
+<p>Multiple imputation is a general approach to the problem of missing data. It aims to allow for the uncertainty about the missing data by creating several different plausible imputed data sets and appropriately combining results obtained from each of them.</p>
+<p><br/></p>
+<p>Multiple imputation using chained equations (MICE) were performed to generate 10 imputed datasets. For the imputation model, predictive mean matching was used for continuous data and logistic regression was used for binary data.</p>
+<p><br/></p>
+<table>
+<tbody>
+<tr class="odd">
+<td>Using data <strong>final_db</strong></td>
+</tr>
+<tr class="even">
+<td>Outcome variable : <strong>HTN</strong></td>
+</tr>
+<tr class="odd">
+<td>Follow-up period : <strong>DATEDIFF</strong></td>
+</tr>
+<tr class="even">
+<td>Exposure variable : <strong>DM</strong></td>
+</tr>
+<tr class="odd">
+<td>Covariates : <strong>Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)</strong></td>
+</tr>
+</tbody>
+</table>
+<p><br/></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load library</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load data</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>final_db <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;Data/final_db.csv&#39;</span>, <span class="at">header=</span>T)</span></code></pre></div>
+<div id="the-number-of-missing-values" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> The number of missing values</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>na_count <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  num.na <span class="ot">&lt;-</span> <span class="fu">colSums</span>(<span class="fu">is.na</span>(data))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  per.na <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">round</span>(<span class="fu">colSums</span>(<span class="fu">is.na</span>(data))<span class="sc">/</span><span class="fu">nrow</span>(data) <span class="sc">*</span><span class="dv">100</span>,<span class="dv">2</span>),<span class="st">&quot;%&quot;</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">missing=</span><span class="fu">paste0</span>(num.na,<span class="st">&quot;(&quot;</span>,per.na,<span class="st">&quot;)&quot;</span>),<span class="at">row.names =</span> <span class="fu">names</span>(num.na)))</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">na_count</span>(final_db)</span></code></pre></div>
+<pre><code>##               missing
+## RN_INDI         0(0%)
+## DM              0(0%)
+## INDEX_DT        0(0%)
+## HTN             0(0%)
+## FU_DT           0(0%)
+## AGE             0(0%)
+## SEX             0(0%)
+## SES            99(4%)
+## REGION      13(0.53%)
+## BMI      1565(63.26%)
+## CCI             0(0%)
+## DYS             0(0%)
+## IHD             0(0%)
+## DATEDIFF        0(0%)</code></pre>
+<p><br/></p>
+<ul>
+<li>Use <strong>mice()</strong> function in <strong>mice</strong> package to deal with missing data.
+<ul>
+<li>m=10 refers to the number of imputed datasets. Five is the default value.</li>
+<li>Extract imputed data sets using <strong>compleate()</strong> function</li>
+</ul></li>
+</ul>
+</div>
+<div id="imputation-for-missing-values" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Imputation for missing values</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Exclude subject ID, index date before imputation</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>dat_mice <span class="ot">&lt;-</span> final_db <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>RN_INDI, <span class="sc">-</span>INDEX_DT, <span class="sc">-</span>FU_DT) </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>dat_imp <span class="ot">&lt;-</span> <span class="fu">mice</span>(dat_mice, <span class="at">m=</span><span class="dv">10</span>, <span class="at">seed=</span><span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## 
+##  iter imp variable
+##   1   1  SES  REGION  BMI
+##   1   2  SES  REGION  BMI
+##   1   3  SES  REGION  BMI
+##   1   4  SES  REGION  BMI
+##   1   5  SES  REGION  BMI
+##   1   6  SES  REGION  BMI
+##   1   7  SES  REGION  BMI
+##   1   8  SES  REGION  BMI
+##   1   9  SES  REGION  BMI
+##   1   10  SES  REGION  BMI
+##   2   1  SES  REGION  BMI
+##   2   2  SES  REGION  BMI
+##   2   3  SES  REGION  BMI
+##   2   4  SES  REGION  BMI
+##   2   5  SES  REGION  BMI
+##   2   6  SES  REGION  BMI
+##   2   7  SES  REGION  BMI
+##   2   8  SES  REGION  BMI
+##   2   9  SES  REGION  BMI
+##   2   10  SES  REGION  BMI
+##   3   1  SES  REGION  BMI
+##   3   2  SES  REGION  BMI
+##   3   3  SES  REGION  BMI
+##   3   4  SES  REGION  BMI
+##   3   5  SES  REGION  BMI
+##   3   6  SES  REGION  BMI
+##   3   7  SES  REGION  BMI
+##   3   8  SES  REGION  BMI
+##   3   9  SES  REGION  BMI
+##   3   10  SES  REGION  BMI
+##   4   1  SES  REGION  BMI
+##   4   2  SES  REGION  BMI
+##   4   3  SES  REGION  BMI
+##   4   4  SES  REGION  BMI
+##   4   5  SES  REGION  BMI
+##   4   6  SES  REGION  BMI
+##   4   7  SES  REGION  BMI
+##   4   8  SES  REGION  BMI
+##   4   9  SES  REGION  BMI
+##   4   10  SES  REGION  BMI
+##   5   1  SES  REGION  BMI
+##   5   2  SES  REGION  BMI
+##   5   3  SES  REGION  BMI
+##   5   4  SES  REGION  BMI
+##   5   5  SES  REGION  BMI
+##   5   6  SES  REGION  BMI
+##   5   7  SES  REGION  BMI
+##   5   8  SES  REGION  BMI
+##   5   9  SES  REGION  BMI
+##   5   10  SES  REGION  BMI</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Create 10 imputed data</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>dat_imp<span class="sc">$</span>m){</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">assign</span>(<span class="fu">paste0</span>(<span class="st">&#39;dat_imp&#39;</span>,i),<span class="fu">complete</span>(dat_imp,i))</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(<span class="fu">paste0</span>(<span class="st">&#39;dat_imp&#39;</span>,i),<span class="fu">cbind</span>(z,final_db <span class="sc">%&gt;%</span> <span class="fu">select</span>(RN_INDI))) </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="do">## list of 10 imputed data </span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>dat_imp_list <span class="ot">&lt;-</span> <span class="fu">list</span>(dat_imp1,dat_imp2,dat_imp3,dat_imp4,dat_imp5,dat_imp6,dat_imp7,dat_imp8,dat_imp9,dat_imp10)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Save multiple imputation result</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(dat_imp,<span class="at">file=</span><span class="st">&quot;Data/dat_imp.RData&quot;</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Save list for imputed data</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(dat_imp_list,<span class="at">file=</span><span class="st">&quot;Data/dat_imp_list.RData&quot;</span>)</span></code></pre></div>
+<!--chapter:end:01-intro.Rmd-->
+</div>
+</div>
+<div id="propensity-score-matching" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Propensity Score Matching</h1>
+<p><strong>Covariate balance check</strong></p>
+<p>Covariate balance is the degree to which the distribution of covariates is similar across levels of the treatment.<br />
+SMD(Standardized Mean Difference) is the most widely used statistic for the assessment of balance after PSM.</p>
+<p><br/></p>
+<p>SMD for continuous variables :</p>
+<p><span class="math display">\[SMD=\frac{\bar X_1-\bar X_2}{\sqrt{(S^2_1+S^2_2)/2}}\]</span></p>
+<ul>
+<li><span class="math inline">\(\bar X_1\)</span> and <span class="math inline">\(\bar X_2\)</span> are sample mean for the treated and control groups.<br />
+</li>
+<li><span class="math inline">\(S^2_1\)</span> and <span class="math inline">\(S^2_2\)</span> are sample variance for the treated and control groups.</li>
+</ul>
+<p><br/></p>
+<p>SMD for binary variables :</p>
+<p><span class="math display">\[SMD=\frac{\hat p_1-\hat p_2}{\sqrt{[\hat p_1(1-\hat p_1)+\hat p_2(1-\hat p_2)]/2}}\]</span></p>
+<ul>
+<li><span class="math inline">\(\hat p_1\)</span> and <span class="math inline">\(\hat p_2\)</span> are prevalence of binary variables in the treated and control groups.</li>
+</ul>
+<p><br/></p>
+<p>If the SMD after matching is less than <strong>0.1</strong>, it is determined that the difference by the covariates between the two groups is negligible.</p>
+<p><br/></p>
+<table>
+<tbody>
+<tr class="odd">
+<td>Using list <strong>dat_imp_list</strong></td>
+</tr>
+<tr class="even">
+<td>Outcome variable : <strong>HTN</strong></td>
+</tr>
+<tr class="odd">
+<td>Follow-up period : <strong>DATEDIFF</strong></td>
+</tr>
+<tr class="even">
+<td>Exposure variable : <strong>DM</strong></td>
+</tr>
+<tr class="odd">
+<td>Covariates : <strong>Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)</strong></td>
+</tr>
+</tbody>
+</table>
+<p><br/></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load library</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MatchIt)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;cobalt_3.9.0.R&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load data</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;Data/dat_imp_list.RData&quot;</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>final_com <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;Data/final_com.csv&#39;</span>, <span class="at">header=</span>T)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Formula</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>formula.mat <span class="ot">&lt;-</span> <span class="fu">formula</span>(DM <span class="sc">~</span> AGE <span class="sc">+</span> SEX <span class="sc">+</span> SES <span class="sc">+</span> REGION <span class="sc">+</span> BMI <span class="sc">+</span> CCI <span class="sc">+</span> DYS <span class="sc">+</span> IHD)</span></code></pre></div>
+<p><br/></p>
+<ul>
+<li>Use <strong>matchit()</strong> function in <strong>MatchIt</strong> package to create treatment and control groups balanced on included covariates.
+<ul>
+<li>method=‘nearest’ : nearest neighbor matching on the propensity score</li>
+<li>ratio=k : the number of controls matched to each treated unit for k:1 matching<br />
+</li>
+<li>caliper : Units whose propensity score difference is larger than the caliper will not be paired, and some treated units may therefore not receive a match.</li>
+</ul></li>
+</ul>
+<div id="complete-data-version" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Complete data version</h2>
+<p><strong>1:5 nearest matching _ caliper: 0.4</strong></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Optimal caliper</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ps <span class="ot">&lt;-</span> <span class="fu">glm</span>(formula.mat,<span class="at">data=</span>final_com, <span class="at">family =</span> <span class="st">&#39;binomial&#39;</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>ps<span class="sc">$</span>pscore<span class="ot">&lt;-</span> <span class="fu">predict</span>(ps, <span class="at">type=</span><span class="st">&#39;link&#39;</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fl">0.2</span><span class="sc">*</span><span class="fu">sd</span>(ps<span class="sc">$</span>pscore)</span></code></pre></div>
+<pre><code>## [1] 0.2122638</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">matchit</span>(formula.mat, <span class="at">method =</span> <span class="st">&#39;nearest&#39;</span>, <span class="at">data=</span>final_com, <span class="at">ratio=</span><span class="dv">5</span>, <span class="at">caliper=</span><span class="fl">0.4</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>matdat <span class="ot">&lt;-</span> <span class="fu">match.data</span>(mat) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>subclass) <span class="co"># 서버 R에서는 subclass 자동생성 안됨</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># adding an matching index as a subclass to matdat and store as dat_mat</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># as.numeric(tmp[,1:ratio]), rep(c(1:nrow(tmp)),ratio+1) </span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(mat<span class="sc">$</span>match.matrix)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>matid <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">rowid=</span><span class="fu">c</span>(<span class="fu">as.numeric</span>(<span class="fu">rownames</span>(tmp)), <span class="fu">as.numeric</span>(tmp[,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])), <span class="at">subclass=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(tmp)),<span class="dv">6</span>))</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>matid<span class="sc">$</span>RN_INDI <span class="ot">&lt;-</span> final_com<span class="sc">$</span>RN_INDI[matid<span class="sc">$</span>row]</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>dat_mat <span class="ot">&lt;-</span> matdat <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(matid <span class="sc">%&gt;%</span> <span class="fu">select</span>(RN_INDI,subclass),<span class="at">by =</span> <span class="st">&#39;RN_INDI&#39;</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">is.na</span>(subclass)<span class="sc">==</span>F)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Save matching data</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(dat_mat,<span class="at">file=</span><span class="st">&quot;Data/dat_mat.RData&quot;</span>)</span></code></pre></div>
+</div>
+<div id="balance-check-complete" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Balance check (Complete)</h2>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>bal.ch <span class="ot">&lt;-</span> <span class="cf">function</span>(before_data, after_data, group){</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  group<span class="ot">&lt;-</span><span class="fu">deparse</span>(<span class="fu">substitute</span>(group))</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># SMD before matching</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  bal_check_un <span class="ot">&lt;-</span> <span class="fu">bal.tab.data.frame</span>(before_data[covariates], <span class="at">treat=</span>before_data[,group], <span class="at">binary=</span><span class="st">&quot;std&quot;</span>, <span class="at">s.d.denom =</span> <span class="st">&quot;pooled&quot;</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  un <span class="ot">&lt;-</span> <span class="fu">abs</span>(bal_check_un<span class="sc">$</span>Balance<span class="sc">$</span>Diff.Un)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># SMD after matching</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  bal_check_adj <span class="ot">&lt;-</span> <span class="fu">bal.tab.data.frame</span>(after_data[covariates], <span class="at">treat=</span>after_data[,group], <span class="at">binary=</span><span class="st">&quot;std&quot;</span>, <span class="at">s.d.denom =</span> <span class="st">&quot;pooled&quot;</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  adj <span class="ot">&lt;-</span> <span class="fu">abs</span>(bal_check_adj<span class="sc">$</span>Balance<span class="sc">$</span>Diff.Un)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  bal.res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">un=</span><span class="fu">round</span>(un,<span class="dv">3</span>),<span class="at">adj=</span><span class="fu">round</span>(adj,<span class="dv">3</span>))</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames</span>(bal.res) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(bal_check_un<span class="sc">$</span>Balance)</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(bal.res)</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>covariates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;AGE&quot;</span>,<span class="st">&quot;SEX&quot;</span>,<span class="st">&quot;SES&quot;</span>,<span class="st">&quot;REGION&quot;</span>,<span class="st">&quot;BMI&quot;</span>,<span class="st">&quot;CCI&quot;</span>,<span class="st">&quot;DYS&quot;</span>,<span class="st">&quot;IHD&quot;</span>)</span></code></pre></div>
+<p><br/></p>
+<p><strong>bal.ch(before_matching_data, after_matching_data, group variable)</strong></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bal.ch</span>(final_com, dat_mat, DM)</span></code></pre></div>
+<pre><code>##           un   adj
+## AGE    0.997 0.033
+## SEX_2  0.029 0.017
+## SES    0.159 0.201
+## REGION 0.087 0.014
+## BMI    0.273 0.147
+## CCI    0.202 0.216
+## DYS    0.519 0.199
+## IHD    0.036 0.130</code></pre>
+<p><br/></p>
+</div>
+<div id="missing-data-version" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Missing data version</h2>
+<p><strong>1:3 nearest matching _ caliper: 0.3, 0.35, 0.4</strong></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Optimal caliper</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>opt.clp <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(dat_imp_list)){</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  ps <span class="ot">&lt;-</span> <span class="fu">glm</span>(formula.mat,<span class="at">data=</span>dat_imp_list[[i]], <span class="at">family =</span> <span class="st">&#39;binomial&#39;</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  ps<span class="sc">$</span>pscore<span class="ot">&lt;-</span> <span class="fu">predict</span>(ps, <span class="at">type=</span><span class="st">&#39;link&#39;</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  opt.clp <span class="ot">&lt;-</span> <span class="fu">c</span>(opt.clp, <span class="fl">0.2</span><span class="sc">*</span><span class="fu">sd</span>(ps<span class="sc">$</span>pscore))</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>opt.clp; <span class="fu">mean</span>(opt.clp)</span></code></pre></div>
+<pre><code>##  [1] 0.2899617 0.2709918 0.2828702 0.2778456 0.2794823 0.2710618 0.2745410
+##  [8] 0.2706783 0.2788889 0.2695220</code></pre>
+<pre><code>## [1] 0.2765843</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>caliper <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.3</span>,<span class="fl">0.35</span>,<span class="fl">0.4</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(dat_imp_list)){</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> caliper){</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    mat <span class="ot">&lt;-</span> <span class="fu">matchit</span>(formula.mat, <span class="at">method =</span> <span class="st">&#39;nearest&#39;</span>, <span class="at">data=</span>dat_imp_list[[i]], <span class="at">ratio=</span><span class="dv">3</span>, <span class="at">caliper=</span>j)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    matdat <span class="ot">&lt;-</span> <span class="fu">match.data</span>(mat) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>subclass) <span class="co"># 서버 R에서는 subclass 자동생성 안됨</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># adding an matching index as a subclass to matdat and store as dat_mati_j</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># as.numeric(tmp[,1:ratio]), rep(c(1:nrow(tmp)),ratio+1) </span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    tmp <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(mat<span class="sc">$</span>match.matrix)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    matid <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">rowid=</span><span class="fu">c</span>(<span class="fu">as.numeric</span>(<span class="fu">rownames</span>(tmp)), <span class="fu">as.numeric</span>(tmp[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])), <span class="at">subclass=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(tmp)),<span class="dv">4</span>))</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    matid<span class="sc">$</span>RN_INDI <span class="ot">&lt;-</span> dat_imp_list[[i]]<span class="sc">$</span>RN_INDI[matid<span class="sc">$</span>row]</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">assign</span>(<span class="fu">paste0</span>(<span class="st">&#39;dat_mat&#39;</span>,i,<span class="st">&quot;_&quot;</span>,j), matdat <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(matid <span class="sc">%&gt;%</span> <span class="fu">select</span>(RN_INDI,subclass),<span class="at">by =</span> <span class="st">&#39;RN_INDI&#39;</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">is.na</span>(subclass)<span class="sc">==</span>F))</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="do">## list of 10 matched data </span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>dat_mat_list_0<span class="fl">.3</span> <span class="ot">&lt;-</span> <span class="fu">list</span>(dat_mat1_0<span class="fl">.3</span>,dat_mat2_0<span class="fl">.3</span>,dat_mat3_0<span class="fl">.3</span>,dat_mat4_0<span class="fl">.3</span>,dat_mat5_0<span class="fl">.3</span>,dat_mat6_0<span class="fl">.3</span>,dat_mat7_0<span class="fl">.3</span>,dat_mat8_0<span class="fl">.3</span>,dat_mat9_0<span class="fl">.3</span>,dat_mat10_0<span class="fl">.3</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>dat_mat_list_0<span class="fl">.35</span> <span class="ot">&lt;-</span> <span class="fu">list</span>(dat_mat1_0<span class="fl">.35</span>,dat_mat2_0<span class="fl">.35</span>,dat_mat3_0<span class="fl">.35</span>,dat_mat4_0<span class="fl">.35</span>,dat_mat5_0<span class="fl">.35</span>,dat_mat6_0<span class="fl">.35</span>,dat_mat7_0<span class="fl">.35</span>,dat_mat8_0<span class="fl">.35</span>,dat_mat9_0<span class="fl">.35</span>,dat_mat10_0<span class="fl">.35</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>dat_mat_list_0<span class="fl">.4</span> <span class="ot">&lt;-</span> <span class="fu">list</span>(dat_mat1_0<span class="fl">.4</span>,dat_mat2_0<span class="fl">.4</span>,dat_mat3_0<span class="fl">.4</span>,dat_mat4_0<span class="fl">.4</span>,dat_mat5_0<span class="fl">.4</span>,dat_mat6_0<span class="fl">.4</span>,dat_mat7_0<span class="fl">.4</span>,dat_mat8_0<span class="fl">.4</span>,dat_mat9_0<span class="fl">.4</span>,dat_mat10_0<span class="fl">.4</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Save list for matched data</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(dat_mat_list_0<span class="fl">.3</span>,<span class="at">file=</span><span class="st">&quot;Data/dat_mat_list_0.3.RData&quot;</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(dat_mat_list_0<span class="fl">.35</span>,<span class="at">file=</span><span class="st">&quot;Data/dat_mat_list_0.35.RData&quot;</span>)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(dat_mat_list_0<span class="fl">.4</span>,<span class="at">file=</span><span class="st">&quot;Data/dat_mat_list_0.4.RData&quot;</span>)</span></code></pre></div>
+</div>
+<div id="balance-check-complete-1" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Balance check (Complete)</h2>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>bal.ch <span class="ot">&lt;-</span> <span class="cf">function</span>(dat_imp_list, dat_mat_list, group){</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  group<span class="ot">&lt;-</span><span class="fu">deparse</span>(<span class="fu">substitute</span>(group))</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># SMD before matching</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  bal_check_un <span class="ot">&lt;-</span> dat_imp_list <span class="sc">%&gt;%</span> <span class="fu">lapply</span>(<span class="cf">function</span>(x){</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bal.tab.data.frame</span>(x[covariates], </span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">treat=</span>x[,group], <span class="at">binary=</span><span class="st">&quot;std&quot;</span>, <span class="at">s.d.denom =</span> <span class="st">&quot;pooled&quot;</span>)})</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  un <span class="ot">&lt;-</span> <span class="fu">sapply</span>(bal_check_un, <span class="cf">function</span>(x) (<span class="fu">abs</span>(x<span class="sc">$</span>Balance<span class="sc">$</span>Diff.Un)))</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames</span>(un) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(bal_check_un[[<span class="dv">1</span>]]<span class="sc">$</span>Balance)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># SMD after matching</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  bal_check_adj <span class="ot">&lt;-</span> dat_mat_list <span class="sc">%&gt;%</span> <span class="fu">lapply</span>(<span class="cf">function</span>(x){</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bal.tab.data.frame</span>(x[covariates], </span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>                       <span class="at">treat=</span>x[,group], <span class="at">binary=</span><span class="st">&quot;std&quot;</span>, <span class="at">s.d.denom =</span> <span class="st">&quot;pooled&quot;</span>)})</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>  adj <span class="ot">&lt;-</span> <span class="fu">sapply</span>(bal_check_adj, <span class="cf">function</span>(x) (<span class="fu">abs</span>(x<span class="sc">$</span>Balance<span class="sc">$</span>Diff.Un)))</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames</span>(adj) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(bal_check_adj[[<span class="dv">1</span>]]<span class="sc">$</span>Balance)</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>  bal.res <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">un=</span><span class="fu">apply</span>(un, <span class="dv">1</span>, summary), <span class="at">adj=</span><span class="fu">apply</span>(adj, <span class="dv">1</span>, summary))</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">un=</span><span class="fu">round</span>(bal.res<span class="sc">$</span>un[<span class="dv">6</span>,],<span class="dv">3</span>),<span class="at">adj=</span><span class="fu">round</span>(bal.res<span class="sc">$</span>adj[<span class="dv">6</span>,],<span class="dv">3</span>)))</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>covariates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;AGE&quot;</span>,<span class="st">&quot;SEX&quot;</span>,<span class="st">&quot;SES&quot;</span>,<span class="st">&quot;REGION&quot;</span>,<span class="st">&quot;BMI&quot;</span>,<span class="st">&quot;CCI&quot;</span>,<span class="st">&quot;DYS&quot;</span>,<span class="st">&quot;IHD&quot;</span>)</span></code></pre></div>
+<p><br/></p>
+<p><strong>bal.ch(before_matching_list, after_matching_list, group variable)</strong></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bal.ch</span>(dat_imp_list, dat_mat_list_0<span class="fl">.3</span>, DM)</span></code></pre></div>
+<pre><code>##           un   adj
+## AGE    1.450 0.041
+## SEX_2  0.020 0.057
+## SES    0.148 0.064
+## REGION 0.006 0.105
+## BMI    0.423 0.079
+## CCI    0.267 0.095
+## DYS    0.435 0.112
+## IHD    0.094 0.077</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bal.ch</span>(dat_imp_list, dat_mat_list_0<span class="fl">.35</span>, DM)</span></code></pre></div>
+<pre><code>##           un   adj
+## AGE    1.450 0.040
+## SEX_2  0.020 0.076
+## SES    0.148 0.073
+## REGION 0.006 0.094
+## BMI    0.423 0.084
+## CCI    0.267 0.082
+## DYS    0.435 0.100
+## IHD    0.094 0.101</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bal.ch</span>(dat_imp_list, dat_mat_list_0<span class="fl">.4</span>, DM)</span></code></pre></div>
+<pre><code>##           un   adj
+## AGE    1.450 0.037
+## SEX_2  0.020 0.074
+## SES    0.148 0.065
+## REGION 0.006 0.094
+## BMI    0.423 0.062
+## CCI    0.267 0.077
+## DYS    0.435 0.100
+## IHD    0.094 0.100</code></pre>
+<!--chapter:end:02-cross-refs.Rmd-->
+</div>
+</div>
+<div id="parts" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Parts</h1>
+<p>You can add parts to organize one or more book chapters together. Parts can be inserted at the top of an .Rmd file, before the first-level chapter heading in that same file.</p>
+<p>Add a numbered part: <code># (PART) Act one {-}</code> (followed by <code># A chapter</code>)</p>
+<p>Add an unnumbered part: <code># (PART\*) Act one {-}</code> (followed by <code># A chapter</code>)</p>
+<p>Add an appendix as a special kind of un-numbered part: <code># (APPENDIX) Other stuff {-}</code> (followed by <code># A chapter</code>). Chapters in an appendix are prepended with letters instead of numbers.</p>
+<!--chapter:end:03-parts.Rmd-->
+</div>
+<div id="footnotes-and-citations" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Footnotes and citations</h1>
+<div id="footnotes" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Footnotes</h2>
+<p>Footnotes are put inside the square brackets after a caret <code>^[]</code>. Like this one <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+</div>
+<div id="citations" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Citations</h2>
+<p>Reference items in your bibliography file(s) using <code>@key</code>.</p>
+<p>For example, we are using the <strong>bookdown</strong> package <span class="citation">(<a href="#ref-R-bookdown" role="doc-biblioref">Xie 2023</a>)</span> (check out the last code chunk in index.Rmd to see how this citation key was added) in this sample book, which was built on top of R Markdown and <strong>knitr</strong> <span class="citation">(<a href="#ref-xie2015" role="doc-biblioref">Xie 2015</a>)</span> (this citation was added manually in an external file book.bib).
+Note that the <code>.bib</code> files need to be listed in the index.Rmd with the YAML <code>bibliography</code> key.</p>
+<p>The RStudio Visual Markdown Editor can also make it easier to insert citations: <a href="https://rstudio.github.io/visual-markdown-editing/#/citations" class="uri">https://rstudio.github.io/visual-markdown-editing/#/citations</a></p>
+<!--chapter:end:04-citations.Rmd-->
+</div>
+</div>
+<div id="blocks" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Blocks</h1>
+<div id="equations" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Equations</h2>
+<p>Here is an equation.</p>
+<p><span class="math display">\[\begin{equation} 
+  f\left(k\right) = \binom{n}{k} p^k\left(1-p\right)^{n-k}
+  (\#eq:binom)
+\end{equation}\]</span></p>
+<p>You may refer to using <code>\@ref(eq:binom)</code>, like see Equation @ref(eq:binom).</p>
+</div>
+<div id="theorems-and-proofs" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Theorems and proofs</h2>
+<p>Labeled theorems can be referenced in text using <code>\@ref(thm:tri)</code>, for example, check out this smart theorem @ref(thm:tri).</p>
+<div id="tri" class="theorem">
+<p>For a right triangle, if <span class="math inline">\(c\)</span> denotes the <em>length</em> of the hypotenuse
+and <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> denote the lengths of the <strong>other</strong> two sides, we have
+<span class="math display">\[a^2 + b^2 = c^2\]</span></p>
+</div>
+<p>Read more here <a href="https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html" class="uri">https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html</a>.</p>
+</div>
+<div id="callout-blocks" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Callout blocks</h2>
+<p>The R Markdown Cookbook provides more help on how to use custom blocks to design your own callouts: <a href="https://bookdown.org/yihui/rmarkdown-cookbook/custom-blocks.html" class="uri">https://bookdown.org/yihui/rmarkdown-cookbook/custom-blocks.html</a></p>
+<!--chapter:end:05-blocks.Rmd-->
+</div>
+</div>
+<div id="sharing-your-book" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Sharing your book</h1>
+<div id="publishing" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> Publishing</h2>
+<p>HTML books can be published online, see: <a href="https://bookdown.org/yihui/bookdown/publishing.html" class="uri">https://bookdown.org/yihui/bookdown/publishing.html</a></p>
+</div>
+<div id="pages" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> 404 pages</h2>
+<p>By default, users will be directed to a 404 page if they try to access a webpage that cannot be found. If you’d like to customize your 404 page instead of using the default, you may add either a <code>_404.Rmd</code> or <code>_404.md</code> file to your project root and use code and/or Markdown syntax.</p>
+</div>
+<div id="metadata-for-sharing" class="section level2" number="7.3">
+<h2><span class="header-section-number">7.3</span> Metadata for sharing</h2>
+<p>Bookdown HTML books will provide HTML metadata for social sharing on platforms like Twitter, Facebook, and LinkedIn, using information you provide in the <code>index.Rmd</code> YAML. To setup, set the <code>url</code> for your book and the path to your <code>cover-image</code> file. Your book’s <code>title</code> and <code>description</code> are also used.</p>
+<p>This <code>gitbook</code> uses the same social sharing data across all chapters in your book- all links shared will look the same.</p>
+<p>Specify your book’s source repository on GitHub using the <code>edit</code> key under the configuration options in the <code>_output.yml</code> file, which allows users to suggest an edit by linking to a chapter’s source file.</p>
+<p>Read more about the features of this output format here:</p>
+<p><a href="https://pkgs.rstudio.com/bookdown/reference/gitbook.html" class="uri">https://pkgs.rstudio.com/bookdown/reference/gitbook.html</a></p>
+<p>Or use:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>?bookdown<span class="sc">::</span>gitbook</span></code></pre></div>
+<!--chapter:end:06-share.Rmd-->
+</div>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<!--chapter:end:07-references.Rmd-->
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-xie2015" class="csl-entry">
+Xie, Yihui. 2015. <em>Dynamic Documents with <span>R</span> and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://yihui.org/knitr/">http://yihui.org/knitr/</a>.
+</div>
+<div id="ref-R-bookdown" class="csl-entry">
+———. 2023. <em>Bookdown: Authoring Books and Technical Documents with r Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.
+</div>
+</div>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>This is a footnote.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
