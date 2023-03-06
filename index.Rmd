@@ -13,22 +13,22 @@ link-citations: yes
 github-repo: rstudio/bookdown-demo
 ---
 
-# Baseline characteristic table
+# Baseline characteristic table  
 
-<br/>
-
-Baseline tables show the characteristics of research subjects included in a study. A table characterizing baseline characteristics is so important that it’s typically the first table that appears in any observational epidemiology (or clinical trial) manuscript, so it’s commonly referred to as a "Table 1". The "Table 1" contain information about the mean and standard deviation(or median and IQR) for continue/scale variable, and proportion for categorical variable.    
-Baseline characteristic table should be created before imputaion, matching, or weighting.   
+ Baseline tables show the characteristics of research subjects included in a study. A table characterizing baseline characteristics is so important that it’s typically the first table that appears in any observational epidemiology (or clinical trial) manuscript, so it’s commonly referred to as a "Table 1". The "Table 1" contain information about the mean and standard deviation(or median and IQR) for continue/scale variable, and proportion for categorical variable.    
+ <br/>
+ 
+ Baseline characteristic table should be created before imputaion, matching, or weighting.   
 
 
 <br/>
 
 ----
-* Using data **final_db**    
-* Outcome variable : HTN     
-* Follow-up period : DATEDIFF    
-* Exposure variable : DM     
-* Covariates : Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)    
+Using data **final_db**    
+Outcome variable : **HTN**     
+Follow-up period : **DATEDIFF**    
+Exposure variable : **DM**     
+Covariates : **Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)* *   
 ----
 
 <br/>

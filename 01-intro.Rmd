@@ -1,11 +1,76 @@
-# Hello bookdown 
+# Multiple imputation  
 
-All chapters start with a first-level heading followed by your chapter title, like the line above. There should be only one first-level heading (`#`) per .Rmd file.
+ Multiple imputation is a general approach to the problem of missing data. It aims to allow for the uncertainty about the missing data by creating several different plausible imputed data sets and appropriately combining results obtained from each of them.    
+   
+<br/>
+ 
+ Multiple imputation using chained equations (MICE) were performed to generate 10 imputed datasets. For the imputation model, predictive mean matching was used for continuous data and logistic regression was used for binary data. 
 
-## A section
+<br/>
 
-All chapter sections start with a second-level (`##`) or higher heading followed by your section title, like the sections above and below here. You can have as many as you want within a chapter.
+----
+Using data **final_db**    
+Outcome variable : **HTN**     
+Follow-up period : **DATEDIFF**    
+Exposure variable : **DM**     
+Covariates : **Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)* *   
+----
 
-### An unnumbered section {-}
+<br/>
 
-Chapters and sections are numbered by default. To un-number a heading, add a `{.unnumbered}` or the shorter `{-}` at the end of the heading, like in this section.
+```{r, eval=F}
+## load library
+library(mice)
+library(dplyr)
+```
+
+```{r}
+## load data
+final_db <- read.csv('Data/final_db.csv', header=T)
+```
+     
+## The number of missing values
+```{r}
+na_count <- function(data){
+  num.na <- colSums(is.na(data))
+  per.na <- paste0(round(colSums(is.na(data))/nrow(data) *100,2),"%")
+  
+  return(data.frame(missing=paste0(num.na,"(",per.na,")"),row.names = names(num.na)))
+}
+
+na_count(final_db)
+```
+
+<br/>
+
+* Use **mice()** function in **mice** package to deal with missing data.
+  - m=10 refers to the number of imputed datasets. Five is the default value.
+  - Extract imputed data sets using **compleate()** function  
+
+
+
+## Imputation for missing values
+```{r}
+## Exclude subject ID, index date before imputation
+dat_mice <- final_db %>% select(-RN_INDI, -INDEX_DT, -FU_DT) 
+dat_imp <- mice(dat_mice, m=10, seed=1)
+```
+
+```{r}
+## Create 10 imputed data
+for (i in 1:dat_imp$m){
+  z <- assign(paste0('dat_imp',i),complete(dat_imp,i))
+  assign(paste0('dat_imp',i),cbind(z,final_db %>% select(RN_INDI))) 
+}
+
+## list of 10 imputed data 
+dat_imp_list <- list(dat_imp1,dat_imp2,dat_imp3,dat_imp4,dat_imp5,dat_imp6,dat_imp7,dat_imp8,dat_imp9,dat_imp10)
+
+```
+
+```{r}
+## Save multiple imputation result
+save(dat_imp,file="Data/dat_imp.RData")
+## Save list for imputed data
+save(dat_imp_list,file="Data/dat_imp_list.RData")
+```

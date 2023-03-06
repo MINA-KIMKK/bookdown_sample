@@ -21,3 +21,7 @@ sharing-your-book
 publishing
 pages
 metadata-for-sharing
+url-your-book-url-like-httpsbookdown.orgyihuibookdown
+multiple-imputation
+the-number-of-missing-values
+imputation-for-missing-values
