@@ -164,8 +164,8 @@ div.csl-indent {
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Baseline characteristic table</a>
 <ul>
-<li class="chapter" data-level="1.0.1" data-path="index.html"><a href="index.html#baseline-characteristic-table-1"><i class="fa fa-check"></i><b>1.0.1</b> Baseline characteristic table</a></li>
-<li class="chapter" data-level="1.0.2" data-path="index.html"><a href="index.html#baseline-characteristic-table_total"><i class="fa fa-check"></i><b>1.0.2</b> Baseline characteristic table_total</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#baseline-characteristic-table-1"><i class="fa fa-check"></i><b>1.1</b> Baseline characteristic table</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#baseline-characteristic-table_total"><i class="fa fa-check"></i><b>1.2</b> Baseline characteristic table_total</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="hello-bookdown.html"><a href="hello-bookdown.html"><i class="fa fa-check"></i><b>2</b> Hello bookdown</a>
 <ul>
@@ -264,8 +264,8 @@ Baseline characteristic table should be created before imputaion, matching, or w
 <li>method=3 : performs a Shapiro-Wilk test to decide between normal or non-normal</li>
 </ul></li>
 </ul>
-<div id="baseline-characteristic-table-1" class="section level3 hasAnchor" number="1.0.1">
-<h3><span class="header-section-number">1.0.1</span> Baseline characteristic table<a href="index.html#baseline-characteristic-table-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="baseline-characteristic-table-1" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Baseline characteristic table<a href="index.html#baseline-characteristic-table-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="index.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mytable</span>(formula.bc, <span class="at">data=</span>final_db, <span class="at">method=</span><span class="dv">3</span>) </span></code></pre></div>
 <pre><code>## 
 ##               Descriptive Statistics by &#39;DM&#39;             
@@ -302,8 +302,8 @@ Baseline characteristic table should be created before imputaion, matching, or w
 ##    - 1         16 ( 0.7%)            2 ( 1.7%)            
 ## ——————————————————————————————————————————————————————————</code></pre>
 </div>
-<div id="baseline-characteristic-table_total" class="section level3 hasAnchor" number="1.0.2">
-<h3><span class="header-section-number">1.0.2</span> Baseline characteristic table_total<a href="index.html#baseline-characteristic-table_total" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="baseline-characteristic-table_total" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Baseline characteristic table_total<a href="index.html#baseline-characteristic-table_total" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="index.html#cb6-1" aria-hidden="true" tabindex="-1"></a>tot1 <span class="ot">&lt;-</span> final_db <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">tmp=</span><span class="dv">1</span>)</span>
 <span id="cb6-2"><a href="index.html#cb6-2" aria-hidden="true" tabindex="-1"></a>tot2 <span class="ot">&lt;-</span> final_db <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">tmp=</span><span class="dv">2</span>)</span>
 <span id="cb6-3"><a href="index.html#cb6-3" aria-hidden="true" tabindex="-1"></a>tot3 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(tot1,tot2)</span>

@@ -64,12 +64,12 @@ formula.bc <- formula(DM ~ HTN + DATEDIFF + AGE + SEX + SES + REGION + BMI + CCI
   - method=3 : performs a Shapiro-Wilk test to decide between normal or non-normal
 
 
-### Baseline characteristic table
+## Baseline characteristic table
 ```{r}
 mytable(formula.bc, data=final_db, method=3) 
 ```
 
-### Baseline characteristic table_total
+## Baseline characteristic table_total
 ```{r}
 tot1 <- final_db %>% mutate(tmp=1)
 tot2 <- final_db %>% mutate(tmp=2)

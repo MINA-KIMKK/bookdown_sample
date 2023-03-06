@@ -145,22 +145,19 @@
 \hypertarget{baseline-characteristic-table}{%
 \chapter{Baseline characteristic table}\label{baseline-characteristic-table}}
 
-\begin{itemize}
-\tightlist
-\item
-  Using data \textbf{final\_db}\\
-\item
-  Outcome variable : HTN\\
-\item
-  Follow-up period : DATEDIFF\\
-\item
-  Exposure variable : DM\\
-\item
-  Covariates : Age, Sex, SES, Region, BMI, CCI, Other comorbidities(Dyslipidemia, Ischemic heart disease)
-\end{itemize}
-
 Baseline tables show the characteristics of research subjects included in a study. A table characterizing baseline characteristics is so important that it's typically the first table that appears in any observational epidemiology (or clinical trial) manuscript, so it's commonly referred to as a ``Table 1''. The ``Table 1'' contain information about the mean and standard deviation(or median and IQR) for continue/scale variable, and proportion for categorical variable.\\
 Baseline characteristic table should be created before imputaion, matching, or weighting.
+
+\begin{longtable}[]{@{}l@{}}
+\toprule()
+\endhead
+* Using data \textbf{final\_db} \\
+* Outcome variable : HTN \\
+* Follow-up period : DATEDIFF \\
+* Exposure variable : DM \\
+* Covariates : Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease) \\
+\bottomrule()
+\end{longtable}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -184,6 +181,8 @@ Baseline characteristic table should be created before imputaion, matching, or w
 \end{Highlighting}
 \end{Shaded}
 
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
 \begin{itemize}
 \tightlist
 \item
@@ -199,7 +198,7 @@ Baseline characteristic table should be created before imputaion, matching, or w
 \end{itemize}
 
 \hypertarget{baseline-characteristic-table-1}{%
-\subsection{Baseline characteristic table}\label{baseline-characteristic-table-1}}
+\section{Baseline characteristic table}\label{baseline-characteristic-table-1}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -245,7 +244,7 @@ Baseline characteristic table should be created before imputaion, matching, or w
 \end{verbatim}
 
 \hypertarget{baseline-characteristic-table_total}{%
-\subsection{Baseline characteristic table\_total}\label{baseline-characteristic-table_total}}
+\section{Baseline characteristic table\_total}\label{baseline-characteristic-table_total}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
