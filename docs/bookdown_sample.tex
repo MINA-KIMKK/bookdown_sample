@@ -146,16 +146,17 @@
 \chapter{Baseline characteristic table}\label{baseline-characteristic-table}}
 
 Baseline tables show the characteristics of research subjects included in a study. A table characterizing baseline characteristics is so important that it's typically the first table that appears in any observational epidemiology (or clinical trial) manuscript, so it's commonly referred to as a ``Table 1''. The ``Table 1'' contain information about the mean and standard deviation(or median and IQR) for continue/scale variable, and proportion for categorical variable.\\
+
 Baseline characteristic table should be created before imputaion, matching, or weighting.
 
 \begin{longtable}[]{@{}l@{}}
 \toprule()
 \endhead
-* Using data \textbf{final\_db} \\
-* Outcome variable : HTN \\
-* Follow-up period : DATEDIFF \\
-* Exposure variable : DM \\
-* Covariates : Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease) \\
+Using data \textbf{final\_db} \\
+Outcome variable : \textbf{HTN} \\
+Follow-up period : \textbf{DATEDIFF} \\
+Exposure variable : \textbf{DM} \\
+Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)} \\
 \bottomrule()
 \end{longtable}
 
@@ -293,21 +294,174 @@ Baseline characteristic table should be created before imputaion, matching, or w
 ## ———————————————————————————————————————————————————————————
 \end{verbatim}
 
-\hypertarget{hello-bookdown}{%
-\chapter{Hello bookdown}\label{hello-bookdown}}
+\hypertarget{multiple-imputation}{%
+\chapter{Multiple imputation}\label{multiple-imputation}}
 
-All chapters start with a first-level heading followed by your chapter title, like the line above. There should be only one first-level heading (\texttt{\#}) per .Rmd file.
+Multiple imputation is a general approach to the problem of missing data. It aims to allow for the uncertainty about the missing data by creating several different plausible imputed data sets and appropriately combining results obtained from each of them.
 
-\hypertarget{a-section}{%
-\section{A section}\label{a-section}}
+Multiple imputation using chained equations (MICE) were performed to generate 10 imputed datasets. For the imputation model, predictive mean matching was used for continuous data and logistic regression was used for binary data.
 
-All chapter sections start with a second-level (\texttt{\#\#}) or higher heading followed by your section title, like the sections above and below here. You can have as many as you want within a chapter.
+\begin{longtable}[]{@{}l@{}}
+\toprule()
+\endhead
+Using data \textbf{final\_db} \\
+Outcome variable : \textbf{HTN} \\
+Follow-up period : \textbf{DATEDIFF} \\
+Exposure variable : \textbf{DM} \\
+Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)} \\
+\bottomrule()
+\end{longtable}
 
-\hypertarget{an-unnumbered-section}{%
-\subsection*{An unnumbered section}\label{an-unnumbered-section}}
-\addcontentsline{toc}{subsection}{An unnumbered section}
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# load library}
+\FunctionTok{library}\NormalTok{(mice)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
 
-Chapters and sections are numbered by default. To un-number a heading, add a \texttt{\{.unnumbered\}} or the shorter \texttt{\{-\}} at the end of the heading, like in this section.
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# load data}
+\NormalTok{final\_db }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}Data/final\_db.csv\textquotesingle{}}\NormalTok{, }\AttributeTok{header=}\NormalTok{T)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{the-number-of-missing-values}{%
+\section{The number of missing values}\label{the-number-of-missing-values}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{na\_count }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data)\{}
+\NormalTok{  num.na }\OtherTok{\textless{}{-}} \FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(data))}
+\NormalTok{  per.na }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\FunctionTok{round}\NormalTok{(}\FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(data))}\SpecialCharTok{/}\FunctionTok{nrow}\NormalTok{(data) }\SpecialCharTok{*}\DecValTok{100}\NormalTok{,}\DecValTok{2}\NormalTok{),}\StringTok{"\%"}\NormalTok{)}
+  
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{missing=}\FunctionTok{paste0}\NormalTok{(num.na,}\StringTok{"("}\NormalTok{,per.na,}\StringTok{")"}\NormalTok{),}\AttributeTok{row.names =} \FunctionTok{names}\NormalTok{(num.na)))}
+\NormalTok{\}}
+
+\FunctionTok{na\_count}\NormalTok{(final\_db)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               missing
+## RN_INDI         0(0%)
+## DM              0(0%)
+## INDEX_DT        0(0%)
+## HTN             0(0%)
+## FU_DT           0(0%)
+## AGE             0(0%)
+## SEX             0(0%)
+## SES            99(4%)
+## REGION      13(0.53%)
+## BMI      1565(63.26%)
+## CCI             0(0%)
+## DYS             0(0%)
+## IHD             0(0%)
+## DATEDIFF        0(0%)
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Use \textbf{mice()} function in \textbf{mice} package to deal with missing data.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    m=10 refers to the number of imputed datasets. Five is the default value.
+  \item
+    Extract imputed data sets using \textbf{compleate()} function
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{imputation-for-missing-values}{%
+\section{Imputation for missing values}\label{imputation-for-missing-values}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Exclude subject ID, index date before imputation}
+\NormalTok{dat\_mice }\OtherTok{\textless{}{-}}\NormalTok{ final\_db }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{RN\_INDI, }\SpecialCharTok{{-}}\NormalTok{INDEX\_DT, }\SpecialCharTok{{-}}\NormalTok{FU\_DT) }
+\NormalTok{dat\_imp }\OtherTok{\textless{}{-}} \FunctionTok{mice}\NormalTok{(dat\_mice, }\AttributeTok{m=}\DecValTok{10}\NormalTok{, }\AttributeTok{seed=}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  iter imp variable
+##   1   1  SES  REGION  BMI
+##   1   2  SES  REGION  BMI
+##   1   3  SES  REGION  BMI
+##   1   4  SES  REGION  BMI
+##   1   5  SES  REGION  BMI
+##   1   6  SES  REGION  BMI
+##   1   7  SES  REGION  BMI
+##   1   8  SES  REGION  BMI
+##   1   9  SES  REGION  BMI
+##   1   10  SES  REGION  BMI
+##   2   1  SES  REGION  BMI
+##   2   2  SES  REGION  BMI
+##   2   3  SES  REGION  BMI
+##   2   4  SES  REGION  BMI
+##   2   5  SES  REGION  BMI
+##   2   6  SES  REGION  BMI
+##   2   7  SES  REGION  BMI
+##   2   8  SES  REGION  BMI
+##   2   9  SES  REGION  BMI
+##   2   10  SES  REGION  BMI
+##   3   1  SES  REGION  BMI
+##   3   2  SES  REGION  BMI
+##   3   3  SES  REGION  BMI
+##   3   4  SES  REGION  BMI
+##   3   5  SES  REGION  BMI
+##   3   6  SES  REGION  BMI
+##   3   7  SES  REGION  BMI
+##   3   8  SES  REGION  BMI
+##   3   9  SES  REGION  BMI
+##   3   10  SES  REGION  BMI
+##   4   1  SES  REGION  BMI
+##   4   2  SES  REGION  BMI
+##   4   3  SES  REGION  BMI
+##   4   4  SES  REGION  BMI
+##   4   5  SES  REGION  BMI
+##   4   6  SES  REGION  BMI
+##   4   7  SES  REGION  BMI
+##   4   8  SES  REGION  BMI
+##   4   9  SES  REGION  BMI
+##   4   10  SES  REGION  BMI
+##   5   1  SES  REGION  BMI
+##   5   2  SES  REGION  BMI
+##   5   3  SES  REGION  BMI
+##   5   4  SES  REGION  BMI
+##   5   5  SES  REGION  BMI
+##   5   6  SES  REGION  BMI
+##   5   7  SES  REGION  BMI
+##   5   8  SES  REGION  BMI
+##   5   9  SES  REGION  BMI
+##   5   10  SES  REGION  BMI
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Create 10 imputed data}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{dat\_imp}\SpecialCharTok{$}\NormalTok{m)\{}
+\NormalTok{  z }\OtherTok{\textless{}{-}} \FunctionTok{assign}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(}\StringTok{\textquotesingle{}dat\_imp\textquotesingle{}}\NormalTok{,i),}\FunctionTok{complete}\NormalTok{(dat\_imp,i))}
+  \FunctionTok{assign}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(}\StringTok{\textquotesingle{}dat\_imp\textquotesingle{}}\NormalTok{,i),}\FunctionTok{cbind}\NormalTok{(z,final\_db }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(RN\_INDI))) }
+\NormalTok{\}}
+
+\DocumentationTok{\#\# list of 10 imputed data }
+\NormalTok{dat\_imp\_list }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(dat\_imp1,dat\_imp2,dat\_imp3,dat\_imp4,dat\_imp5,dat\_imp6,dat\_imp7,dat\_imp8,dat\_imp9,dat\_imp10)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Save multiple imputation result}
+\FunctionTok{save}\NormalTok{(dat\_imp,}\AttributeTok{file=}\StringTok{"Data/dat\_imp.RData"}\NormalTok{)}
+\DocumentationTok{\#\# Save list for imputed data}
+\FunctionTok{save}\NormalTok{(dat\_imp\_list,}\AttributeTok{file=}\StringTok{"Data/dat\_imp\_list.RData"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{cross}{%
 \chapter{Cross-references}\label{cross}}

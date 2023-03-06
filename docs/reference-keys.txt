@@ -1,5 +1,8 @@
-url-your-book-url-like-httpsbookdown.orgyihuibookdown
+fig:nice-fig
+tab:nice-tab
+eq:binom
 baseline-characteristic-table
+baseline-characteristic-table-1
 baseline-characteristic-table_total
 multiple-imputation
 the-number-of-missing-values

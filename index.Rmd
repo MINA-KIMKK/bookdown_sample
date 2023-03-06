@@ -28,7 +28,7 @@ Using data **final_db**
 Outcome variable : **HTN**     
 Follow-up period : **DATEDIFF**    
 Exposure variable : **DM**     
-Covariates : **Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)* *   
+Covariates : **Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)**   
 ----
 
 <br/>

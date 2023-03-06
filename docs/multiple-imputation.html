@@ -162,9 +162,9 @@ div.csl-indent {
 <li><a href="./">A Minimal Book Example</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> url: your book url like https://bookdown.org/yihui/bookdown</a>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Baseline characteristic table</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#baseline-characteristic-table"><i class="fa fa-check"></i><b>1.1</b> Baseline characteristic table</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#baseline-characteristic-table-1"><i class="fa fa-check"></i><b>1.1</b> Baseline characteristic table</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#baseline-characteristic-table_total"><i class="fa fa-check"></i><b>1.2</b> Baseline characteristic table_total</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="multiple-imputation.html"><a href="multiple-imputation.html"><i class="fa fa-check"></i><b>2</b> Multiple imputation</a>
@@ -237,26 +237,26 @@ div.csl-indent {
 <td>Exposure variable : <strong>DM</strong></td>
 </tr>
 <tr class="odd">
-<td>Covariates : **Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)* *</td>
+<td>Covariates : <strong>Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)</strong></td>
 </tr>
 </tbody>
 </table>
 <p><br/></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="multiple-imputation.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load library</span></span>
-<span id="cb1-2"><a href="multiple-imputation.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
-<span id="cb1-3"><a href="multiple-imputation.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="multiple-imputation.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load data</span></span>
-<span id="cb2-2"><a href="multiple-imputation.html#cb2-2" aria-hidden="true" tabindex="-1"></a>final_db <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;Data/final_db.csv&#39;</span>, <span class="at">header=</span>T)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="multiple-imputation.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load library</span></span>
+<span id="cb8-2"><a href="multiple-imputation.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
+<span id="cb8-3"><a href="multiple-imputation.html#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="multiple-imputation.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load data</span></span>
+<span id="cb9-2"><a href="multiple-imputation.html#cb9-2" aria-hidden="true" tabindex="-1"></a>final_db <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;Data/final_db.csv&#39;</span>, <span class="at">header=</span>T)</span></code></pre></div>
 <div id="the-number-of-missing-values" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> The number of missing values<a href="multiple-imputation.html#the-number-of-missing-values" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="multiple-imputation.html#cb3-1" aria-hidden="true" tabindex="-1"></a>na_count <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
-<span id="cb3-2"><a href="multiple-imputation.html#cb3-2" aria-hidden="true" tabindex="-1"></a>  num.na <span class="ot">&lt;-</span> <span class="fu">colSums</span>(<span class="fu">is.na</span>(data))</span>
-<span id="cb3-3"><a href="multiple-imputation.html#cb3-3" aria-hidden="true" tabindex="-1"></a>  per.na <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">round</span>(<span class="fu">colSums</span>(<span class="fu">is.na</span>(data))<span class="sc">/</span><span class="fu">nrow</span>(data) <span class="sc">*</span><span class="dv">100</span>,<span class="dv">2</span>),<span class="st">&quot;%&quot;</span>)</span>
-<span id="cb3-4"><a href="multiple-imputation.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-5"><a href="multiple-imputation.html#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">missing=</span><span class="fu">paste0</span>(num.na,<span class="st">&quot;(&quot;</span>,per.na,<span class="st">&quot;)&quot;</span>),<span class="at">row.names =</span> <span class="fu">names</span>(num.na)))</span>
-<span id="cb3-6"><a href="multiple-imputation.html#cb3-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-7"><a href="multiple-imputation.html#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="multiple-imputation.html#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">na_count</span>(final_db)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="multiple-imputation.html#cb10-1" aria-hidden="true" tabindex="-1"></a>na_count <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
+<span id="cb10-2"><a href="multiple-imputation.html#cb10-2" aria-hidden="true" tabindex="-1"></a>  num.na <span class="ot">&lt;-</span> <span class="fu">colSums</span>(<span class="fu">is.na</span>(data))</span>
+<span id="cb10-3"><a href="multiple-imputation.html#cb10-3" aria-hidden="true" tabindex="-1"></a>  per.na <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">round</span>(<span class="fu">colSums</span>(<span class="fu">is.na</span>(data))<span class="sc">/</span><span class="fu">nrow</span>(data) <span class="sc">*</span><span class="dv">100</span>,<span class="dv">2</span>),<span class="st">&quot;%&quot;</span>)</span>
+<span id="cb10-4"><a href="multiple-imputation.html#cb10-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-5"><a href="multiple-imputation.html#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">missing=</span><span class="fu">paste0</span>(num.na,<span class="st">&quot;(&quot;</span>,per.na,<span class="st">&quot;)&quot;</span>),<span class="at">row.names =</span> <span class="fu">names</span>(num.na)))</span>
+<span id="cb10-6"><a href="multiple-imputation.html#cb10-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-7"><a href="multiple-imputation.html#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="multiple-imputation.html#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">na_count</span>(final_db)</span></code></pre></div>
 <pre><code>##               missing
 ## RN_INDI         0(0%)
 ## DM              0(0%)
@@ -283,9 +283,9 @@ div.csl-indent {
 </div>
 <div id="imputation-for-missing-values" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Imputation for missing values<a href="multiple-imputation.html#imputation-for-missing-values" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="multiple-imputation.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Exclude subject ID, index date before imputation</span></span>
-<span id="cb5-2"><a href="multiple-imputation.html#cb5-2" aria-hidden="true" tabindex="-1"></a>dat_mice <span class="ot">&lt;-</span> final_db <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>RN_INDI, <span class="sc">-</span>INDEX_DT, <span class="sc">-</span>FU_DT) </span>
-<span id="cb5-3"><a href="multiple-imputation.html#cb5-3" aria-hidden="true" tabindex="-1"></a>dat_imp <span class="ot">&lt;-</span> <span class="fu">mice</span>(dat_mice, <span class="at">m=</span><span class="dv">10</span>, <span class="at">seed=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="multiple-imputation.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Exclude subject ID, index date before imputation</span></span>
+<span id="cb12-2"><a href="multiple-imputation.html#cb12-2" aria-hidden="true" tabindex="-1"></a>dat_mice <span class="ot">&lt;-</span> final_db <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>RN_INDI, <span class="sc">-</span>INDEX_DT, <span class="sc">-</span>FU_DT) </span>
+<span id="cb12-3"><a href="multiple-imputation.html#cb12-3" aria-hidden="true" tabindex="-1"></a>dat_imp <span class="ot">&lt;-</span> <span class="fu">mice</span>(dat_mice, <span class="at">m=</span><span class="dv">10</span>, <span class="at">seed=</span><span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## 
 ##  iter imp variable
 ##   1   1  SES  REGION  BMI
@@ -338,18 +338,18 @@ div.csl-indent {
 ##   5   8  SES  REGION  BMI
 ##   5   9  SES  REGION  BMI
 ##   5   10  SES  REGION  BMI</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="multiple-imputation.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Create 10 imputed data</span></span>
-<span id="cb7-2"><a href="multiple-imputation.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>dat_imp<span class="sc">$</span>m){</span>
-<span id="cb7-3"><a href="multiple-imputation.html#cb7-3" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">assign</span>(<span class="fu">paste0</span>(<span class="st">&#39;dat_imp&#39;</span>,i),<span class="fu">complete</span>(dat_imp,i))</span>
-<span id="cb7-4"><a href="multiple-imputation.html#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(<span class="fu">paste0</span>(<span class="st">&#39;dat_imp&#39;</span>,i),<span class="fu">cbind</span>(z,final_db <span class="sc">%&gt;%</span> <span class="fu">select</span>(RN_INDI))) </span>
-<span id="cb7-5"><a href="multiple-imputation.html#cb7-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-6"><a href="multiple-imputation.html#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="multiple-imputation.html#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="do">## list of 10 imputed data </span></span>
-<span id="cb7-8"><a href="multiple-imputation.html#cb7-8" aria-hidden="true" tabindex="-1"></a>dat_imp_list <span class="ot">&lt;-</span> <span class="fu">list</span>(dat_imp1,dat_imp2,dat_imp3,dat_imp4,dat_imp5,dat_imp6,dat_imp7,dat_imp8,dat_imp9,dat_imp10)</span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="multiple-imputation.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Save multiple imputation result</span></span>
-<span id="cb8-2"><a href="multiple-imputation.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(dat_imp,<span class="at">file=</span><span class="st">&quot;Data/dat_imp.RData&quot;</span>)</span>
-<span id="cb8-3"><a href="multiple-imputation.html#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Save list for imputed data</span></span>
-<span id="cb8-4"><a href="multiple-imputation.html#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(dat_imp_list,<span class="at">file=</span><span class="st">&quot;Data/dat_imp_list.RData&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="multiple-imputation.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Create 10 imputed data</span></span>
+<span id="cb14-2"><a href="multiple-imputation.html#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>dat_imp<span class="sc">$</span>m){</span>
+<span id="cb14-3"><a href="multiple-imputation.html#cb14-3" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">assign</span>(<span class="fu">paste0</span>(<span class="st">&#39;dat_imp&#39;</span>,i),<span class="fu">complete</span>(dat_imp,i))</span>
+<span id="cb14-4"><a href="multiple-imputation.html#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(<span class="fu">paste0</span>(<span class="st">&#39;dat_imp&#39;</span>,i),<span class="fu">cbind</span>(z,final_db <span class="sc">%&gt;%</span> <span class="fu">select</span>(RN_INDI))) </span>
+<span id="cb14-5"><a href="multiple-imputation.html#cb14-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-6"><a href="multiple-imputation.html#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="multiple-imputation.html#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="do">## list of 10 imputed data </span></span>
+<span id="cb14-8"><a href="multiple-imputation.html#cb14-8" aria-hidden="true" tabindex="-1"></a>dat_imp_list <span class="ot">&lt;-</span> <span class="fu">list</span>(dat_imp1,dat_imp2,dat_imp3,dat_imp4,dat_imp5,dat_imp6,dat_imp7,dat_imp8,dat_imp9,dat_imp10)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="multiple-imputation.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Save multiple imputation result</span></span>
+<span id="cb15-2"><a href="multiple-imputation.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(dat_imp,<span class="at">file=</span><span class="st">&quot;Data/dat_imp.RData&quot;</span>)</span>
+<span id="cb15-3"><a href="multiple-imputation.html#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Save list for imputed data</span></span>
+<span id="cb15-4"><a href="multiple-imputation.html#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(dat_imp_list,<span class="at">file=</span><span class="st">&quot;Data/dat_imp_list.RData&quot;</span>)</span></code></pre></div>
 
 </div>
 </div>
@@ -413,6 +413,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
