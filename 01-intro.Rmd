@@ -18,6 +18,12 @@ Covariates : **Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Isch
 
 <br/>
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+library(mice)
+library(dplyr)
+```
+
 ```{r, eval=F}
 ## load library
 library(mice)
