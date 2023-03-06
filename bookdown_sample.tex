@@ -145,22 +145,19 @@
 \hypertarget{baseline-characteristic-table}{%
 \chapter{Baseline characteristic table}\label{baseline-characteristic-table}}
 
-\begin{itemize}
-\tightlist
-\item
-  Using data \textbf{final\_db}\\
-\item
-  Outcome variable : HTN\\
-\item
-  Follow-up period : DATEDIFF\\
-\item
-  Exposure variable : DM\\
-\item
-  Covariates : Age, Sex, SES, Region, BMI, CCI, Other comorbidities(Dyslipidemia, Ischemic heart disease)
-\end{itemize}
-
 Baseline tables show the characteristics of research subjects included in a study. A table characterizing baseline characteristics is so important that it's typically the first table that appears in any observational epidemiology (or clinical trial) manuscript, so it's commonly referred to as a ``Table 1''. The ``Table 1'' contain information about the mean and standard deviation(or median and IQR) for continue/scale variable, and proportion for categorical variable.\\
 Baseline characteristic table should be created before imputaion, matching, or weighting.
+
+\begin{longtable}[]{@{}l@{}}
+\toprule()
+\endhead
+* Using data \textbf{final\_db} \\
+* Outcome variable : HTN \\
+* Follow-up period : DATEDIFF \\
+* Exposure variable : DM \\
+* Covariates : Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease) \\
+\bottomrule()
+\end{longtable}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -183,6 +180,8 @@ Baseline characteristic table should be created before imputaion, matching, or w
 \NormalTok{formula.bc }\OtherTok{\textless{}{-}} \FunctionTok{formula}\NormalTok{(DM }\SpecialCharTok{\textasciitilde{}}\NormalTok{ HTN }\SpecialCharTok{+}\NormalTok{ DATEDIFF }\SpecialCharTok{+}\NormalTok{ AGE }\SpecialCharTok{+}\NormalTok{ SEX }\SpecialCharTok{+}\NormalTok{ SES }\SpecialCharTok{+}\NormalTok{ REGION }\SpecialCharTok{+}\NormalTok{ BMI }\SpecialCharTok{+}\NormalTok{ CCI }\SpecialCharTok{+}\NormalTok{ DYS }\SpecialCharTok{+}\NormalTok{ IHD)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \begin{itemize}
 \tightlist
