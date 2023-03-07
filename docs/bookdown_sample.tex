@@ -466,7 +466,7 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 \hypertarget{propensity-score-matching}{%
 \chapter{Propensity Score Matching}\label{propensity-score-matching}}
 
-\textbf{Covariate balance check}
+\textbf{Covariate balance}
 
 Covariate balance is the degree to which the distribution of covariates is similar across levels of the treatment.\\
 SMD(Standardized Mean Difference) is the most widely used statistic for the assessment of balance after PSM.
@@ -694,8 +694,8 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{balance-check-complete-1}{%
-\section{Balance check (Complete)}\label{balance-check-complete-1}}
+\hypertarget{balance-check-missing}{%
+\section{Balance check (Missing)}\label{balance-check-missing}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -781,16 +781,297 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 ## IHD    0.094 0.100
 \end{verbatim}
 
-\hypertarget{parts}{%
-\chapter{Parts}\label{parts}}
+\hypertarget{propensity-score-weighting}{%
+\chapter{Propensity score weighting}\label{propensity-score-weighting}}
 
-You can add parts to organize one or more book chapters together. Parts can be inserted at the top of an .Rmd file, before the first-level chapter heading in that same file.
+\begin{longtable}[]{@{}l@{}}
+\toprule()
+\endhead
+Using data \textbf{final\_com} (complete data version) \\
+Using object \textbf{dat\_imp} (missin data version, imputaion result) \\
+Outcome variable : \textbf{HTN} \\
+Follow-up period : \textbf{DATEDIFF} \\
+Exposure variable : \textbf{DM} \\
+Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)} \\
+\bottomrule()
+\end{longtable}
 
-Add a numbered part: \texttt{\#\ (PART)\ Act\ one\ \{-\}} (followed by \texttt{\#\ A\ chapter})
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# load library}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{source}\NormalTok{(}\StringTok{"cobalt\_3.9.0.R"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
-Add an unnumbered part: \texttt{\#\ (PART\textbackslash{}*)\ Act\ one\ \{-\}} (followed by \texttt{\#\ A\ chapter})
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# load data}
+\NormalTok{final\_com }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}Data/final\_com.csv\textquotesingle{}}\NormalTok{, }\AttributeTok{header=}\NormalTok{T)}
+\FunctionTok{load}\NormalTok{(}\StringTok{"Data/dat\_imp.RData"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
-Add an appendix as a special kind of un-numbered part: \texttt{\#\ (APPENDIX)\ Other\ stuff\ \{-\}} (followed by \texttt{\#\ A\ chapter}). Chapters in an appendix are prepended with letters instead of numbers.
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Formula}
+\NormalTok{formula.wt }\OtherTok{\textless{}{-}} \FunctionTok{formula}\NormalTok{(DM }\SpecialCharTok{\textasciitilde{}}\NormalTok{ AGE }\SpecialCharTok{+}\NormalTok{ SEX }\SpecialCharTok{+}\NormalTok{ SES }\SpecialCharTok{+}\NormalTok{ REGION }\SpecialCharTok{+}\NormalTok{ BMI }\SpecialCharTok{+}\NormalTok{ CCI }\SpecialCharTok{+}\NormalTok{ DYS }\SpecialCharTok{+}\NormalTok{ IHD)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{complete-data-version-1}{%
+\section{Complete data version}\label{complete-data-version-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  s.weights : stabilized weights\\
+\item
+  trim.weights : trimming weights
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Propensity score function}
+\NormalTok{ps\_wt }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, ps.formula, group, trt, psweight)\{}
+  
+\NormalTok{  modellist }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(}\AttributeTok{formula=}\NormalTok{ps.formula, }\AttributeTok{data=}\NormalTok{data, }\AttributeTok{family=}\StringTok{"binomial"}\NormalTok{, }\AttributeTok{x=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{y=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  cov }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{(modellist}\SpecialCharTok{$}\NormalTok{x[,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{])}
+\NormalTok{  p.score }\OtherTok{\textless{}{-}}\NormalTok{ modellist}\SpecialCharTok{$}\NormalTok{fitted.values}
+\NormalTok{  weights }\OtherTok{\textless{}{-}}\NormalTok{ (data[,group]}\SpecialCharTok{==}\NormalTok{trt)}\SpecialCharTok{/}\NormalTok{p.score }\SpecialCharTok{+}\NormalTok{ (data[,group]}\SpecialCharTok{!=}\NormalTok{trt)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{p.score)}
+\NormalTok{  pt }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(data[,group]}\SpecialCharTok{==}\NormalTok{trt)}\SpecialCharTok{/}\FunctionTok{nrow}\NormalTok{(cov)}
+\NormalTok{  s.weights }\OtherTok{\textless{}{-}}\NormalTok{ pt}\SpecialCharTok{*}\NormalTok{(data[,group]}\SpecialCharTok{==}\NormalTok{trt)}\SpecialCharTok{/}\NormalTok{p.score }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{pt)}\SpecialCharTok{*}\NormalTok{(data[,group]}\SpecialCharTok{!=}\NormalTok{trt)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{p.score)}
+\NormalTok{  trim.p.score }\OtherTok{\textless{}{-}}\FunctionTok{ifelse}\NormalTok{(p.score}\SpecialCharTok{\textless{}}\FloatTok{0.01}\NormalTok{, }\FloatTok{0.01}\NormalTok{,p.score)}
+\NormalTok{  trim.p.score }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(p.score}\SpecialCharTok{\textgreater{}}\FloatTok{0.99}\NormalTok{, }\FloatTok{0.99}\NormalTok{,p.score)}
+\NormalTok{  trim.weights }\OtherTok{\textless{}{-}}\NormalTok{ (data[,group]}\SpecialCharTok{==}\NormalTok{trt)}\SpecialCharTok{/}\NormalTok{trim.p.score }\SpecialCharTok{+}\NormalTok{ (data[,group]}\SpecialCharTok{!=}\NormalTok{trt)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{trim.p.score)}
+  
+\NormalTok{  ballist }\OtherTok{\textless{}{-}} \FunctionTok{bal.tab.data.frame}\NormalTok{(cov, }\AttributeTok{treat=}\NormalTok{modellist}\SpecialCharTok{$}\NormalTok{y,}
+                                \AttributeTok{weights=}\FunctionTok{get}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(psweight)), }\AttributeTok{s.d.denom =} \StringTok{"pooled"}\NormalTok{, }\AttributeTok{binary=}\StringTok{"std"}\NormalTok{,}
+                                \AttributeTok{continuous=}\StringTok{"std"}\NormalTok{, }\AttributeTok{disp.means=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{disp.sds=}\ConstantTok{TRUE}\NormalTok{)}
+  
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{modellist =}\NormalTok{ modellist, }\AttributeTok{weights=}\NormalTok{weights, }\AttributeTok{s.weights=}\NormalTok{s.weights, }\AttributeTok{trim.weights=}\NormalTok{trim.weights, }\AttributeTok{ballist =}\NormalTok{ ballist))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Propensity score for imputed data sets}
+\NormalTok{ps1 }\OtherTok{\textless{}{-}} \FunctionTok{ps\_wt}\NormalTok{(final\_com, formula.wt, }\StringTok{"DM"}\NormalTok{, }\StringTok{"1"}\NormalTok{, }\StringTok{"s.weights"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Assuming "weighting". If not, specify with an argument to method.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Complete weighted data}
+\NormalTok{dat\_wt }\OtherTok{\textless{}{-}}\NormalTok{ final\_com}
+\NormalTok{dat\_wt}\SpecialCharTok{$}\NormalTok{weights }\OtherTok{\textless{}{-}}\NormalTok{ ps1}\SpecialCharTok{$}\NormalTok{s.weights}
+\FunctionTok{head}\NormalTok{(dat\_wt)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   RN_INDI DM   INDEX_DT HTN      FU_DT AGE SEX SES REGION  BMI CCI DYS IHD
+## 1 1011725  0 2006-03-27   0 2013-01-01  36   1   1      2 23.7   0   0   0
+## 2 1042143  0 2006-11-04   0 2013-01-01  56   1   3      2 21.9   0   0   0
+## 3 1049401  1 2006-01-19   0 2013-01-01  66   1   2      3 27.1   0   0   0
+## 4 1049841  0 2008-07-04   0 2013-01-01  48   2   3      3 21.0   0   0   0
+## 5 1050697  0 2010-03-31   0 2013-01-01  50   1   3      3 24.9   1   0   0
+## 6 1063538  0 2010-12-14   0 2013-01-01  50   2   1      1 19.3   0   0   0
+##   DATEDIFF   weights
+## 1     2472 0.9530470
+## 2     2250 1.0084775
+## 3     2539 0.3767263
+## 4     1642 0.9677230
+## 5     1007 0.9785016
+## 6      749 0.9695923
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Save propensity score}
+\FunctionTok{save}\NormalTok{(dat\_wt,}\AttributeTok{file=}\StringTok{"Data/dat\_wt.RData"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{balance-check-complete-1}{%
+\section{Balance check (Complete)}\label{balance-check-complete-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Banlance check function}
+\NormalTok{bal\_wt}\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(obj)\{}
+\NormalTok{  un }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{abs}\NormalTok{(obj}\SpecialCharTok{$}\NormalTok{ballist}\SpecialCharTok{$}\NormalTok{Balance}\SpecialCharTok{$}\NormalTok{Diff.Un),}\DecValTok{3}\NormalTok{)}
+\NormalTok{  adj }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{abs}\NormalTok{(obj}\SpecialCharTok{$}\NormalTok{ballist}\SpecialCharTok{$}\NormalTok{Balance}\SpecialCharTok{$}\NormalTok{Diff.Adj),}\DecValTok{3}\NormalTok{)}
+\NormalTok{  bal\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{un=}\NormalTok{un,}\AttributeTok{adj=}\NormalTok{adj)}
+  \FunctionTok{rownames}\NormalTok{(bal\_df) }\OtherTok{\textless{}{-}} \FunctionTok{rownames}\NormalTok{(obj}\SpecialCharTok{$}\NormalTok{ballist}\SpecialCharTok{$}\NormalTok{Balance)}
+  
+  \FunctionTok{return}\NormalTok{(bal\_df)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Balance check across imputed datasets}
+\FunctionTok{bal\_wt}\NormalTok{(ps1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           un   adj
+## AGE    0.997 0.374
+## SEX_2  0.029 0.134
+## SES    0.159 0.230
+## REGION 0.087 0.000
+## BMI    0.273 0.172
+## CCI    0.202 0.212
+## DYS    0.519 0.051
+## IHD    0.036 0.073
+\end{verbatim}
+
+\hypertarget{missing-data-version-1}{%
+\section{Missing data version}\label{missing-data-version-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  s.weights : stabilized weights\\
+\item
+  trim.weights : trimming weights
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Propensity score function}
+\NormalTok{ps\_impute }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(datasets, ps.formula, group, trt, psweight)\{}
+\NormalTok{  modellist }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\StringTok{"list"}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\NormalTok{  ballist }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\StringTok{"list"}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\NormalTok{  weights }\OtherTok{\textless{}{-}}\NormalTok{ s.weights }\OtherTok{\textless{}{-}}\NormalTok{ trim.weights }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\StringTok{"list"}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+  \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{)\{}
+\NormalTok{    tmp.dat }\OtherTok{\textless{}{-}}\NormalTok{ mice}\SpecialCharTok{::}\FunctionTok{complete}\NormalTok{(datasets, i)}
+    
+    \DocumentationTok{\#\#\# propensity score}
+\NormalTok{    modellist[[i]] }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(}\AttributeTok{formula=}\NormalTok{ps.formula, }\AttributeTok{data=}\NormalTok{tmp.dat, }\AttributeTok{family=}\StringTok{"binomial"}\NormalTok{, }\AttributeTok{x=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{y=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{    cov }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{(modellist[[i]]}\SpecialCharTok{$}\NormalTok{x[, }\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{])}
+\NormalTok{    p.score }\OtherTok{\textless{}{-}}\NormalTok{ modellist[[i]]}\SpecialCharTok{$}\NormalTok{fitted.values}
+\NormalTok{    weights[[i]] }\OtherTok{\textless{}{-}}\NormalTok{ (tmp.dat[,group]}\SpecialCharTok{==}\NormalTok{trt)}\SpecialCharTok{/}\NormalTok{p.score }\SpecialCharTok{+}\NormalTok{ (tmp.dat[,group]}\SpecialCharTok{!=}\NormalTok{trt)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{p.score)}
+\NormalTok{    pt }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(tmp.dat[,group]}\SpecialCharTok{==}\NormalTok{trt)}\SpecialCharTok{/}\FunctionTok{nrow}\NormalTok{(cov)}
+\NormalTok{    s.weights[[i]] }\OtherTok{\textless{}{-}}\NormalTok{ pt}\SpecialCharTok{*}\NormalTok{(tmp.dat[,group]}\SpecialCharTok{==}\NormalTok{trt)}\SpecialCharTok{/}\NormalTok{p.score }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{pt)}\SpecialCharTok{*}\NormalTok{(tmp.dat[,group]}\SpecialCharTok{!=}\NormalTok{trt)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{p.score)}
+\NormalTok{    trim.p.score }\OtherTok{\textless{}{-}}\FunctionTok{ifelse}\NormalTok{(p.score}\SpecialCharTok{\textless{}}\FloatTok{0.01}\NormalTok{, }\FloatTok{0.01}\NormalTok{,p.score)}
+\NormalTok{    trim.p.score }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(p.score}\SpecialCharTok{\textgreater{}}\FloatTok{0.99}\NormalTok{, }\FloatTok{0.99}\NormalTok{,p.score)}
+\NormalTok{    trim.weights[[i]] }\OtherTok{\textless{}{-}}\NormalTok{ (tmp.dat[,group]}\SpecialCharTok{==}\NormalTok{trt)}\SpecialCharTok{/}\NormalTok{trim.p.score }\SpecialCharTok{+}\NormalTok{ (tmp.dat[,group]}\SpecialCharTok{!=}\NormalTok{trt)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{trim.p.score)}
+    
+\NormalTok{    ballist[[i]] }\OtherTok{\textless{}{-}} \FunctionTok{bal.tab.data.frame}\NormalTok{(cov, }\AttributeTok{treat=}\NormalTok{modellist[[i]]}\SpecialCharTok{$}\NormalTok{y,}
+                                       \AttributeTok{weights=}\FunctionTok{get}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(psweight))[[i]], }\AttributeTok{s.d.denom =} \StringTok{"pooled"}\NormalTok{, }\AttributeTok{binary=}\StringTok{"std"}\NormalTok{,}
+                                       \AttributeTok{continuous=}\StringTok{"std"}\NormalTok{, }\AttributeTok{disp.means=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{disp.sds=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  \}}
+  
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{modellist =}\NormalTok{ modellist, }\AttributeTok{weights=}\NormalTok{weights, }\AttributeTok{s.weights=}\NormalTok{s.weights, }\AttributeTok{trim.weights=}\NormalTok{trim.weights, }\AttributeTok{ballist =}\NormalTok{ ballist))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Complete weighted data function}
+\NormalTok{complete.wdata }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(object, data, weights) \{}
+  
+  \FunctionTok{lapply}\NormalTok{(}\FunctionTok{seq\_len}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{m), }\ControlFlowTok{function}\NormalTok{(j, object, data, weights) \{}
+\NormalTok{    out }\OtherTok{\textless{}{-}}\NormalTok{ mice}\SpecialCharTok{::}\FunctionTok{complete}\NormalTok{(data, j)}
+\NormalTok{    modelvars }\OtherTok{\textless{}{-}}\NormalTok{ weights}
+    \ControlFlowTok{for}\NormalTok{( v }\ControlFlowTok{in}\NormalTok{ modelvars)}
+\NormalTok{      out[[v]] }\OtherTok{\textless{}{-}}\NormalTok{ object[[v]][[j]]}
+    
+\NormalTok{    out\}, }\AttributeTok{object =}\NormalTok{ object, }\AttributeTok{data=}\NormalTok{data, }\AttributeTok{weights=}\NormalTok{weights)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Propensity score for imputed data sets}
+\NormalTok{ps1 }\OtherTok{\textless{}{-}} \FunctionTok{ps\_impute}\NormalTok{(dat\_imp, formula.wt, }\StringTok{"DM"}\NormalTok{, }\StringTok{"1"}\NormalTok{, }\StringTok{"s.weights"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Assuming "weighting". If not, specify with an argument to method.
+## Assuming "weighting". If not, specify with an argument to method.
+## Assuming "weighting". If not, specify with an argument to method.
+## Assuming "weighting". If not, specify with an argument to method.
+## Assuming "weighting". If not, specify with an argument to method.
+## Assuming "weighting". If not, specify with an argument to method.
+## Assuming "weighting". If not, specify with an argument to method.
+## Assuming "weighting". If not, specify with an argument to method.
+## Assuming "weighting". If not, specify with an argument to method.
+## Assuming "weighting". If not, specify with an argument to method.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Complete weighted data}
+\NormalTok{data\_wt }\OtherTok{\textless{}{-}} \FunctionTok{complete.wdata}\NormalTok{(ps1, dat\_imp, }\StringTok{"s.weights"}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(data\_wt[[}\DecValTok{1}\NormalTok{]])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   DM HTN AGE SEX SES REGION  BMI CCI DYS IHD DATEDIFF s.weights
+## 1  0   0  20   1   2      3 19.4   1   0   0     1001 0.9552116
+## 2  0   0  46   1   2      1 23.9   0   0   0     2542 0.9918582
+## 3  0   0  16   1   2      3 25.0   0   0   0     2542 0.9567726
+## 4  0   0  36   1   1      2 23.7   0   0   0     2472 0.9672481
+## 5  0   1  56   2   3      1 21.0   0   0   0     2449 1.0219381
+## 6  0   0  20   2   2      1 16.4   1   0   0     1095 0.9547622
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Save propensity score}
+\FunctionTok{save}\NormalTok{(data\_wt,}\AttributeTok{file=}\StringTok{"Data/data\_wt.RData"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{balance-check-missing-1}{%
+\section{Balance check (Missing)}\label{balance-check-missing-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Banlance check function}
+\NormalTok{bal.comb }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(obj)\{}
+\NormalTok{  unadj }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(obj}\SpecialCharTok{$}\NormalTok{ballist, }\ControlFlowTok{function}\NormalTok{(x) (}\FunctionTok{abs}\NormalTok{(x}\SpecialCharTok{$}\NormalTok{Balance}\SpecialCharTok{$}\NormalTok{Diff.Un)))}
+\NormalTok{  adj }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(obj}\SpecialCharTok{$}\NormalTok{ballist, }\ControlFlowTok{function}\NormalTok{(x) (}\FunctionTok{abs}\NormalTok{(x}\SpecialCharTok{$}\NormalTok{Balance}\SpecialCharTok{$}\NormalTok{Diff.Adj)))}
+  \FunctionTok{rownames}\NormalTok{(unadj) }\OtherTok{\textless{}{-}} \FunctionTok{rownames}\NormalTok{(adj) }\OtherTok{\textless{}{-}} \FunctionTok{rownames}\NormalTok{(obj}\SpecialCharTok{$}\NormalTok{ballist[[}\DecValTok{1}\NormalTok{]]}\SpecialCharTok{$}\NormalTok{Balance)}
+  
+\NormalTok{  bal.res }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\AttributeTok{un=}\FunctionTok{round}\NormalTok{(}\FunctionTok{apply}\NormalTok{(unadj, }\DecValTok{1}\NormalTok{, summary),}\DecValTok{3}\NormalTok{), }\AttributeTok{adj=}\FunctionTok{round}\NormalTok{(}\FunctionTok{apply}\NormalTok{(adj, }\DecValTok{1}\NormalTok{, summary),}\DecValTok{3}\NormalTok{))}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{un=}\FunctionTok{round}\NormalTok{(bal.res}\SpecialCharTok{$}\NormalTok{un[}\DecValTok{6}\NormalTok{,],}\DecValTok{3}\NormalTok{),}\AttributeTok{adj=}\FunctionTok{round}\NormalTok{(bal.res}\SpecialCharTok{$}\NormalTok{adj[}\DecValTok{6}\NormalTok{,],}\DecValTok{3}\NormalTok{)))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Balance check across imputed datasets}
+\FunctionTok{bal.comb}\NormalTok{(ps1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           un   adj
+## AGE    1.450 0.743
+## SEX_2  0.020 0.119
+## SES    0.148 0.131
+## REGION 0.006 0.093
+## BMI    0.423 0.239
+## CCI    0.267 0.156
+## DYS    0.435 0.069
+## IHD    0.094 0.059
+\end{verbatim}
 
 \hypertarget{footnotes-and-citations}{%
 \chapter{Footnotes and citations}\label{footnotes-and-citations}}

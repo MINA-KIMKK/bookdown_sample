@@ -9,8 +9,12 @@ propensity-score-matching
 complete-data-version
 balance-check-complete
 missing-data-version
+balance-check-missing
+propensity-score-weighting
+complete-data-version-1
 balance-check-complete-1
-parts
+missing-data-version-1
+balance-check-missing-1
 footnotes-and-citations
 footnotes
 citations
@@ -22,5 +26,3 @@ sharing-your-book
 publishing
 pages
 metadata-for-sharing
-url-your-book-url-like-httpsbookdown.orgyihuibookdown
-balance-check-missing

@@ -1,12 +1,187 @@
-# Parts
+# Propensity score weighting
 
-You can add parts to organize one or more book chapters together. Parts can be inserted at the top of an .Rmd file, before the first-level chapter heading in that same file. 
+----
+Using data **final_com** (complete data version)
+Using object **dat_imp** (missin data version, imputaion result)
+Outcome variable : **HTN**     
+Follow-up period : **DATEDIFF**    
+Exposure variable : **DM**     
+Covariates : **Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)**   
+----
 
-Add a numbered part: `# (PART) Act one {-}` (followed by `# A chapter`)
+<br/>
 
-Add an unnumbered part: `# (PART\*) Act one {-}` (followed by `# A chapter`)
+```{r include=FALSE}
+library(dplyr)
+source("cobalt_3.9.0.R")
+```
 
-Add an appendix as a special kind of un-numbered part: `# (APPENDIX) Other stuff {-}` (followed by `# A chapter`). Chapters in an appendix are prepended with letters instead of numbers.
+```{r, eval=F}
+## load library
+library(dplyr)
+source("cobalt_3.9.0.R")
+```
+
+```{r}
+## load data
+final_com <- read.csv('Data/final_com.csv', header=T)
+load("Data/dat_imp.RData")
+```
+
+```{r}
+## Formula
+formula.wt <- formula(DM ~ AGE + SEX + SES + REGION + BMI + CCI + DYS + IHD)
+```
+
+
+## Complete data version
+
+* s.weights : stabilized weights     
+* trim.weights : trimming weights     
+
+```{r}
+## Propensity score function
+ps_wt <- function(data, ps.formula, group, trt, psweight){
+  
+  modellist <- glm(formula=ps.formula, data=data, family="binomial", x=TRUE, y=TRUE)
+  cov = data.frame(modellist$x[,-1])
+  p.score <- modellist$fitted.values
+  weights <- (data[,group]==trt)/p.score + (data[,group]!=trt)/(1-p.score)
+  pt <- sum(data[,group]==trt)/nrow(cov)
+  s.weights <- pt*(data[,group]==trt)/p.score + (1-pt)*(data[,group]!=trt)/(1-p.score)
+  trim.p.score <-ifelse(p.score<0.01, 0.01,p.score)
+  trim.p.score <- ifelse(p.score>0.99, 0.99,p.score)
+  trim.weights <- (data[,group]==trt)/trim.p.score + (data[,group]!=trt)/(1-trim.p.score)
+  
+  ballist <- bal.tab.data.frame(cov, treat=modellist$y,
+                                weights=get(paste0(psweight)), s.d.denom = "pooled", binary="std",
+                                continuous="std", disp.means=TRUE, disp.sds=TRUE)
+  
+  return(list(modellist = modellist, weights=weights, s.weights=s.weights, trim.weights=trim.weights, ballist = ballist))
+}
+```
+
+```{r}
+## Propensity score for imputed data sets
+ps1 <- ps_wt(final_com, formula.wt, "DM", "1", "s.weights")
+```
+
+```{r}
+## Complete weighted data
+dat_wt <- final_com
+dat_wt$weights <- ps1$s.weights
+head(dat_wt)
+```
+
+```{r}
+## Save propensity score
+save(dat_wt,file="Data/dat_wt.RData")
+```
+
+## Balance check (Complete)
+
+```{r}
+## Banlance check function
+bal_wt<- function(obj){
+  un <- round(abs(obj$ballist$Balance$Diff.Un),3)
+  adj <- round(abs(obj$ballist$Balance$Diff.Adj),3)
+  bal_df <- data.frame(un=un,adj=adj)
+  rownames(bal_df) <- rownames(obj$ballist$Balance)
+  
+  return(bal_df)
+}
+```
+
+```{r}
+## Balance check across imputed datasets
+bal_wt(ps1)
+```
+
+<br/>
+
+## Missing data version
+
+* s.weights : stabilized weights     
+* trim.weights : trimming weights     
+
+```{r}
+## Propensity score function
+ps_impute <- function(datasets, ps.formula, group, trt, psweight){
+  modellist <- vector("list", 10)
+  ballist <- vector("list", 10)
+  weights <- s.weights <- trim.weights <- vector("list", 10)
+  for(i in 1:10){
+    tmp.dat <- mice::complete(datasets, i)
+    
+    ### propensity score
+    modellist[[i]] <- glm(formula=ps.formula, data=tmp.dat, family="binomial", x=TRUE, y=TRUE)
+    cov = data.frame(modellist[[i]]$x[, -1])
+    p.score <- modellist[[i]]$fitted.values
+    weights[[i]] <- (tmp.dat[,group]==trt)/p.score + (tmp.dat[,group]!=trt)/(1-p.score)
+    pt <- sum(tmp.dat[,group]==trt)/nrow(cov)
+    s.weights[[i]] <- pt*(tmp.dat[,group]==trt)/p.score + (1-pt)*(tmp.dat[,group]!=trt)/(1-p.score)
+    trim.p.score <-ifelse(p.score<0.01, 0.01,p.score)
+    trim.p.score <- ifelse(p.score>0.99, 0.99,p.score)
+    trim.weights[[i]] <- (tmp.dat[,group]==trt)/trim.p.score + (tmp.dat[,group]!=trt)/(1-trim.p.score)
+    
+    ballist[[i]] <- bal.tab.data.frame(cov, treat=modellist[[i]]$y,
+                                       weights=get(paste0(psweight))[[i]], s.d.denom = "pooled", binary="std",
+                                       continuous="std", disp.means=TRUE, disp.sds=TRUE)
+  }
+  
+  return(list(modellist = modellist, weights=weights, s.weights=s.weights, trim.weights=trim.weights, ballist = ballist))
+}
+```
+
+```{r}
+## Complete weighted data function
+complete.wdata <- function(object, data, weights) {
+  
+  lapply(seq_len(data$m), function(j, object, data, weights) {
+    out <- mice::complete(data, j)
+    modelvars <- weights
+    for( v in modelvars)
+      out[[v]] <- object[[v]][[j]]
+    
+    out}, object = object, data=data, weights=weights)
+}
+```
+
+```{r}
+## Propensity score for imputed data sets
+ps1 <- ps_impute(dat_imp, formula.wt, "DM", "1", "s.weights")
+```
+
+```{r}
+## Complete weighted data
+data_wt <- complete.wdata(ps1, dat_imp, "s.weights")
+head(data_wt[[1]])
+```
+
+```{r}
+## Save propensity score
+save(data_wt,file="Data/data_wt.RData")
+```
+
+
+## Balance check (Missing)
+
+```{r}
+## Banlance check function
+bal.comb <- function(obj){
+  unadj <- sapply(obj$ballist, function(x) (abs(x$Balance$Diff.Un)))
+  adj <- sapply(obj$ballist, function(x) (abs(x$Balance$Diff.Adj)))
+  rownames(unadj) <- rownames(adj) <- rownames(obj$ballist[[1]]$Balance)
+  
+  bal.res <- list(un=round(apply(unadj, 1, summary),3), adj=round(apply(adj, 1, summary),3))
+  return(data.frame(un=round(bal.res$un[6,],3),adj=round(bal.res$adj[6,],3)))
+}
+```
+
+```{r}
+## Balance check across imputed datasets
+bal.comb(ps1)
+```
 
 
 
