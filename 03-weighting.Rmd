@@ -2,7 +2,7 @@
 
 ----
 Using data **final_com** (complete data version)
-Using object **dat_imp** (missin data version, imputaion result)
+Using object **dat_imp** (missing data version, imputaion result)
 Outcome variable : **HTN**     
 Follow-up period : **DATEDIFF**    
 Exposure variable : **DM**     
@@ -33,14 +33,17 @@ load("Data/dat_imp.RData")
 formula.wt <- formula(DM ~ AGE + SEX + SES + REGION + BMI + CCI + DYS + IHD)
 ```
 
+------
 
 ## Complete data version
 
-* s.weights : stabilized weights     
-* trim.weights : trimming weights     
+### Inverse Probability Weighting
+
+* s.weights : Stabilized weights     
+* trim.weights : Trimming weights     
 
 ```{r}
-## Propensity score function
+## propensity score function
 ps_wt <- function(data, ps.formula, group, trt, psweight){
   
   modellist <- glm(formula=ps.formula, data=data, family="binomial", x=TRUE, y=TRUE)
@@ -78,7 +81,7 @@ head(dat_wt)
 save(dat_wt,file="Data/dat_wt.RData")
 ```
 
-## Balance check (Complete)
+### Balance check 
 
 ```{r}
 ## Banlance check function
@@ -98,14 +101,17 @@ bal_wt(ps1)
 ```
 
 <br/>
+<br/>
 
 ## Missing data version
 
-* s.weights : stabilized weights     
-* trim.weights : trimming weights     
+### Inverse Probability Weighting
+
+* s.weights : Stabilized weights     
+* trim.weights : Trimming weights       
 
 ```{r}
-## Propensity score function
+## propensity score function
 ps_impute <- function(datasets, ps.formula, group, trt, psweight){
   modellist <- vector("list", 10)
   ballist <- vector("list", 10)
@@ -164,7 +170,7 @@ save(data_wt,file="Data/data_wt.RData")
 ```
 
 
-## Balance check (Missing)
+### Balance check
 
 ```{r}
 ## Banlance check function

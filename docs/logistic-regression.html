@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>References | NHISS Example</title>
+  <title>Section 7 Logistic regression | NHISS Example</title>
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
 set in the _output.yml file.</p>" />
   <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="References | NHISS Example" />
+  <meta property="og:title" content="Section 7 Logistic regression | NHISS Example" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
@@ -19,7 +19,7 @@ set in the _output.yml file.</p>" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="References | NHISS Example" />
+  <meta name="twitter:title" content="Section 7 Logistic regression | NHISS Example" />
   
   <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
@@ -34,8 +34,8 @@ set in the _output.yml file.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="logistic-regression.html"/>
-
+<link rel="prev" href="kaplan-meier-curve.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -224,8 +224,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered hasAnchor">
-<h1>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="logistic-regression" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Section 7</span> Logistic regression<a href="logistic-regression.html#logistic-regression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<table>
+<tbody>
+<tr class="odd">
+<td>Using data <strong>final_com, dat_mat, dat_wt</strong> (complete data version)</td>
+</tr>
+<tr class="even">
+<td>Using list <strong>dat_mat_list, dat_imp_list</strong> (missing data version)</td>
+</tr>
+<tr class="odd">
+<td>Outcome variable : <strong>HTN</strong></td>
+</tr>
+<tr class="even">
+<td>Follow-up period : <strong>DATEDIFF</strong></td>
+</tr>
+<tr class="odd">
+<td>Exposure variable : <strong>DM</strong></td>
+</tr>
+<tr class="even">
+<td>Covariates : <strong>Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)</strong></td>
+</tr>
+</tbody>
+</table>
+<p><br/></p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="logistic-regression.html#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load library</span></span>
+<span id="cb89-2"><a href="logistic-regression.html#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb89-3"><a href="logistic-regression.html#cb89-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span>
+<span id="cb89-4"><a href="logistic-regression.html#cb89-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggsci)</span>
+<span id="cb89-5"><a href="logistic-regression.html#cb89-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RISCA) <span class="co"># 서버에서는 library(IPWsurvival) 사용</span></span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="logistic-regression.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load data</span></span>
+<span id="cb90-2"><a href="logistic-regression.html#cb90-2" aria-hidden="true" tabindex="-1"></a>final_com <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;Data/final_com.csv&#39;</span>, <span class="at">header=</span>T)</span>
+<span id="cb90-3"><a href="logistic-regression.html#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;Data/dat_mat.RData&quot;</span>)</span>
+<span id="cb90-4"><a href="logistic-regression.html#cb90-4" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;Data/dat_wt.RData&quot;</span>)</span>
+<span id="cb90-5"><a href="logistic-regression.html#cb90-5" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;Data/dat_mat_list_0.4.RData&quot;</span>)</span>
+<span id="cb90-6"><a href="logistic-regression.html#cb90-6" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;Data/dat_imp_list.RData&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="logistic-regression.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Formula</span></span>
+<span id="cb91-2"><a href="logistic-regression.html#cb91-2" aria-hidden="true" tabindex="-1"></a>formula.wt <span class="ot">&lt;-</span> <span class="fu">formula</span>(DM <span class="sc">~</span> AGE <span class="sc">+</span> SEX <span class="sc">+</span> SES <span class="sc">+</span> REGION <span class="sc">+</span> BMI <span class="sc">+</span> CCI <span class="sc">+</span> DYS <span class="sc">+</span> IHD)</span></code></pre></div>
+<hr />
+<p><br/></p>
 
 </div>
             </section>
@@ -233,8 +271,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="logistic-regression.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="kaplan-meier-curve.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +303,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/07-logistic_regression.Rmd",
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/06-logistic_regression.Rmd",
 "text": "Edit"
 },
 "history": {

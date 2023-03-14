@@ -123,28 +123,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -162,10 +140,10 @@ div.csl-indent {
 <li><a href="./">A Minimal Book Example</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Baseline characteristic table</a>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Baseline characteristics table</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#baseline-characteristic-table-1"><i class="fa fa-check"></i><b>1.1</b> Baseline characteristic table</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#baseline-characteristic-table_total"><i class="fa fa-check"></i><b>1.2</b> Baseline characteristic table_total</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#baseline-characteristics-between-groups"><i class="fa fa-check"></i><b>1.1</b> Baseline characteristics between groups</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#baseline-characteristics-total"><i class="fa fa-check"></i><b>1.2</b> Baseline characteristics (total)</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="multiple-imputation.html"><a href="multiple-imputation.html"><i class="fa fa-check"></i><b>2</b> Multiple imputation</a>
 <ul>
@@ -174,35 +152,57 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="3" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html"><i class="fa fa-check"></i><b>3</b> Propensity Score Matching</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#complete-data-version"><i class="fa fa-check"></i><b>3.1</b> Complete data version</a></li>
-<li class="chapter" data-level="3.2" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#balance-check-complete"><i class="fa fa-check"></i><b>3.2</b> Balance check (Complete)</a></li>
-<li class="chapter" data-level="3.3" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#missing-data-version"><i class="fa fa-check"></i><b>3.3</b> Missing data version</a></li>
-<li class="chapter" data-level="3.4" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#balance-check-missing"><i class="fa fa-check"></i><b>3.4</b> Balance check (Missing)</a></li>
+<li class="chapter" data-level="3.1" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#complete-data-version"><i class="fa fa-check"></i><b>3.1</b> Complete data version</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#nearest-matching"><i class="fa fa-check"></i><b>3.1.1</b> 1:5 nearest matching</a></li>
+<li class="chapter" data-level="3.1.2" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#balance-check"><i class="fa fa-check"></i><b>3.1.2</b> Balance check</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#missing-data-version"><i class="fa fa-check"></i><b>3.2</b> Missing data version</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#nearest-matching-1"><i class="fa fa-check"></i><b>3.2.1</b> 1:3 nearest matching</a></li>
+<li class="chapter" data-level="3.2.2" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#balance-check-1"><i class="fa fa-check"></i><b>3.2.2</b> Balance check</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html"><i class="fa fa-check"></i><b>4</b> Propensity score weighting</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#complete-data-version-1"><i class="fa fa-check"></i><b>4.1</b> Complete data version</a></li>
-<li class="chapter" data-level="4.2" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#balance-check-complete-1"><i class="fa fa-check"></i><b>4.2</b> Balance check (Complete)</a></li>
-<li class="chapter" data-level="4.3" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#missing-data-version-1"><i class="fa fa-check"></i><b>4.3</b> Missing data version</a></li>
-<li class="chapter" data-level="4.4" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#balance-check-missing-1"><i class="fa fa-check"></i><b>4.4</b> Balance check (Missing)</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html"><i class="fa fa-check"></i><b>5</b> Footnotes and citations</a>
+<li class="chapter" data-level="4.1" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#complete-data-version-1"><i class="fa fa-check"></i><b>4.1</b> Complete data version</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#footnotes"><i class="fa fa-check"></i><b>5.1</b> Footnotes</a></li>
-<li class="chapter" data-level="5.2" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#citations"><i class="fa fa-check"></i><b>5.2</b> Citations</a></li>
+<li class="chapter" data-level="4.1.1" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#inverse-probability-weighting"><i class="fa fa-check"></i><b>4.1.1</b> Inverse Probability Weighting</a></li>
+<li class="chapter" data-level="4.1.2" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#balance-check-2"><i class="fa fa-check"></i><b>4.1.2</b> Balance check</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="blocks.html"><a href="blocks.html"><i class="fa fa-check"></i><b>6</b> Blocks</a>
+<li class="chapter" data-level="4.2" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#missing-data-version-1"><i class="fa fa-check"></i><b>4.2</b> Missing data version</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="blocks.html"><a href="blocks.html#equations"><i class="fa fa-check"></i><b>6.1</b> Equations</a></li>
-<li class="chapter" data-level="6.2" data-path="blocks.html"><a href="blocks.html#theorems-and-proofs"><i class="fa fa-check"></i><b>6.2</b> Theorems and proofs</a></li>
-<li class="chapter" data-level="6.3" data-path="blocks.html"><a href="blocks.html#callout-blocks"><i class="fa fa-check"></i><b>6.3</b> Callout blocks</a></li>
+<li class="chapter" data-level="4.2.1" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#inverse-probability-weighting-1"><i class="fa fa-check"></i><b>4.2.1</b> Inverse Probability Weighting</a></li>
+<li class="chapter" data-level="4.2.2" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#balance-check-3"><i class="fa fa-check"></i><b>4.2.2</b> Balance check</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="sharing-your-book.html"><a href="sharing-your-book.html"><i class="fa fa-check"></i><b>7</b> Sharing your book</a>
+</ul></li>
+<li class="chapter" data-level="5" data-path="incidence-rate.html"><a href="incidence-rate.html"><i class="fa fa-check"></i><b>5</b> Incidence rate</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="sharing-your-book.html"><a href="sharing-your-book.html#publishing"><i class="fa fa-check"></i><b>7.1</b> Publishing</a></li>
-<li class="chapter" data-level="7.2" data-path="sharing-your-book.html"><a href="sharing-your-book.html#pages"><i class="fa fa-check"></i><b>7.2</b> 404 pages</a></li>
-<li class="chapter" data-level="7.3" data-path="sharing-your-book.html"><a href="sharing-your-book.html#metadata-for-sharing"><i class="fa fa-check"></i><b>7.3</b> Metadata for sharing</a></li>
+<li class="chapter" data-level="5.1" data-path="incidence-rate.html"><a href="incidence-rate.html#incidence-rate-function"><i class="fa fa-check"></i><b>5.1</b> Incidence rate function</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="incidence-rate.html"><a href="incidence-rate.html#complete-data-_-general-version"><i class="fa fa-check"></i><b>5.1.1</b> Complete data _ General version</a></li>
+<li class="chapter" data-level="5.1.2" data-path="incidence-rate.html"><a href="incidence-rate.html#complete-data-_-matching-version"><i class="fa fa-check"></i><b>5.1.2</b> Complete data _ Matching version</a></li>
+<li class="chapter" data-level="5.1.3" data-path="incidence-rate.html"><a href="incidence-rate.html#missing-data-_-before-matching"><i class="fa fa-check"></i><b>5.1.3</b> Missing data _ Before Matching</a></li>
+<li class="chapter" data-level="5.1.4" data-path="incidence-rate.html"><a href="incidence-rate.html#missing-data-_-matching-version"><i class="fa fa-check"></i><b>5.1.4</b> Missing data _ Matching version</a></li>
 </ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html"><i class="fa fa-check"></i><b>6</b> Kaplan-Meier curve</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#the-kaplan-meier-estimator"><i class="fa fa-check"></i><b>6.1</b> The Kaplan Meier estimator</a></li>
+<li class="chapter" data-level="6.2" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#complete-data-version-2"><i class="fa fa-check"></i><b>6.2</b> Complete data version</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#kaplan-meier-curve-function"><i class="fa fa-check"></i><b>6.2.1</b> Kaplan-Meier curve function</a></li>
+<li class="chapter" data-level="6.2.2" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#general-version"><i class="fa fa-check"></i><b>6.2.2</b> General version</a></li>
+<li class="chapter" data-level="6.2.3" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#matching-version"><i class="fa fa-check"></i><b>6.2.3</b> Matching version</a></li>
+<li class="chapter" data-level="6.2.4" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#weighting-version"><i class="fa fa-check"></i><b>6.2.4</b> Weighting version</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#missing-data-version-2"><i class="fa fa-check"></i><b>6.3</b> Missing data version</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#matching-version-1"><i class="fa fa-check"></i><b>6.3.1</b> Matching version</a></li>
+<li class="chapter" data-level="6.3.2" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#weighting-version-1"><i class="fa fa-check"></i><b>6.3.2</b> Weighting version</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>7</b> Logistic regression</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -227,8 +227,9 @@ div.csl-indent {
 <div id="multiple-imputation" class="section level1 hasAnchor" number="2">
 <h1><span class="header-section-number">Section 2</span> Multiple imputation<a href="multiple-imputation.html#multiple-imputation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Multiple imputation is a general approach to the problem of missing data. It aims to allow for the uncertainty about the missing data by creating several different plausible imputed data sets and appropriately combining results obtained from each of them.</p>
-<p><br/></p>
 <p>Multiple imputation using chained equations (MICE) were performed to generate 10 imputed datasets. For the imputation model, predictive mean matching was used for continuous data and logistic regression was used for binary data.</p>
+<p><br/></p>
+<hr />
 <p><br/></p>
 <table>
 <tbody>
@@ -255,6 +256,8 @@ div.csl-indent {
 <span id="cb8-3"><a href="multiple-imputation.html#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="multiple-imputation.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load data</span></span>
 <span id="cb9-2"><a href="multiple-imputation.html#cb9-2" aria-hidden="true" tabindex="-1"></a>final_db <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;Data/final_db.csv&#39;</span>, <span class="at">header=</span>T)</span></code></pre></div>
+<hr />
+<p><br/></p>
 <div id="the-number-of-missing-values" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> The number of missing values<a href="multiple-imputation.html#the-number-of-missing-values" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="multiple-imputation.html#cb10-1" aria-hidden="true" tabindex="-1"></a>na_count <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
@@ -398,7 +401,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-imputation.Rmd",
 "text": "Edit"
 },
 "history": {

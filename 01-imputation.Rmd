@@ -2,9 +2,13 @@
 
  Multiple imputation is a general approach to the problem of missing data. It aims to allow for the uncertainty about the missing data by creating several different plausible imputed data sets and appropriately combining results obtained from each of them.    
    
-<br/>
+
  
  Multiple imputation using chained equations (MICE) were performed to generate 10 imputed datasets. For the imputation model, predictive mean matching was used for continuous data and logistic regression was used for binary data. 
+
+<br/>
+
+--------
 
 <br/>
 
@@ -33,6 +37,10 @@ library(dplyr)
 ## load data
 final_db <- read.csv('Data/final_db.csv', header=T)
 ```
+     
+----     
+
+<br/> 
      
 ## The number of missing values
 ```{r}

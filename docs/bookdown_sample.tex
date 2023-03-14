@@ -118,23 +118,6 @@
 \author{}
 \date{\vspace{-2.5em}}
 
-\usepackage{amsthm}
-\newtheorem{theorem}{Theorem}[chapter]
-\newtheorem{lemma}{Lemma}[chapter]
-\newtheorem{corollary}{Corollary}[chapter]
-\newtheorem{proposition}{Proposition}[chapter]
-\newtheorem{conjecture}{Conjecture}[chapter]
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[chapter]
-\theoremstyle{definition}
-\newtheorem{example}{Example}[chapter]
-\theoremstyle{definition}
-\newtheorem{exercise}{Exercise}[chapter]
-\theoremstyle{definition}
-\newtheorem{hypothesis}{Hypothesis}[chapter]
-\theoremstyle{remark}
-\newtheorem*{remark}{Remark}
-\newtheorem*{solution}{Solution}
 \begin{document}
 \maketitle
 
@@ -142,12 +125,14 @@
 \setcounter{tocdepth}{1}
 \tableofcontents
 }
-\hypertarget{baseline-characteristic-table}{%
-\chapter{Baseline characteristic table}\label{baseline-characteristic-table}}
+\hypertarget{baseline-characteristics-table}{%
+\chapter{Baseline characteristics table}\label{baseline-characteristics-table}}
 
 Baseline tables show the characteristics of research subjects included in a study. A table characterizing baseline characteristics is so important that it's typically the first table that appears in any observational epidemiology (or clinical trial) manuscript, so it's commonly referred to as a ``Table 1''. The ``Table 1'' contain information about the mean and standard deviation(or median and IQR) for continue/scale variable, and proportion for categorical variable.\\
 
 Baseline characteristic table should be created before imputaion, matching, or weighting.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \begin{longtable}[]{@{}l@{}}
 \toprule()
@@ -198,8 +183,8 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
   \end{itemize}
 \end{itemize}
 
-\hypertarget{baseline-characteristic-table-1}{%
-\section{Baseline characteristic table}\label{baseline-characteristic-table-1}}
+\hypertarget{baseline-characteristics-between-groups}{%
+\section{Baseline characteristics between groups}\label{baseline-characteristics-between-groups}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -231,10 +216,9 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 ##    - 2         489 (20.9%)           25 (21.2%)           
 ##    - 3         694 (29.6%)           35 (29.7%)           
 ##  BMI        23.1 [21.0;25.2]      24.3 [22.6;26.1]   0.013
-##  CCI                                                 0.001
+##  CCI                                                 0.032
 ##    - 0        1810 (76.8%)           80 (67.8%)           
-##    - 1         433 (18.4%)           23 (19.5%)           
-##    - 2         113 ( 4.8%)           15 (12.7%)           
+##    - 1         546 (23.2%)           38 (32.2%)           
 ##  DYS                                                 0.000
 ##    - 0        2285 (97.0%)          100 (84.7%)           
 ##    - 1         71 ( 3.0%)            18 (15.3%)           
@@ -244,8 +228,8 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 ## ——————————————————————————————————————————————————————————
 \end{verbatim}
 
-\hypertarget{baseline-characteristic-table_total}{%
-\section{Baseline characteristic table\_total}\label{baseline-characteristic-table_total}}
+\hypertarget{baseline-characteristics-total}{%
+\section{Baseline characteristics (total)}\label{baseline-characteristics-total}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -283,8 +267,7 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 ##  BMI        23.2 [21.0;25.3]      23.2 [21.0;25.3]    1.000
 ##  CCI                                                  1.000
 ##    - 0        1890 (76.4%)          1890 (76.4%)           
-##    - 1         456 (18.4%)           456 (18.4%)           
-##    - 2         128 ( 5.2%)           128 ( 5.2%)           
+##    - 1         584 (23.6%)           584 (23.6%)           
 ##  DYS                                                  1.000
 ##    - 0        2385 (96.4%)          2385 (96.4%)           
 ##    - 1         89 ( 3.6%)            89 ( 3.6%)            
@@ -300,6 +283,8 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 Multiple imputation is a general approach to the problem of missing data. It aims to allow for the uncertainty about the missing data by creating several different plausible imputed data sets and appropriately combining results obtained from each of them.
 
 Multiple imputation using chained equations (MICE) were performed to generate 10 imputed datasets. For the imputation model, predictive mean matching was used for continuous data and logistic regression was used for binary data.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \begin{longtable}[]{@{}l@{}}
 \toprule()
@@ -326,6 +311,8 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 \NormalTok{final\_db }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}Data/final\_db.csv\textquotesingle{}}\NormalTok{, }\AttributeTok{header=}\NormalTok{T)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \hypertarget{the-number-of-missing-values}{%
 \section{The number of missing values}\label{the-number-of-missing-values}}
@@ -495,6 +482,8 @@ SMD for binary variables :
 
 If the SMD after matching is less than \textbf{0.1}, it is determined that the difference by the covariates between the two groups is negligible.
 
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
 \begin{longtable}[]{@{}l@{}}
 \toprule()
 \endhead
@@ -530,6 +519,8 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 \end{Highlighting}
 \end{Shaded}
 
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
 \begin{itemize}
 \tightlist
 \item
@@ -549,7 +540,10 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 \hypertarget{complete-data-version}{%
 \section{Complete data version}\label{complete-data-version}}
 
-\textbf{1:5 nearest matching \_ caliper: 0.4}
+\hypertarget{nearest-matching}{%
+\subsection{1:5 nearest matching}\label{nearest-matching}}
+
+\textbf{caliper: 0.4}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -561,7 +555,7 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.2122638
+## [1] 0.2132231
 \end{verbatim}
 
 \begin{Shaded}
@@ -586,8 +580,8 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{balance-check-complete}{%
-\section{Balance check (Complete)}\label{balance-check-complete}}
+\hypertarget{balance-check}{%
+\subsection{Balance check}\label{balance-check}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -622,20 +616,23 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 
 \begin{verbatim}
 ##           un   adj
-## AGE    0.997 0.033
-## SEX_2  0.029 0.017
-## SES    0.159 0.201
-## REGION 0.087 0.014
-## BMI    0.273 0.147
-## CCI    0.202 0.216
-## DYS    0.519 0.199
-## IHD    0.036 0.130
+## AGE    0.997 0.001
+## SEX_2  0.029 0.053
+## SES    0.159 0.210
+## REGION 0.087 0.058
+## BMI    0.273 0.176
+## CCI    0.168 0.194
+## DYS    0.519 0.172
+## IHD    0.036 0.093
 \end{verbatim}
 
 \hypertarget{missing-data-version}{%
 \section{Missing data version}\label{missing-data-version}}
 
-\textbf{1:3 nearest matching \_ caliper: 0.3, 0.35, 0.4}
+\hypertarget{nearest-matching-1}{%
+\subsection{1:3 nearest matching}\label{nearest-matching-1}}
+
+\textbf{caliper: 0.3, 0.35, 0.4}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -651,12 +648,12 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 \end{Shaded}
 
 \begin{verbatim}
-##  [1] 0.2899617 0.2709918 0.2828702 0.2778456 0.2794823 0.2710618 0.2745410
-##  [8] 0.2706783 0.2788889 0.2695220
+##  [1] 0.2772334 0.2871682 0.2815519 0.2695950 0.2773369 0.2727781 0.2734195
+##  [8] 0.2794713 0.2822619 0.2712372
 \end{verbatim}
 
 \begin{verbatim}
-## [1] 0.2765843
+## [1] 0.2772053
 \end{verbatim}
 
 \begin{Shaded}
@@ -694,8 +691,8 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{balance-check-missing}{%
-\section{Balance check (Missing)}\label{balance-check-missing}}
+\hypertarget{balance-check-1}{%
+\subsection{Balance check}\label{balance-check-1}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -735,14 +732,14 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 
 \begin{verbatim}
 ##           un   adj
-## AGE    1.450 0.041
-## SEX_2  0.020 0.057
-## SES    0.148 0.064
-## REGION 0.006 0.105
-## BMI    0.423 0.079
-## CCI    0.267 0.095
-## DYS    0.435 0.112
-## IHD    0.094 0.077
+## AGE    1.450 0.040
+## SEX_2  0.020 0.112
+## SES    0.153 0.089
+## REGION 0.009 0.095
+## BMI    0.458 0.157
+## CCI    0.203 0.080
+## DYS    0.435 0.071
+## IHD    0.094 0.123
 \end{verbatim}
 
 \begin{Shaded}
@@ -754,13 +751,13 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 \begin{verbatim}
 ##           un   adj
 ## AGE    1.450 0.040
-## SEX_2  0.020 0.076
-## SES    0.148 0.073
-## REGION 0.006 0.094
-## BMI    0.423 0.084
-## CCI    0.267 0.082
-## DYS    0.435 0.100
-## IHD    0.094 0.101
+## SEX_2  0.020 0.105
+## SES    0.153 0.089
+## REGION 0.009 0.094
+## BMI    0.458 0.144
+## CCI    0.203 0.082
+## DYS    0.435 0.106
+## IHD    0.094 0.123
 \end{verbatim}
 
 \begin{Shaded}
@@ -771,14 +768,14 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 
 \begin{verbatim}
 ##           un   adj
-## AGE    1.450 0.037
-## SEX_2  0.020 0.074
-## SES    0.148 0.065
-## REGION 0.006 0.094
-## BMI    0.423 0.062
-## CCI    0.267 0.077
-## DYS    0.435 0.100
-## IHD    0.094 0.100
+## AGE    1.450 0.040
+## SEX_2  0.020 0.110
+## SES    0.153 0.089
+## REGION 0.009 0.102
+## BMI    0.458 0.121
+## CCI    0.203 0.092
+## DYS    0.435 0.105
+## IHD    0.094 0.121
 \end{verbatim}
 
 \hypertarget{propensity-score-weighting}{%
@@ -788,7 +785,7 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 \toprule()
 \endhead
 Using data \textbf{final\_com} (complete data version) \\
-Using object \textbf{dat\_imp} (missin data version, imputaion result) \\
+Using object \textbf{dat\_imp} (missing data version, imputaion result) \\
 Outcome variable : \textbf{HTN} \\
 Follow-up period : \textbf{DATEDIFF} \\
 Exposure variable : \textbf{DM} \\
@@ -819,20 +816,25 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 \end{Highlighting}
 \end{Shaded}
 
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
 \hypertarget{complete-data-version-1}{%
 \section{Complete data version}\label{complete-data-version-1}}
+
+\hypertarget{inverse-probability-weighting}{%
+\subsection{Inverse Probability Weighting}\label{inverse-probability-weighting}}
 
 \begin{itemize}
 \tightlist
 \item
-  s.weights : stabilized weights\\
+  s.weights : Stabilized weights\\
 \item
-  trim.weights : trimming weights
+  trim.weights : Trimming weights
 \end{itemize}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DocumentationTok{\#\# Propensity score function}
+\DocumentationTok{\#\# propensity score function}
 \NormalTok{ps\_wt }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, ps.formula, group, trt, psweight)\{}
   
 \NormalTok{  modellist }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(}\AttributeTok{formula=}\NormalTok{ps.formula, }\AttributeTok{data=}\NormalTok{data, }\AttributeTok{family=}\StringTok{"binomial"}\NormalTok{, }\AttributeTok{x=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{y=}\ConstantTok{TRUE}\NormalTok{)}
@@ -883,12 +885,12 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 ## 5 1050697  0 2010-03-31   0 2013-01-01  50   1   3      3 24.9   1   0   0
 ## 6 1063538  0 2010-12-14   0 2013-01-01  50   2   1      1 19.3   0   0   0
 ##   DATEDIFF   weights
-## 1     2472 0.9530470
-## 2     2250 1.0084775
-## 3     2539 0.3767263
-## 4     1642 0.9677230
-## 5     1007 0.9785016
-## 6      749 0.9695923
+## 1     2472 0.9535391
+## 2     2250 1.0108264
+## 3     2539 0.3654591
+## 4     1642 0.9688670
+## 5     1007 0.9716872
+## 6      749 0.9704260
 \end{verbatim}
 
 \begin{Shaded}
@@ -898,8 +900,8 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{balance-check-complete-1}{%
-\section{Balance check (Complete)}\label{balance-check-complete-1}}
+\hypertarget{balance-check-2}{%
+\subsection{Balance check}\label{balance-check-2}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -924,30 +926,33 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 
 \begin{verbatim}
 ##           un   adj
-## AGE    0.997 0.374
-## SEX_2  0.029 0.134
-## SES    0.159 0.230
-## REGION 0.087 0.000
-## BMI    0.273 0.172
-## CCI    0.202 0.212
-## DYS    0.519 0.051
-## IHD    0.036 0.073
+## AGE    0.997 0.332
+## SEX_2  0.029 0.159
+## SES    0.159 0.222
+## REGION 0.087 0.006
+## BMI    0.273 0.208
+## CCI    0.168 0.347
+## DYS    0.519 0.038
+## IHD    0.036 0.074
 \end{verbatim}
 
 \hypertarget{missing-data-version-1}{%
 \section{Missing data version}\label{missing-data-version-1}}
 
+\hypertarget{inverse-probability-weighting-1}{%
+\subsection{Inverse Probability Weighting}\label{inverse-probability-weighting-1}}
+
 \begin{itemize}
 \tightlist
 \item
-  s.weights : stabilized weights\\
+  s.weights : Stabilized weights\\
 \item
-  trim.weights : trimming weights
+  trim.weights : Trimming weights
 \end{itemize}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DocumentationTok{\#\# Propensity score function}
+\DocumentationTok{\#\# propensity score function}
 \NormalTok{ps\_impute }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(datasets, ps.formula, group, trt, psweight)\{}
 \NormalTok{  modellist }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\StringTok{"list"}\NormalTok{, }\DecValTok{10}\NormalTok{)}
 \NormalTok{  ballist }\OtherTok{\textless{}{-}} \FunctionTok{vector}\NormalTok{(}\StringTok{"list"}\NormalTok{, }\DecValTok{10}\NormalTok{)}
@@ -1022,12 +1027,12 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 
 \begin{verbatim}
 ##   DM HTN AGE SEX SES REGION  BMI CCI DYS IHD DATEDIFF s.weights
-## 1  0   0  20   1   2      3 19.4   1   0   0     1001 0.9552116
-## 2  0   0  46   1   2      1 23.9   0   0   0     2542 0.9918582
-## 3  0   0  16   1   2      3 25.0   0   0   0     2542 0.9567726
-## 4  0   0  36   1   1      2 23.7   0   0   0     2472 0.9672481
-## 5  0   1  56   2   3      1 21.0   0   0   0     2449 1.0219381
-## 6  0   0  20   2   2      1 16.4   1   0   0     1095 0.9547622
+## 1  0   0  20   1   2      3 25.2   1   0   0     1001 0.9587127
+## 2  0   0  46   1   2      1 20.0   0   0   0     2542 0.9805237
+## 3  0   0  16   1   2      3 22.1   0   0   0     2542 0.9559439
+## 4  0   0  36   1   1      2 23.7   0   0   0     2472 0.9688151
+## 5  0   1  56   2   3      1 20.5   0   0   0     2449 1.0216980
+## 6  0   0  20   2   2      1 16.4   1   0   0     1095 0.9555949
 \end{verbatim}
 
 \begin{Shaded}
@@ -1037,8 +1042,8 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{balance-check-missing-1}{%
-\section{Balance check (Missing)}\label{balance-check-missing-1}}
+\hypertarget{balance-check-3}{%
+\subsection{Balance check}\label{balance-check-3}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1063,101 +1068,519 @@ Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia
 
 \begin{verbatim}
 ##           un   adj
-## AGE    1.450 0.743
-## SEX_2  0.020 0.119
-## SES    0.148 0.131
-## REGION 0.006 0.093
-## BMI    0.423 0.239
-## CCI    0.267 0.156
-## DYS    0.435 0.069
-## IHD    0.094 0.059
+## AGE    1.450 0.636
+## SEX_2  0.020 0.161
+## SES    0.153 0.195
+## REGION 0.009 0.058
+## BMI    0.458 0.180
+## CCI    0.203 0.104
+## DYS    0.435 0.064
+## IHD    0.094 0.050
 \end{verbatim}
 
-\hypertarget{footnotes-and-citations}{%
-\chapter{Footnotes and citations}\label{footnotes-and-citations}}
+\hypertarget{incidence-rate}{%
+\chapter{Incidence rate}\label{incidence-rate}}
 
-\hypertarget{footnotes}{%
-\section{Footnotes}\label{footnotes}}
-
-Footnotes are put inside the square brackets after a caret \texttt{\^{}{[}{]}}. Like this one \footnote{This is a footnote.}.
-
-\hypertarget{citations}{%
-\section{Citations}\label{citations}}
-
-Reference items in your bibliography file(s) using \texttt{@key}.
-
-For example, we are using the \textbf{bookdown} package \citep{R-bookdown} (check out the last code chunk in index.Rmd to see how this citation key was added) in this sample book, which was built on top of R Markdown and \textbf{knitr} \citep{xie2015} (this citation was added manually in an external file book.bib).
-Note that the \texttt{.bib} files need to be listed in the index.Rmd with the YAML \texttt{bibliography} key.
-
-The RStudio Visual Markdown Editor can also make it easier to insert citations: \url{https://rstudio.github.io/visual-markdown-editing/\#/citations}
-
-\hypertarget{blocks}{%
-\chapter{Blocks}\label{blocks}}
-
-\hypertarget{equations}{%
-\section{Equations}\label{equations}}
-
-Here is an equation.
-
-\begin{equation} 
-  f\left(k\right) = \binom{n}{k} p^k\left(1-p\right)^{n-k}
-  \label{eq:binom}
-\end{equation}
-
-You may refer to using \texttt{\textbackslash{}@ref(eq:binom)}, like see Equation \eqref{eq:binom}.
-
-\hypertarget{theorems-and-proofs}{%
-\section{Theorems and proofs}\label{theorems-and-proofs}}
-
-Labeled theorems can be referenced in text using \texttt{\textbackslash{}@ref(thm:tri)}, for example, check out this smart theorem \ref{thm:tri}.
-
-\begin{theorem}
-\protect\hypertarget{thm:tri}{}\label{thm:tri}For a right triangle, if \(c\) denotes the \emph{length} of the hypotenuse
-and \(a\) and \(b\) denote the lengths of the \textbf{other} two sides, we have
-\[a^2 + b^2 = c^2\]
-\end{theorem}
-
-Read more here \url{https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html}.
-
-\hypertarget{callout-blocks}{%
-\section{Callout blocks}\label{callout-blocks}}
-
-The R Markdown Cookbook provides more help on how to use custom blocks to design your own callouts: \url{https://bookdown.org/yihui/rmarkdown-cookbook/custom-blocks.html}
-
-\hypertarget{sharing-your-book}{%
-\chapter{Sharing your book}\label{sharing-your-book}}
-
-\hypertarget{publishing}{%
-\section{Publishing}\label{publishing}}
-
-HTML books can be published online, see: \url{https://bookdown.org/yihui/bookdown/publishing.html}
-
-\hypertarget{pages}{%
-\section{404 pages}\label{pages}}
-
-By default, users will be directed to a 404 page if they try to access a webpage that cannot be found. If you'd like to customize your 404 page instead of using the default, you may add either a \texttt{\_404.Rmd} or \texttt{\_404.md} file to your project root and use code and/or Markdown syntax.
-
-\hypertarget{metadata-for-sharing}{%
-\section{Metadata for sharing}\label{metadata-for-sharing}}
-
-Bookdown HTML books will provide HTML metadata for social sharing on platforms like Twitter, Facebook, and LinkedIn, using information you provide in the \texttt{index.Rmd} YAML. To setup, set the \texttt{url} for your book and the path to your \texttt{cover-image} file. Your book's \texttt{title} and \texttt{description} are also used.
-
-This \texttt{gitbook} uses the same social sharing data across all chapters in your book- all links shared will look the same.
-
-Specify your book's source repository on GitHub using the \texttt{edit} key under the configuration options in the \texttt{\_output.yml} file, which allows users to suggest an edit by linking to a chapter's source file.
-
-Read more about the features of this output format here:
-
-\url{https://pkgs.rstudio.com/bookdown/reference/gitbook.html}
-
-Or use:
+\begin{longtable}[]{@{}l@{}}
+\toprule()
+\endhead
+Using data \textbf{final\_com, dat\_mat} (complete data version) \\
+Using list \textbf{dat\_mat\_list, dat\_imp\_list} (missing data version) \\
+Outcome variable : \textbf{HTN} \\
+Follow-up period : \textbf{DATEDIFF} \\
+Exposure variable : \textbf{DM} \\
+Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)} \\
+\bottomrule()
+\end{longtable}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{?bookdown}\SpecialCharTok{::}\NormalTok{gitbook}
+\DocumentationTok{\#\# load library}
+\FunctionTok{library}\NormalTok{(dplyr)}
 \end{Highlighting}
 \end{Shaded}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# load data}
+\NormalTok{final\_com }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}Data/final\_com.csv\textquotesingle{}}\NormalTok{, }\AttributeTok{header=}\NormalTok{T)}
+\FunctionTok{load}\NormalTok{(}\StringTok{"Data/dat\_imp\_list.RData"}\NormalTok{)}
+\FunctionTok{load}\NormalTok{(}\StringTok{"Data/dat\_mat\_list\_0.4.RData"}\NormalTok{)}
+\FunctionTok{load}\NormalTok{(}\StringTok{"Data/dat\_mat.RData"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{incidence-rate-function}{%
+\section{Incidence rate function}\label{incidence-rate-function}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{IR }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, group, outcome, time, tconv, unit)\{}
+  \FunctionTok{attach}\NormalTok{(data)}
+\NormalTok{  n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(group)}
+\NormalTok{  nrisk }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{table}\NormalTok{(group),}\FunctionTok{sum}\NormalTok{(}\FunctionTok{table}\NormalTok{(group)))}
+  \FunctionTok{names}\NormalTok{(nrisk) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"ctr"}\NormalTok{,}\StringTok{"trt"}\NormalTok{,}\StringTok{"total"}\NormalTok{)}
+\NormalTok{  nevent }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{table}\NormalTok{(group, outcome)[,}\DecValTok{2}\NormalTok{],}\FunctionTok{sum}\NormalTok{(}\FunctionTok{table}\NormalTok{(group, outcome)[,}\DecValTok{2}\NormalTok{]))}
+\NormalTok{  ptime }\OtherTok{\textless{}{-}} \FunctionTok{aggregate}\NormalTok{(time, }\FunctionTok{list}\NormalTok{(group), }\AttributeTok{FUN=}\NormalTok{sum)}
+\NormalTok{  ptime[}\DecValTok{3}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(ptime}\SpecialCharTok{$}\NormalTok{x)}
+  
+  \ControlFlowTok{if}\NormalTok{ (tconv }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{))\{}
+    \ControlFlowTok{if}\NormalTok{ (tconv}\SpecialCharTok{==}\DecValTok{1}\NormalTok{) ptime.conv }\OtherTok{=}\NormalTok{ ptime}\SpecialCharTok{$}\NormalTok{x    }
+    \ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ (tconv}\SpecialCharTok{==}\DecValTok{2}\NormalTok{) ptime.conv }\OtherTok{=}\NormalTok{ ptime}\SpecialCharTok{$}\NormalTok{x}\SpecialCharTok{/}\DecValTok{12}
+    \ControlFlowTok{else}\NormalTok{ ptime.conv }\OtherTok{=}\NormalTok{ ptime}\SpecialCharTok{$}\NormalTok{x}\SpecialCharTok{/}\FloatTok{365.25} 
+\NormalTok{  \}}\ControlFlowTok{else}\NormalTok{ \{}
+    \FunctionTok{stop}\NormalTok{(}\FunctionTok{paste}\NormalTok{(tconv, }\StringTok{"is not an acceptable entry to tconv"}\NormalTok{), }\AttributeTok{call. =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{  \}}
+  
+\NormalTok{  ir }\OtherTok{\textless{}{-}}\NormalTok{ nevent}\SpecialCharTok{/}\NormalTok{ptime.conv}\SpecialCharTok{*}\NormalTok{unit}
+\NormalTok{  res }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(nrisk, nevent, }\AttributeTok{ptime2=}\NormalTok{ptime.conv}\SpecialCharTok{/}\NormalTok{unit, }\AttributeTok{py=}\FunctionTok{round}\NormalTok{(ptime.conv,}\DecValTok{2}\NormalTok{), }\AttributeTok{ir=}\FunctionTok{round}\NormalTok{(ir,}\DecValTok{2}\NormalTok{))}
+\NormalTok{  ci }\OtherTok{\textless{}{-}} \FunctionTok{t}\NormalTok{(}\FunctionTok{sapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(res), }\ControlFlowTok{function}\NormalTok{(i) }\FunctionTok{exp}\NormalTok{(}\FunctionTok{confint.default}\NormalTok{(}\FunctionTok{glm}\NormalTok{(nevent}\SpecialCharTok{\textasciitilde{}}\FunctionTok{offset}\NormalTok{(}\FunctionTok{log}\NormalTok{(ptime2)), }\AttributeTok{data=}\NormalTok{res[i,], }\AttributeTok{family=}\StringTok{"poisson"}\NormalTok{)))))}
+  \FunctionTok{colnames}\NormalTok{(ci) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"lir"}\NormalTok{, }\StringTok{"uir"}\NormalTok{)}
+\NormalTok{  res }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(res, }\FunctionTok{round}\NormalTok{(ci,}\DecValTok{2}\NormalTok{))}
+  \FunctionTok{detach}\NormalTok{(data)}
+  \FunctionTok{return}\NormalTok{(res)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  IR(data, group, status, time, tconv, unit)
+\item
+  tconv: Used time criteria in dataset
+
+  \begin{itemize}
+  \tightlist
+  \item
+    1: year / 2: month / 3: day
+  \end{itemize}
+\item
+  unit: Person year criteria (ex. unit = 1000 for incidence rate per 1000PY)
+\end{itemize}
+
+\hypertarget{complete-data-_-general-version}{%
+\subsection{Complete data \_ General version}\label{complete-data-_-general-version}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{IR}\NormalTok{(final\_com, DM, HTN, DATEDIFF, }\DecValTok{3}\NormalTok{, }\DecValTok{1000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       nrisk nevent    ptime2      py     ir   lir    uir
+## ctr     825     80 3.4564709 3456.47  23.14 18.59  28.82
+## trt      61     23 0.1906311  190.63 120.65 80.18 181.56
+## total   886    103 3.6471020 3647.10  28.24 23.28  34.26
+\end{verbatim}
+
+\hypertarget{complete-data-_-matching-version}{%
+\subsection{Complete data \_ Matching version}\label{complete-data-_-matching-version}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{IR}\NormalTok{(dat\_mat, DM, HTN, DATEDIFF, }\DecValTok{3}\NormalTok{, }\DecValTok{1000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       nrisk nevent   ptime2      py     ir   lir    uir
+## ctr     230     39 0.886883  886.88  43.97 32.13  60.19
+## trt      46     16 0.159436  159.44 100.35 61.48 163.81
+## total   276     55 1.046319 1046.32  52.57 40.36  68.47
+\end{verbatim}
+
+\hypertarget{missing-data-_-before-matching}{%
+\subsection{Missing data \_ Before Matching}\label{missing-data-_-before-matching}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{IR}\NormalTok{(dat\_imp\_list[[}\DecValTok{1}\NormalTok{]], DM, HTN, DATEDIFF, }\DecValTok{3}\NormalTok{, }\DecValTok{1000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       nrisk nevent     ptime2       py     ir    lir    uir
+## ctr    2356    141 10.0459849 10045.98  14.04  11.90  16.55
+## trt     118     49  0.3551129   355.11 137.98 104.29 182.57
+## total  2474    190 10.4010979 10401.10  18.27  15.85  21.06
+\end{verbatim}
+
+\hypertarget{missing-data-_-matching-version}{%
+\subsection{Missing data \_ Matching version}\label{missing-data-_-matching-version}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{IR}\NormalTok{(dat\_mat\_list\_0}\FloatTok{.4}\NormalTok{[[}\DecValTok{1}\NormalTok{]], DM, HTN, DATEDIFF, }\DecValTok{3}\NormalTok{, }\DecValTok{1000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       nrisk nevent    ptime2      py     ir   lir    uir
+## ctr     336     51 1.2416099 1241.61  41.08 31.22  54.05
+## trt     112     46 0.3449254  344.93 133.36 99.89 178.05
+## total   448     97 1.5865352 1586.54  61.14 50.11  74.60
+\end{verbatim}
+
+\hypertarget{kaplan-meier-curve}{%
+\chapter{Kaplan-Meier curve}\label{kaplan-meier-curve}}
+
+\hypertarget{the-kaplan-meier-estimator}{%
+\section{The Kaplan Meier estimator}\label{the-kaplan-meier-estimator}}
+
+The Kaplan-Meier estimator is used to estimate the survival function. The visual representation of this function is usually called the Kaplan-Meier curve, and it shows what the probability of an event (for example, survival) is at a certain time interval.\\
+We compared two groups in this study. : DM(case) vs NonDM(control)\\
+
+\begin{itemize}
+\tightlist
+\item
+  Survival function :
+\end{itemize}
+
+\[S(t)=P(T > t)\]
+
+\begin{itemize}
+\tightlist
+\item
+  Kaplan-Meier estimator :
+\end{itemize}
+
+\[\hat S(t)=\prod_{j:t_j\le t}\left(1-\frac{d_j}{n_j}\right)=\prod_{s\le t}\left(1-\frac{\bigtriangleup N(s)}{Y(s)}\right)\]
+
+\(d_j\) : the number of individuals who experience the event at \(t_j\).\\
+\(n_j\) : the number individuals at risk at \(t_j\).\\
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{longtable}[]{@{}l@{}}
+\toprule()
+\endhead
+* Using data \textbf{final\_com, dat\_mat, dat\_wt} (complete data version) \\
+Using list \textbf{dat\_mat\_list, dat\_imp\_list} (missing data version) \\
+Outcome variable : \textbf{HTN} \\
+Follow-up period : \textbf{DATEDIFF} \\
+Exposure variable : \textbf{DM} \\
+Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)} \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# load library}
+\FunctionTok{library}\NormalTok{(survival)}
+\FunctionTok{library}\NormalTok{(survminer)}
+\FunctionTok{library}\NormalTok{(ggsci)}
+\FunctionTok{library}\NormalTok{(RISCA) }\CommentTok{\# 서버에서는 library(IPWsurvival) 사용}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# load data}
+\NormalTok{final\_com }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}Data/final\_com.csv\textquotesingle{}}\NormalTok{, }\AttributeTok{header=}\NormalTok{T)}
+\FunctionTok{load}\NormalTok{(}\StringTok{"Data/dat\_mat.RData"}\NormalTok{)}
+\FunctionTok{load}\NormalTok{(}\StringTok{"Data/dat\_wt.RData"}\NormalTok{)}
+\FunctionTok{load}\NormalTok{(}\StringTok{"Data/dat\_mat\_list\_0.4.RData"}\NormalTok{)}
+\FunctionTok{load}\NormalTok{(}\StringTok{"Data/dat\_imp\_list.RData"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Formula}
+\NormalTok{formula.wt }\OtherTok{\textless{}{-}} \FunctionTok{formula}\NormalTok{(DM }\SpecialCharTok{\textasciitilde{}}\NormalTok{ AGE }\SpecialCharTok{+}\NormalTok{ SEX }\SpecialCharTok{+}\NormalTok{ SES }\SpecialCharTok{+}\NormalTok{ REGION }\SpecialCharTok{+}\NormalTok{ BMI }\SpecialCharTok{+}\NormalTok{ CCI }\SpecialCharTok{+}\NormalTok{ DYS }\SpecialCharTok{+}\NormalTok{ IHD)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{complete-data-version-2}{%
+\section{Complete data version}\label{complete-data-version-2}}
+
+\hypertarget{kaplan-meier-curve-function}{%
+\subsection{Kaplan-Meier curve function}\label{kaplan-meier-curve-function}}
+
+\begin{itemize}
+\tightlist
+\item
+  Use \textbf{survfit(), ggsurvplot()} function in \textbf{survival, survminer} package to plot survival curve.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gg\_km }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data)\{}
+\NormalTok{  p }\OtherTok{\textless{}{-}} \FunctionTok{ggsurvplot}\NormalTok{(}\AttributeTok{fit =}\NormalTok{ fit\_km,}
+                  \AttributeTok{title =} \StringTok{"Kaplan{-}Meier Curve"}\NormalTok{,}
+                  \AttributeTok{ggtheme =} \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.line =} \FunctionTok{element\_line}\NormalTok{(}\AttributeTok{color=}\StringTok{"black"}\NormalTok{), }
+                                  \AttributeTok{panel.background =} \FunctionTok{element\_blank}\NormalTok{(),}
+                                  \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \DecValTok{0}\NormalTok{, }\AttributeTok{size=}\DecValTok{16}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{),}
+                                  \AttributeTok{plot.margin =} \FunctionTok{unit}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{), }\StringTok{"mm"}\NormalTok{),}
+                                  \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin=}\FunctionTok{margin}\NormalTok{(}\AttributeTok{r=}\DecValTok{13}\NormalTok{)),}
+                                  \AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin=}\FunctionTok{margin}\NormalTok{(}\AttributeTok{t=}\DecValTok{10}\NormalTok{)),}
+                                  \AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \FloatTok{11.5}\NormalTok{, }\AttributeTok{color=}\StringTok{"black"}\NormalTok{),}
+                                  \AttributeTok{legend.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size=}\FloatTok{13.5}\NormalTok{)),}
+                  \AttributeTok{palette =} \FunctionTok{c}\NormalTok{(}\StringTok{"\#374E55FF"}\NormalTok{, }\StringTok{"\#B24745FF"}\NormalTok{),}
+                  \AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{2500}\NormalTok{), }
+                  \AttributeTok{ylim=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}
+                  \DocumentationTok{\#\#\# Censor Details }
+                  \AttributeTok{censor =} \ConstantTok{TRUE}\NormalTok{, }\CommentTok{\# logical value. If TRUE, censors will be drawn}
+                  \AttributeTok{censor.shape=}\StringTok{"+"}\NormalTok{, }\CommentTok{\# Default value is "+", a sensible choice is "|".}
+                  \AttributeTok{censor.size =} \DecValTok{4}\NormalTok{, }
+                  \DocumentationTok{\#\#\# Confidence Interval}
+                  \AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{, }\CommentTok{\# To Remove conf intervals use FALSE}
+                  \DocumentationTok{\#\#\# Format Axes (changes x,y axis label)}
+                  \AttributeTok{xlab =} \StringTok{"Time (Year)"}\NormalTok{, }
+                  \AttributeTok{ylab =} \StringTok{"Survival probability"}\NormalTok{,}
+                  \AttributeTok{font.x=}\FunctionTok{c}\NormalTok{(}\DecValTok{15}\NormalTok{),}
+                  \AttributeTok{font.y=}\FunctionTok{c}\NormalTok{(}\DecValTok{15}\NormalTok{),}
+                  \AttributeTok{font.xtickslab=}\FunctionTok{c}\NormalTok{(}\DecValTok{11}\NormalTok{,}\StringTok{"plain"}\NormalTok{), }
+                  \AttributeTok{font.ytickslab=}\FunctionTok{c}\NormalTok{(}\DecValTok{11}\NormalTok{,}\StringTok{"plain"}\NormalTok{),}
+                  \DocumentationTok{\#\#\# Format Legend}
+                  \AttributeTok{legend.title =} \StringTok{"Diabetes Mellitus"}\NormalTok{,}
+                  \AttributeTok{legend.labs =} \FunctionTok{c}\NormalTok{(}\StringTok{"Control"}\NormalTok{, }\StringTok{"Case"}\NormalTok{), }\CommentTok{\# Change the Strata Legend}
+                  \AttributeTok{legend =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.15}\NormalTok{,}\FloatTok{0.2}\NormalTok{), }\CommentTok{\# c(0,0) corresponds to the "bottom left" and c(1,1) corresponds to the "top right" position}
+                  \DocumentationTok{\#\#\# Risk Table }
+                  \AttributeTok{risk.table =}\NormalTok{ F, }\CommentTok{\# To Remove risk table use FALSE}
+                  \AttributeTok{tables.height =} \FloatTok{0.25}\NormalTok{, }\CommentTok{\# Adjusts the height of the risk table}
+                  \AttributeTok{tables.col =} \StringTok{"black"}\NormalTok{,}
+                  \AttributeTok{tables.y.text =} \ConstantTok{FALSE}\NormalTok{,}
+                  \AttributeTok{tables.y.text.col =} \ConstantTok{TRUE}\NormalTok{,}
+                  \AttributeTok{risk.table.fontsize =} \FloatTok{4.5}\NormalTok{,}
+                  \AttributeTok{tables.theme =} \FunctionTok{theme\_cleantable}\NormalTok{(}\AttributeTok{font.y=}\DecValTok{12}\NormalTok{),}
+                  \DocumentationTok{\#\#\# p{-}value details}
+                  \AttributeTok{pval =} \ConstantTok{TRUE}\NormalTok{,}
+                  \AttributeTok{pval.size =} \DecValTok{5}\NormalTok{,}
+                  \AttributeTok{pval.coord =} \FunctionTok{c}\NormalTok{(}\DecValTok{2100}\NormalTok{,}\FloatTok{0.1}\NormalTok{)}
+\NormalTok{  ) }
+  
+\NormalTok{  p}\SpecialCharTok{$}\NormalTok{plot }\OtherTok{\textless{}{-}}\NormalTok{ p}\SpecialCharTok{$}\NormalTok{plot }\SpecialCharTok{+} \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{breaks=}\FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{2600}\NormalTok{,}\FloatTok{365.25}\NormalTok{), }\AttributeTok{labels=}\DecValTok{0}\SpecialCharTok{:}\DecValTok{7}\NormalTok{) }
+  \FunctionTok{return}\NormalTok{(p)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{general-version}{%
+\subsection{General version}\label{general-version}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit\_km }\OtherTok{\textless{}{-}} \FunctionTok{survfit}\NormalTok{(}\FunctionTok{Surv}\NormalTok{(DATEDIFF, HTN}\SpecialCharTok{==}\DecValTok{1}\NormalTok{)}\SpecialCharTok{\textasciitilde{}}\NormalTok{ DM, }\AttributeTok{data=}\NormalTok{final\_com)}
+\FunctionTok{gg\_km}\NormalTok{(fit\_km)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Scale for x is already present.
+## Adding another scale for x, which will replace the existing scale.
+\end{verbatim}
+
+\includegraphics{bookdown_sample_files/figure-latex/unnamed-chunk-58-1.pdf}
+
+\hypertarget{matching-version}{%
+\subsection{Matching version}\label{matching-version}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit\_km }\OtherTok{\textless{}{-}} \FunctionTok{survfit}\NormalTok{(}\FunctionTok{Surv}\NormalTok{(DATEDIFF, HTN}\SpecialCharTok{==}\DecValTok{1}\NormalTok{)}\SpecialCharTok{\textasciitilde{}}\NormalTok{ DM, }\AttributeTok{data=}\NormalTok{dat\_mat, }\AttributeTok{weight =}\NormalTok{ weights)}
+\FunctionTok{gg\_km}\NormalTok{(fit\_km)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Scale for x is already present.
+## Adding another scale for x, which will replace the existing scale.
+\end{verbatim}
+
+\includegraphics{bookdown_sample_files/figure-latex/unnamed-chunk-59-1.pdf}
+
+\hypertarget{weighting-version}{%
+\subsection{Weighting version}\label{weighting-version}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit\_km }\OtherTok{\textless{}{-}} \FunctionTok{survfit}\NormalTok{(}\FunctionTok{Surv}\NormalTok{(DATEDIFF, HTN}\SpecialCharTok{==}\DecValTok{1}\NormalTok{)}\SpecialCharTok{\textasciitilde{}}\NormalTok{ DM, }\AttributeTok{data=}\NormalTok{dat\_wt, }\AttributeTok{weight =}\NormalTok{ weights)}
+\FunctionTok{gg\_km}\NormalTok{(fit\_km)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Scale for x is already present.
+## Adding another scale for x, which will replace the existing scale.
+\end{verbatim}
+
+\includegraphics{bookdown_sample_files/figure-latex/unnamed-chunk-60-1.pdf}
+
+\hypertarget{missing-data-version-2}{%
+\section{Missing data version}\label{missing-data-version-2}}
+
+\hypertarget{matching-version-1}{%
+\subsection{Matching version}\label{matching-version-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit\_km }\OtherTok{\textless{}{-}} \FunctionTok{survfit}\NormalTok{(}\FunctionTok{Surv}\NormalTok{(DATEDIFF, HTN}\SpecialCharTok{==}\DecValTok{1}\NormalTok{)}\SpecialCharTok{\textasciitilde{}}\NormalTok{ DM, }\AttributeTok{data=}\NormalTok{dat\_mat\_list\_0}\FloatTok{.4}\NormalTok{[[}\DecValTok{1}\NormalTok{]])}
+\FunctionTok{gg\_km}\NormalTok{(fit\_km)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Scale for x is already present.
+## Adding another scale for x, which will replace the existing scale.
+\end{verbatim}
+
+\includegraphics{bookdown_sample_files/figure-latex/unnamed-chunk-61-1.pdf}
+
+\hypertarget{weighting-version-1}{%
+\subsection{Weighting version}\label{weighting-version-1}}
+
+\hypertarget{weighted-kaplan-meier-estimates}{%
+\subsubsection{Weighted kaplan-meier estimates}\label{weighted-kaplan-meier-estimates}}
+
+\begin{itemize}
+\tightlist
+\item
+  Use \textbf{ipw.survival()} function in \textbf{RISCA} package to estimate adjusted survival curves by weighting the individual contributions by the inverse of the probability to be in the group (IPW).
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{surv\_res }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, time, status, group, formula)\{}
+\NormalTok{  p.score }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(}\AttributeTok{formula=}\NormalTok{formula, }\AttributeTok{data=}\NormalTok{data, }\AttributeTok{family=}\StringTok{"binomial"}\NormalTok{, }\AttributeTok{x=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{y=}\ConstantTok{TRUE}\NormalTok{)}\SpecialCharTok{$}\NormalTok{fitted.values}
+\NormalTok{  wt }\OtherTok{\textless{}{-}}\NormalTok{ (data[,group]}\SpecialCharTok{==}\StringTok{"1"}\NormalTok{)}\SpecialCharTok{/}\NormalTok{p.score }\SpecialCharTok{+}\NormalTok{ (data[,group]}\SpecialCharTok{==}\StringTok{"0"}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{p.score)}
+\NormalTok{  pt }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(data[,group]}\SpecialCharTok{==}\DecValTok{1}\NormalTok{)}\SpecialCharTok{/}\FunctionTok{nrow}\NormalTok{(data)}
+\NormalTok{  sw }\OtherTok{\textless{}{-}}\NormalTok{ pt}\SpecialCharTok{*}\NormalTok{(data[,group]}\SpecialCharTok{==}\DecValTok{1}\NormalTok{) }\SpecialCharTok{/}\NormalTok{p.score }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{pt)}\SpecialCharTok{*}\NormalTok{(data[,group]}\SpecialCharTok{==}\DecValTok{0}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{p.score)}
+\NormalTok{  res.akm }\OtherTok{\textless{}{-}} \FunctionTok{ipw.survival}\NormalTok{(}\AttributeTok{times=}\NormalTok{data[,time], }\AttributeTok{failures=}\NormalTok{data[,status], }\AttributeTok{variable=}\NormalTok{data[,group], }\AttributeTok{weights=}\NormalTok{sw)}
+  \FunctionTok{return}\NormalTok{(res.akm)}
+\NormalTok{\}}
+
+\NormalTok{res.akm }\OtherTok{\textless{}{-}}\NormalTok{ dat\_imp\_list }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{lapply}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{surv\_res}\NormalTok{(x,}\StringTok{"DATEDIFF"}\NormalTok{,}\StringTok{"HTN"}\NormalTok{,}\StringTok{"DM"}\NormalTok{, formula.wt)}\SpecialCharTok{$}\NormalTok{table.surv)}
+\NormalTok{risk }\OtherTok{\textless{}{-}} \FunctionTok{do.call}\NormalTok{(}\StringTok{"cbind"}\NormalTok{,res.akm }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{lapply}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(x) x}\SpecialCharTok{$}\NormalTok{n.risk))}
+\NormalTok{event }\OtherTok{\textless{}{-}} \FunctionTok{do.call}\NormalTok{(}\StringTok{"cbind"}\NormalTok{,res.akm }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{lapply}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(x) x}\SpecialCharTok{$}\NormalTok{n.event))}
+\NormalTok{surv }\OtherTok{\textless{}{-}} \FunctionTok{do.call}\NormalTok{(}\StringTok{"cbind"}\NormalTok{,res.akm }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{lapply}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(x) x}\SpecialCharTok{$}\NormalTok{survival))}
+\NormalTok{km\_res }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{time=}\NormalTok{res.akm[[}\DecValTok{1}\NormalTok{]]}\SpecialCharTok{$}\NormalTok{times, }\AttributeTok{strata=}\NormalTok{res.akm[[}\DecValTok{1}\NormalTok{]]}\SpecialCharTok{$}\NormalTok{variable,}
+                     \AttributeTok{n.risk=}\FunctionTok{apply}\NormalTok{(risk,}\DecValTok{1}\NormalTok{,mean),}
+                     \AttributeTok{n.event=}\FunctionTok{apply}\NormalTok{(event,}\DecValTok{1}\NormalTok{,mean),}
+                     \AttributeTok{surv=}\FunctionTok{apply}\NormalTok{(surv,}\DecValTok{1}\NormalTok{,mean))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(km\_res)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   time strata   n.risk  n.event      surv
+## 1    0      0 2360.020 0.000000 1.0000000
+## 2    2      0 2360.020 2.099422 0.9991104
+## 3    5      0 2357.921 1.062941 0.9986600
+## 4    6      0 2353.958 3.045573 0.9973680
+## 5    7      0 2350.912 1.035237 0.9969288
+## 6    9      0 2349.877 4.227905 0.9951351
+\end{verbatim}
+
+\hypertarget{kaplan-meier-curve-by-using-ipw}{%
+\subsubsection{Kaplan-Meier curve by Using IPW}\label{kaplan-meier-curve-by-using-ipw}}
+
+\begin{itemize}
+\tightlist
+\item
+  Use \textbf{ggsurvplot\_df()} function in \textbf{survminer} package to plot survival curve from any data frame containing the summary of survival curves.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ggsurv\_plot }\OtherTok{\textless{}{-}} \FunctionTok{ggsurvplot\_df}\NormalTok{(km\_res,}
+                             \AttributeTok{title =} \StringTok{"Kaplan{-}Meier Curve"}\NormalTok{,}
+                             \AttributeTok{ggtheme =} \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.line =} \FunctionTok{element\_line}\NormalTok{(}\AttributeTok{color=}\StringTok{"black"}\NormalTok{),}
+                                             \AttributeTok{panel.background =} \FunctionTok{element\_blank}\NormalTok{(),}
+                                             \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \DecValTok{0}\NormalTok{, }\AttributeTok{size=}\DecValTok{15}\NormalTok{, }\AttributeTok{face =} \StringTok{"bold"}\NormalTok{),}
+                                             \AttributeTok{plot.margin =} \FunctionTok{unit}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{5}\NormalTok{), }\StringTok{"mm"}\NormalTok{),}
+                                             \AttributeTok{axis.title.y =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin=}\FunctionTok{margin}\NormalTok{(}\AttributeTok{r=}\DecValTok{13}\NormalTok{)),}
+                                             \AttributeTok{axis.title.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{margin=}\FunctionTok{margin}\NormalTok{(}\AttributeTok{t=}\DecValTok{10}\NormalTok{)),}
+                                             \AttributeTok{legend.background =}\FunctionTok{element\_blank}\NormalTok{(),}
+                                             \AttributeTok{legend.text =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{13}\NormalTok{, }\AttributeTok{color=}\StringTok{"black"}\NormalTok{),}
+                                             \AttributeTok{legend.title =} \FunctionTok{element\_text}\NormalTok{( }\AttributeTok{size=}\FloatTok{13.5}\NormalTok{),}
+                                             \AttributeTok{legend.spacing.x =} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.5}\NormalTok{, }\StringTok{\textquotesingle{}cm\textquotesingle{}}\NormalTok{),}
+                                             \AttributeTok{legend.spacing.y =} \FunctionTok{unit}\NormalTok{(}\FloatTok{0.3}\NormalTok{, }\StringTok{\textquotesingle{}cm\textquotesingle{}}\NormalTok{)),}
+                             \AttributeTok{palette =} \FunctionTok{c}\NormalTok{(}\StringTok{"\#374E55FF"}\NormalTok{, }\StringTok{"\#B24745FF"}\NormalTok{),}
+                             \AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{2600}\NormalTok{),}
+                             \AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.5}\NormalTok{,}\DecValTok{1}\NormalTok{), }
+                             \AttributeTok{size =} \FloatTok{1.2}\NormalTok{,}
+                             \DocumentationTok{\#\#\# Format Axes (changes x,y axis label)}
+                             \AttributeTok{xlab=}\StringTok{"Time (Years)"}\NormalTok{, }
+                             \AttributeTok{font.x =} \FunctionTok{c}\NormalTok{(}\DecValTok{16}\NormalTok{), }
+                             \AttributeTok{font.y =} \FunctionTok{c}\NormalTok{(}\DecValTok{16}\NormalTok{),}
+                             \AttributeTok{font.tickslab =} \FunctionTok{c}\NormalTok{(}\DecValTok{13}\NormalTok{),}
+                             \DocumentationTok{\#\#\# Format Legend}
+                             \AttributeTok{legend.title =} \StringTok{"Diabetes Mellitus:  "}\NormalTok{,}
+                             \AttributeTok{legend.labs =} \FunctionTok{c}\NormalTok{(}\StringTok{"Control"}\NormalTok{, }\StringTok{"Case"}\NormalTok{), }\CommentTok{\# Change the Strata Legend}
+                             \AttributeTok{legend =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.2}\NormalTok{,}\FloatTok{0.2}\NormalTok{) }
+\NormalTok{                             ) }\SpecialCharTok{+} \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\FloatTok{730.5}\NormalTok{,}\DecValTok{1461}\NormalTok{,}\FloatTok{2191.5}\NormalTok{,}\DecValTok{2922}\NormalTok{,}\FloatTok{3652.5}\NormalTok{), }\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{10}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Scale for x is already present.
+## Adding another scale for x, which will replace the existing scale.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ggsurv\_plot}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown_sample_files/figure-latex/unnamed-chunk-64-1.pdf}
+
+\hypertarget{logistic-regression}{%
+\chapter{Logistic regression}\label{logistic-regression}}
+
+\begin{longtable}[]{@{}l@{}}
+\toprule()
+\endhead
+Using data \textbf{final\_com, dat\_mat, dat\_wt} (complete data version) \\
+Using list \textbf{dat\_mat\_list, dat\_imp\_list} (missing data version) \\
+Outcome variable : \textbf{HTN} \\
+Follow-up period : \textbf{DATEDIFF} \\
+Exposure variable : \textbf{DM} \\
+Covariates : \textbf{Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)} \\
+\bottomrule()
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# load library}
+\FunctionTok{library}\NormalTok{(survival)}
+\FunctionTok{library}\NormalTok{(survminer)}
+\FunctionTok{library}\NormalTok{(ggsci)}
+\FunctionTok{library}\NormalTok{(RISCA) }\CommentTok{\# 서버에서는 library(IPWsurvival) 사용}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# load data}
+\NormalTok{final\_com }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}Data/final\_com.csv\textquotesingle{}}\NormalTok{, }\AttributeTok{header=}\NormalTok{T)}
+\FunctionTok{load}\NormalTok{(}\StringTok{"Data/dat\_mat.RData"}\NormalTok{)}
+\FunctionTok{load}\NormalTok{(}\StringTok{"Data/dat\_wt.RData"}\NormalTok{)}
+\FunctionTok{load}\NormalTok{(}\StringTok{"Data/dat\_mat\_list\_0.4.RData"}\NormalTok{)}
+\FunctionTok{load}\NormalTok{(}\StringTok{"Data/dat\_imp\_list.RData"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Formula}
+\NormalTok{formula.wt }\OtherTok{\textless{}{-}} \FunctionTok{formula}\NormalTok{(DM }\SpecialCharTok{\textasciitilde{}}\NormalTok{ AGE }\SpecialCharTok{+}\NormalTok{ SEX }\SpecialCharTok{+}\NormalTok{ SES }\SpecialCharTok{+}\NormalTok{ REGION }\SpecialCharTok{+}\NormalTok{ BMI }\SpecialCharTok{+}\NormalTok{ CCI }\SpecialCharTok{+}\NormalTok{ DYS }\SpecialCharTok{+}\NormalTok{ IHD)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
   \bibliography{book.bib,packages.bib}
 

@@ -1,0 +1,99 @@
+# Incidence rate
+
+----
+Using data **final_com, dat_mat** (complete data version)
+Using list **dat_mat_list, dat_imp_list** (missing data version)
+Outcome variable : **HTN**     
+Follow-up period : **DATEDIFF**    
+Exposure variable : **DM**     
+Covariates : **Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)**   
+----
+
+<br/>
+
+```{r include=FALSE}
+library(dplyr)
+```
+
+```{r, eval=F}
+## load library
+library(dplyr)
+```
+
+```{r}
+## load data
+final_com <- read.csv('Data/final_com.csv', header=T)
+load("Data/dat_imp_list.RData")
+load("Data/dat_mat_list_0.4.RData")
+load("Data/dat_mat.RData")
+```
+
+------
+
+<br/>
+
+## Incidence rate function
+```{r}
+IR <- function(data, group, outcome, time, tconv, unit){
+  attach(data)
+  n <- length(group)
+  nrisk <- c(table(group),sum(table(group)))
+  names(nrisk) <- c("ctr","trt","total")
+  nevent <- c(table(group, outcome)[,2],sum(table(group, outcome)[,2]))
+  ptime <- aggregate(time, list(group), FUN=sum)
+  ptime[3,] <- sum(ptime$x)
+  
+  if (tconv %in% c(1,2,3)){
+    if (tconv==1) ptime.conv = ptime$x    
+    else if (tconv==2) ptime.conv = ptime$x/12
+    else ptime.conv = ptime$x/365.25 
+  }else {
+    stop(paste(tconv, "is not an acceptable entry to tconv"), call. = FALSE)
+  }
+  
+  ir <- nevent/ptime.conv*unit
+  res <- data.frame(nrisk, nevent, ptime2=ptime.conv/unit, py=round(ptime.conv,2), ir=round(ir,2))
+  ci <- t(sapply(1:nrow(res), function(i) exp(confint.default(glm(nevent~offset(log(ptime2)), data=res[i,], family="poisson")))))
+  colnames(ci) <- c("lir", "uir")
+  res <- cbind(res, round(ci,2))
+  detach(data)
+  return(res)
+}
+```
+
+
+
+<br/>
+
+* IR(data, group, status, time, tconv, unit)
+* tconv: Used time criteria in dataset
+  - 1: year / 2: month / 3: day
+* unit: Person year criteria (ex. unit = 1000 for incidence rate per 1000PY)
+
+<br/>
+
+### Complete data _ General version
+```{r}
+IR(final_com, DM, HTN, DATEDIFF, 3, 1000)
+```
+
+
+### Complete data _ Matching version
+```{r}
+IR(dat_mat, DM, HTN, DATEDIFF, 3, 1000)
+```
+
+
+### Missing data _ Before Matching
+```{r}
+IR(dat_imp_list[[1]], DM, HTN, DATEDIFF, 3, 1000)
+```
+
+### Missing data _ Matching version
+```{r}
+IR(dat_mat_list_0.4[[1]], DM, HTN, DATEDIFF, 3, 1000)
+```
+
+
+
+

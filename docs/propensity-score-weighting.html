@@ -35,7 +35,7 @@ set in the _output.yml file.</p>" />
   
   
 <link rel="prev" href="propensity-score-matching.html"/>
-<link rel="next" href="footnotes-and-citations.html"/>
+<link rel="next" href="incidence-rate.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -123,28 +123,6 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<style type="text/css">
-/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
-</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -162,10 +140,10 @@ div.csl-indent {
 <li><a href="./">A Minimal Book Example</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Baseline characteristic table</a>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Baseline characteristics table</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#baseline-characteristic-table-1"><i class="fa fa-check"></i><b>1.1</b> Baseline characteristic table</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#baseline-characteristic-table_total"><i class="fa fa-check"></i><b>1.2</b> Baseline characteristic table_total</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#baseline-characteristics-between-groups"><i class="fa fa-check"></i><b>1.1</b> Baseline characteristics between groups</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#baseline-characteristics-total"><i class="fa fa-check"></i><b>1.2</b> Baseline characteristics (total)</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="multiple-imputation.html"><a href="multiple-imputation.html"><i class="fa fa-check"></i><b>2</b> Multiple imputation</a>
 <ul>
@@ -174,35 +152,57 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="3" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html"><i class="fa fa-check"></i><b>3</b> Propensity Score Matching</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#complete-data-version"><i class="fa fa-check"></i><b>3.1</b> Complete data version</a></li>
-<li class="chapter" data-level="3.2" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#balance-check-complete"><i class="fa fa-check"></i><b>3.2</b> Balance check (Complete)</a></li>
-<li class="chapter" data-level="3.3" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#missing-data-version"><i class="fa fa-check"></i><b>3.3</b> Missing data version</a></li>
-<li class="chapter" data-level="3.4" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#balance-check-missing"><i class="fa fa-check"></i><b>3.4</b> Balance check (Missing)</a></li>
+<li class="chapter" data-level="3.1" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#complete-data-version"><i class="fa fa-check"></i><b>3.1</b> Complete data version</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#nearest-matching"><i class="fa fa-check"></i><b>3.1.1</b> 1:5 nearest matching</a></li>
+<li class="chapter" data-level="3.1.2" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#balance-check"><i class="fa fa-check"></i><b>3.1.2</b> Balance check</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#missing-data-version"><i class="fa fa-check"></i><b>3.2</b> Missing data version</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#nearest-matching-1"><i class="fa fa-check"></i><b>3.2.1</b> 1:3 nearest matching</a></li>
+<li class="chapter" data-level="3.2.2" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#balance-check-1"><i class="fa fa-check"></i><b>3.2.2</b> Balance check</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html"><i class="fa fa-check"></i><b>4</b> Propensity score weighting</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#complete-data-version-1"><i class="fa fa-check"></i><b>4.1</b> Complete data version</a></li>
-<li class="chapter" data-level="4.2" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#balance-check-complete-1"><i class="fa fa-check"></i><b>4.2</b> Balance check (Complete)</a></li>
-<li class="chapter" data-level="4.3" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#missing-data-version-1"><i class="fa fa-check"></i><b>4.3</b> Missing data version</a></li>
-<li class="chapter" data-level="4.4" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#balance-check-missing-1"><i class="fa fa-check"></i><b>4.4</b> Balance check (Missing)</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html"><i class="fa fa-check"></i><b>5</b> Footnotes and citations</a>
+<li class="chapter" data-level="4.1" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#complete-data-version-1"><i class="fa fa-check"></i><b>4.1</b> Complete data version</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#footnotes"><i class="fa fa-check"></i><b>5.1</b> Footnotes</a></li>
-<li class="chapter" data-level="5.2" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#citations"><i class="fa fa-check"></i><b>5.2</b> Citations</a></li>
+<li class="chapter" data-level="4.1.1" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#inverse-probability-weighting"><i class="fa fa-check"></i><b>4.1.1</b> Inverse Probability Weighting</a></li>
+<li class="chapter" data-level="4.1.2" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#balance-check-2"><i class="fa fa-check"></i><b>4.1.2</b> Balance check</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="blocks.html"><a href="blocks.html"><i class="fa fa-check"></i><b>6</b> Blocks</a>
+<li class="chapter" data-level="4.2" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#missing-data-version-1"><i class="fa fa-check"></i><b>4.2</b> Missing data version</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="blocks.html"><a href="blocks.html#equations"><i class="fa fa-check"></i><b>6.1</b> Equations</a></li>
-<li class="chapter" data-level="6.2" data-path="blocks.html"><a href="blocks.html#theorems-and-proofs"><i class="fa fa-check"></i><b>6.2</b> Theorems and proofs</a></li>
-<li class="chapter" data-level="6.3" data-path="blocks.html"><a href="blocks.html#callout-blocks"><i class="fa fa-check"></i><b>6.3</b> Callout blocks</a></li>
+<li class="chapter" data-level="4.2.1" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#inverse-probability-weighting-1"><i class="fa fa-check"></i><b>4.2.1</b> Inverse Probability Weighting</a></li>
+<li class="chapter" data-level="4.2.2" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#balance-check-3"><i class="fa fa-check"></i><b>4.2.2</b> Balance check</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="sharing-your-book.html"><a href="sharing-your-book.html"><i class="fa fa-check"></i><b>7</b> Sharing your book</a>
+</ul></li>
+<li class="chapter" data-level="5" data-path="incidence-rate.html"><a href="incidence-rate.html"><i class="fa fa-check"></i><b>5</b> Incidence rate</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="sharing-your-book.html"><a href="sharing-your-book.html#publishing"><i class="fa fa-check"></i><b>7.1</b> Publishing</a></li>
-<li class="chapter" data-level="7.2" data-path="sharing-your-book.html"><a href="sharing-your-book.html#pages"><i class="fa fa-check"></i><b>7.2</b> 404 pages</a></li>
-<li class="chapter" data-level="7.3" data-path="sharing-your-book.html"><a href="sharing-your-book.html#metadata-for-sharing"><i class="fa fa-check"></i><b>7.3</b> Metadata for sharing</a></li>
+<li class="chapter" data-level="5.1" data-path="incidence-rate.html"><a href="incidence-rate.html#incidence-rate-function"><i class="fa fa-check"></i><b>5.1</b> Incidence rate function</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="incidence-rate.html"><a href="incidence-rate.html#complete-data-_-general-version"><i class="fa fa-check"></i><b>5.1.1</b> Complete data _ General version</a></li>
+<li class="chapter" data-level="5.1.2" data-path="incidence-rate.html"><a href="incidence-rate.html#complete-data-_-matching-version"><i class="fa fa-check"></i><b>5.1.2</b> Complete data _ Matching version</a></li>
+<li class="chapter" data-level="5.1.3" data-path="incidence-rate.html"><a href="incidence-rate.html#missing-data-_-before-matching"><i class="fa fa-check"></i><b>5.1.3</b> Missing data _ Before Matching</a></li>
+<li class="chapter" data-level="5.1.4" data-path="incidence-rate.html"><a href="incidence-rate.html#missing-data-_-matching-version"><i class="fa fa-check"></i><b>5.1.4</b> Missing data _ Matching version</a></li>
 </ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html"><i class="fa fa-check"></i><b>6</b> Kaplan-Meier curve</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#the-kaplan-meier-estimator"><i class="fa fa-check"></i><b>6.1</b> The Kaplan Meier estimator</a></li>
+<li class="chapter" data-level="6.2" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#complete-data-version-2"><i class="fa fa-check"></i><b>6.2</b> Complete data version</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#kaplan-meier-curve-function"><i class="fa fa-check"></i><b>6.2.1</b> Kaplan-Meier curve function</a></li>
+<li class="chapter" data-level="6.2.2" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#general-version"><i class="fa fa-check"></i><b>6.2.2</b> General version</a></li>
+<li class="chapter" data-level="6.2.3" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#matching-version"><i class="fa fa-check"></i><b>6.2.3</b> Matching version</a></li>
+<li class="chapter" data-level="6.2.4" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#weighting-version"><i class="fa fa-check"></i><b>6.2.4</b> Weighting version</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#missing-data-version-2"><i class="fa fa-check"></i><b>6.3</b> Missing data version</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#matching-version-1"><i class="fa fa-check"></i><b>6.3.1</b> Matching version</a></li>
+<li class="chapter" data-level="6.3.2" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#weighting-version-1"><i class="fa fa-check"></i><b>6.3.2</b> Weighting version</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>7</b> Logistic regression</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -232,7 +232,7 @@ div.csl-indent {
 <td>Using data <strong>final_com</strong> (complete data version)</td>
 </tr>
 <tr class="even">
-<td>Using object <strong>dat_imp</strong> (missin data version, imputaion result)</td>
+<td>Using object <strong>dat_imp</strong> (missing data version, imputaion result)</td>
 </tr>
 <tr class="odd">
 <td>Outcome variable : <strong>HTN</strong></td>
@@ -257,14 +257,17 @@ div.csl-indent {
 <span id="cb39-3"><a href="propensity-score-weighting.html#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;Data/dat_imp.RData&quot;</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="propensity-score-weighting.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Formula</span></span>
 <span id="cb40-2"><a href="propensity-score-weighting.html#cb40-2" aria-hidden="true" tabindex="-1"></a>formula.wt <span class="ot">&lt;-</span> <span class="fu">formula</span>(DM <span class="sc">~</span> AGE <span class="sc">+</span> SEX <span class="sc">+</span> SES <span class="sc">+</span> REGION <span class="sc">+</span> BMI <span class="sc">+</span> CCI <span class="sc">+</span> DYS <span class="sc">+</span> IHD)</span></code></pre></div>
+<hr />
 <div id="complete-data-version-1" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> Complete data version<a href="propensity-score-weighting.html#complete-data-version-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="inverse-probability-weighting" class="section level3 hasAnchor" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Inverse Probability Weighting<a href="propensity-score-weighting.html#inverse-probability-weighting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
-<li>s.weights : stabilized weights<br />
+<li>s.weights : Stabilized weights<br />
 </li>
-<li>trim.weights : trimming weights</li>
+<li>trim.weights : Trimming weights</li>
 </ul>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="propensity-score-weighting.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Propensity score function</span></span>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="propensity-score-weighting.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="do">## propensity score function</span></span>
 <span id="cb41-2"><a href="propensity-score-weighting.html#cb41-2" aria-hidden="true" tabindex="-1"></a>ps_wt <span class="ot">&lt;-</span> <span class="cf">function</span>(data, ps.formula, group, trt, psweight){</span>
 <span id="cb41-3"><a href="propensity-score-weighting.html#cb41-3" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb41-4"><a href="propensity-score-weighting.html#cb41-4" aria-hidden="true" tabindex="-1"></a>  modellist <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula=</span>ps.formula, <span class="at">data=</span>data, <span class="at">family=</span><span class="st">&quot;binomial&quot;</span>, <span class="at">x=</span><span class="cn">TRUE</span>, <span class="at">y=</span><span class="cn">TRUE</span>)</span>
@@ -298,17 +301,17 @@ div.csl-indent {
 ## 5 1050697  0 2010-03-31   0 2013-01-01  50   1   3      3 24.9   1   0   0
 ## 6 1063538  0 2010-12-14   0 2013-01-01  50   2   1      1 19.3   0   0   0
 ##   DATEDIFF   weights
-## 1     2472 0.9530470
-## 2     2250 1.0084775
-## 3     2539 0.3767263
-## 4     1642 0.9677230
-## 5     1007 0.9785016
-## 6      749 0.9695923</code></pre>
+## 1     2472 0.9535391
+## 2     2250 1.0108264
+## 3     2539 0.3654591
+## 4     1642 0.9688670
+## 5     1007 0.9716872
+## 6      749 0.9704260</code></pre>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="propensity-score-weighting.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Save propensity score</span></span>
 <span id="cb46-2"><a href="propensity-score-weighting.html#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(dat_wt,<span class="at">file=</span><span class="st">&quot;Data/dat_wt.RData&quot;</span>)</span></code></pre></div>
 </div>
-<div id="balance-check-complete-1" class="section level2 hasAnchor" number="4.2">
-<h2><span class="header-section-number">4.2</span> Balance check (Complete)<a href="propensity-score-weighting.html#balance-check-complete-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="balance-check-2" class="section level3 hasAnchor" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Balance check<a href="propensity-score-weighting.html#balance-check-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="propensity-score-weighting.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Banlance check function</span></span>
 <span id="cb47-2"><a href="propensity-score-weighting.html#cb47-2" aria-hidden="true" tabindex="-1"></a>bal_wt<span class="ot">&lt;-</span> <span class="cf">function</span>(obj){</span>
 <span id="cb47-3"><a href="propensity-score-weighting.html#cb47-3" aria-hidden="true" tabindex="-1"></a>  un <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">abs</span>(obj<span class="sc">$</span>ballist<span class="sc">$</span>Balance<span class="sc">$</span>Diff.Un),<span class="dv">3</span>)</span>
@@ -321,24 +324,28 @@ div.csl-indent {
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="propensity-score-weighting.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Balance check across imputed datasets</span></span>
 <span id="cb48-2"><a href="propensity-score-weighting.html#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bal_wt</span>(ps1)</span></code></pre></div>
 <pre><code>##           un   adj
-## AGE    0.997 0.374
-## SEX_2  0.029 0.134
-## SES    0.159 0.230
-## REGION 0.087 0.000
-## BMI    0.273 0.172
-## CCI    0.202 0.212
-## DYS    0.519 0.051
-## IHD    0.036 0.073</code></pre>
-<p><br/></p>
+## AGE    0.997 0.332
+## SEX_2  0.029 0.159
+## SES    0.159 0.222
+## REGION 0.087 0.006
+## BMI    0.273 0.208
+## CCI    0.168 0.347
+## DYS    0.519 0.038
+## IHD    0.036 0.074</code></pre>
+<p><br/>
+<br/></p>
 </div>
-<div id="missing-data-version-1" class="section level2 hasAnchor" number="4.3">
-<h2><span class="header-section-number">4.3</span> Missing data version<a href="propensity-score-weighting.html#missing-data-version-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</div>
+<div id="missing-data-version-1" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Missing data version<a href="propensity-score-weighting.html#missing-data-version-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="inverse-probability-weighting-1" class="section level3 hasAnchor" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Inverse Probability Weighting<a href="propensity-score-weighting.html#inverse-probability-weighting-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
-<li>s.weights : stabilized weights<br />
+<li>s.weights : Stabilized weights<br />
 </li>
-<li>trim.weights : trimming weights</li>
+<li>trim.weights : Trimming weights</li>
 </ul>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="propensity-score-weighting.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Propensity score function</span></span>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="propensity-score-weighting.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="do">## propensity score function</span></span>
 <span id="cb50-2"><a href="propensity-score-weighting.html#cb50-2" aria-hidden="true" tabindex="-1"></a>ps_impute <span class="ot">&lt;-</span> <span class="cf">function</span>(datasets, ps.formula, group, trt, psweight){</span>
 <span id="cb50-3"><a href="propensity-score-weighting.html#cb50-3" aria-hidden="true" tabindex="-1"></a>  modellist <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;list&quot;</span>, <span class="dv">10</span>)</span>
 <span id="cb50-4"><a href="propensity-score-weighting.html#cb50-4" aria-hidden="true" tabindex="-1"></a>  ballist <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">&quot;list&quot;</span>, <span class="dv">10</span>)</span>
@@ -391,17 +398,17 @@ div.csl-indent {
 <span id="cb54-2"><a href="propensity-score-weighting.html#cb54-2" aria-hidden="true" tabindex="-1"></a>data_wt <span class="ot">&lt;-</span> <span class="fu">complete.wdata</span>(ps1, dat_imp, <span class="st">&quot;s.weights&quot;</span>)</span>
 <span id="cb54-3"><a href="propensity-score-weighting.html#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_wt[[<span class="dv">1</span>]])</span></code></pre></div>
 <pre><code>##   DM HTN AGE SEX SES REGION  BMI CCI DYS IHD DATEDIFF s.weights
-## 1  0   0  20   1   2      3 19.4   1   0   0     1001 0.9552116
-## 2  0   0  46   1   2      1 23.9   0   0   0     2542 0.9918582
-## 3  0   0  16   1   2      3 25.0   0   0   0     2542 0.9567726
-## 4  0   0  36   1   1      2 23.7   0   0   0     2472 0.9672481
-## 5  0   1  56   2   3      1 21.0   0   0   0     2449 1.0219381
-## 6  0   0  20   2   2      1 16.4   1   0   0     1095 0.9547622</code></pre>
+## 1  0   0  20   1   2      3 25.2   1   0   0     1001 0.9587127
+## 2  0   0  46   1   2      1 20.0   0   0   0     2542 0.9805237
+## 3  0   0  16   1   2      3 22.1   0   0   0     2542 0.9559439
+## 4  0   0  36   1   1      2 23.7   0   0   0     2472 0.9688151
+## 5  0   1  56   2   3      1 20.5   0   0   0     2449 1.0216980
+## 6  0   0  20   2   2      1 16.4   1   0   0     1095 0.9555949</code></pre>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="propensity-score-weighting.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Save propensity score</span></span>
 <span id="cb56-2"><a href="propensity-score-weighting.html#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(data_wt,<span class="at">file=</span><span class="st">&quot;Data/data_wt.RData&quot;</span>)</span></code></pre></div>
 </div>
-<div id="balance-check-missing-1" class="section level2 hasAnchor" number="4.4">
-<h2><span class="header-section-number">4.4</span> Balance check (Missing)<a href="propensity-score-weighting.html#balance-check-missing-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="balance-check-3" class="section level3 hasAnchor" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Balance check<a href="propensity-score-weighting.html#balance-check-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="propensity-score-weighting.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Banlance check function</span></span>
 <span id="cb57-2"><a href="propensity-score-weighting.html#cb57-2" aria-hidden="true" tabindex="-1"></a>bal.comb <span class="ot">&lt;-</span> <span class="cf">function</span>(obj){</span>
 <span id="cb57-3"><a href="propensity-score-weighting.html#cb57-3" aria-hidden="true" tabindex="-1"></a>  unadj <span class="ot">&lt;-</span> <span class="fu">sapply</span>(obj<span class="sc">$</span>ballist, <span class="cf">function</span>(x) (<span class="fu">abs</span>(x<span class="sc">$</span>Balance<span class="sc">$</span>Diff.Un)))</span>
@@ -414,15 +421,16 @@ div.csl-indent {
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="propensity-score-weighting.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Balance check across imputed datasets</span></span>
 <span id="cb58-2"><a href="propensity-score-weighting.html#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bal.comb</span>(ps1)</span></code></pre></div>
 <pre><code>##           un   adj
-## AGE    1.450 0.743
-## SEX_2  0.020 0.119
-## SES    0.148 0.131
-## REGION 0.006 0.093
-## BMI    0.423 0.239
-## CCI    0.267 0.156
-## DYS    0.435 0.069
-## IHD    0.094 0.059</code></pre>
+## AGE    1.450 0.636
+## SEX_2  0.020 0.161
+## SES    0.153 0.195
+## REGION 0.009 0.058
+## BMI    0.458 0.180
+## CCI    0.203 0.104
+## DYS    0.435 0.064
+## IHD    0.094 0.050</code></pre>
 
+</div>
 </div>
 </div>
             </section>
@@ -431,7 +439,7 @@ div.csl-indent {
         </div>
       </div>
 <a href="propensity-score-matching.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="footnotes-and-citations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="incidence-rate.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -462,7 +470,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/03-parts.Rmd",
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/03-weighting.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -3,8 +3,6 @@ title: "NHISS Example"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
-# url: your book url like https://bookdown.org/yihui/bookdown
-# cover-image: path to the social sharing image like images/cover.jpg
 description: |
   This is a minimal example of using the bookdown package to write a book.
   The HTML output format for this example is bookdown::gitbook,
@@ -13,13 +11,17 @@ link-citations: yes
 github-repo: rstudio/bookdown-demo
 ---
 
-# Baseline characteristic table  
+# Baseline characteristics table
 
  Baseline tables show the characteristics of research subjects included in a study. A table characterizing baseline characteristics is so important that it’s typically the first table that appears in any observational epidemiology (or clinical trial) manuscript, so it’s commonly referred to as a "Table 1". The "Table 1" contain information about the mean and standard deviation(or median and IQR) for continue/scale variable, and proportion for categorical variable.    
  <br/>
  
  Baseline characteristic table should be created before imputaion, matching, or weighting.   
 
+
+<br/>
+
+--------
 
 <br/>
 
@@ -64,12 +66,12 @@ formula.bc <- formula(DM ~ HTN + DATEDIFF + AGE + SEX + SES + REGION + BMI + CCI
   - method=3 : performs a Shapiro-Wilk test to decide between normal or non-normal
 
 
-## Baseline characteristic table
+## Baseline characteristics between groups
 ```{r}
 mytable(formula.bc, data=final_db, method=3) 
 ```
 
-## Baseline characteristic table_total
+## Baseline characteristics (total)
 ```{r}
 tot1 <- final_db %>% mutate(tmp=1)
 tot2 <- final_db %>% mutate(tmp=2)

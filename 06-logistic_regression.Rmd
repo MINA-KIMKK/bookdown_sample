@@ -1,0 +1,46 @@
+# Logistic regression
+
+
+----
+Using data **final_com, dat_mat, dat_wt** (complete data version)
+Using list **dat_mat_list, dat_imp_list** (missing data version)
+Outcome variable : **HTN**     
+Follow-up period : **DATEDIFF**    
+Exposure variable : **DM**     
+Covariates : **Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)**   
+----
+
+<br/>
+
+```{r include=FALSE}
+library(survival)
+library(survminer)
+library(ggsci)
+library(RISCA)
+```
+
+```{r, eval=F}
+## load library
+library(survival)
+library(survminer)
+library(ggsci)
+library(RISCA) # 서버에서는 library(IPWsurvival) 사용
+```
+
+```{r}
+## load data
+final_com <- read.csv('Data/final_com.csv', header=T)
+load("Data/dat_mat.RData")
+load("Data/dat_wt.RData")
+load("Data/dat_mat_list_0.4.RData")
+load("Data/dat_imp_list.RData")
+```
+
+```{r}
+## Formula
+formula.wt <- formula(DM ~ AGE + SEX + SES + REGION + BMI + CCI + DYS + IHD)
+```
+
+------
+
+<br/>

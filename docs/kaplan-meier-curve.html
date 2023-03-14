@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Section 6 Kaplan-Meier curve | NHISS Example</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Section 6 Kaplan-Meier curve | NHISS Example" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Section 6 Kaplan-Meier curve | NHISS Example" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="incidence-rate.html"/>
+<link rel="next" href="logistic-regression.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Baseline characteristics table</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#baseline-characteristics-between-groups"><i class="fa fa-check"></i><b>1.1</b> Baseline characteristics between groups</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#baseline-characteristics-total"><i class="fa fa-check"></i><b>1.2</b> Baseline characteristics (total)</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="multiple-imputation.html"><a href="multiple-imputation.html"><i class="fa fa-check"></i><b>2</b> Multiple imputation</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="multiple-imputation.html"><a href="multiple-imputation.html#the-number-of-missing-values"><i class="fa fa-check"></i><b>2.1</b> The number of missing values</a></li>
+<li class="chapter" data-level="2.2" data-path="multiple-imputation.html"><a href="multiple-imputation.html#imputation-for-missing-values"><i class="fa fa-check"></i><b>2.2</b> Imputation for missing values</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html"><i class="fa fa-check"></i><b>3</b> Propensity Score Matching</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#complete-data-version"><i class="fa fa-check"></i><b>3.1</b> Complete data version</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#nearest-matching"><i class="fa fa-check"></i><b>3.1.1</b> 1:5 nearest matching</a></li>
+<li class="chapter" data-level="3.1.2" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#balance-check"><i class="fa fa-check"></i><b>3.1.2</b> Balance check</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#missing-data-version"><i class="fa fa-check"></i><b>3.2</b> Missing data version</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#nearest-matching-1"><i class="fa fa-check"></i><b>3.2.1</b> 1:3 nearest matching</a></li>
+<li class="chapter" data-level="3.2.2" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#balance-check-1"><i class="fa fa-check"></i><b>3.2.2</b> Balance check</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html"><i class="fa fa-check"></i><b>4</b> Propensity score weighting</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#complete-data-version-1"><i class="fa fa-check"></i><b>4.1</b> Complete data version</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#inverse-probability-weighting"><i class="fa fa-check"></i><b>4.1.1</b> Inverse Probability Weighting</a></li>
+<li class="chapter" data-level="4.1.2" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#balance-check-2"><i class="fa fa-check"></i><b>4.1.2</b> Balance check</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#missing-data-version-1"><i class="fa fa-check"></i><b>4.2</b> Missing data version</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#inverse-probability-weighting-1"><i class="fa fa-check"></i><b>4.2.1</b> Inverse Probability Weighting</a></li>
+<li class="chapter" data-level="4.2.2" data-path="propensity-score-weighting.html"><a href="propensity-score-weighting.html#balance-check-3"><i class="fa fa-check"></i><b>4.2.2</b> Balance check</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="incidence-rate.html"><a href="incidence-rate.html"><i class="fa fa-check"></i><b>5</b> Incidence rate</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="incidence-rate.html"><a href="incidence-rate.html#incidence-rate-function"><i class="fa fa-check"></i><b>5.1</b> Incidence rate function</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="incidence-rate.html"><a href="incidence-rate.html#complete-data-_-general-version"><i class="fa fa-check"></i><b>5.1.1</b> Complete data _ General version</a></li>
+<li class="chapter" data-level="5.1.2" data-path="incidence-rate.html"><a href="incidence-rate.html#complete-data-_-matching-version"><i class="fa fa-check"></i><b>5.1.2</b> Complete data _ Matching version</a></li>
+<li class="chapter" data-level="5.1.3" data-path="incidence-rate.html"><a href="incidence-rate.html#missing-data-_-before-matching"><i class="fa fa-check"></i><b>5.1.3</b> Missing data _ Before Matching</a></li>
+<li class="chapter" data-level="5.1.4" data-path="incidence-rate.html"><a href="incidence-rate.html#missing-data-_-matching-version"><i class="fa fa-check"></i><b>5.1.4</b> Missing data _ Matching version</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html"><i class="fa fa-check"></i><b>6</b> Kaplan-Meier curve</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#the-kaplan-meier-estimator"><i class="fa fa-check"></i><b>6.1</b> The Kaplan Meier estimator</a></li>
+<li class="chapter" data-level="6.2" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#complete-data-version-2"><i class="fa fa-check"></i><b>6.2</b> Complete data version</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#kaplan-meier-curve-function"><i class="fa fa-check"></i><b>6.2.1</b> Kaplan-Meier curve function</a></li>
+<li class="chapter" data-level="6.2.2" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#general-version"><i class="fa fa-check"></i><b>6.2.2</b> General version</a></li>
+<li class="chapter" data-level="6.2.3" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#matching-version"><i class="fa fa-check"></i><b>6.2.3</b> Matching version</a></li>
+<li class="chapter" data-level="6.2.4" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#weighting-version"><i class="fa fa-check"></i><b>6.2.4</b> Weighting version</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#missing-data-version-2"><i class="fa fa-check"></i><b>6.3</b> Missing data version</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#matching-version-1"><i class="fa fa-check"></i><b>6.3.1</b> Matching version</a></li>
+<li class="chapter" data-level="6.3.2" data-path="kaplan-meier-curve.html"><a href="kaplan-meier-curve.html#weighting-version-1"><i class="fa fa-check"></i><b>6.3.2</b> Weighting version</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>7</b> Logistic regression</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">NHISS Example</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="kaplan-meier-curve" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Section 6</span> Kaplan-Meier curve<a href="kaplan-meier-curve.html#kaplan-meier-curve" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="the-kaplan-meier-estimator" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> The Kaplan Meier estimator<a href="kaplan-meier-curve.html#the-kaplan-meier-estimator" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Kaplan-Meier estimator is used to estimate the survival function. The visual representation of this function is usually called the Kaplan-Meier curve, and it shows what the probability of an event (for example, survival) is at a certain time interval.<br />
+We compared two groups in this study. : DM(case) vs NonDM(control)<br />
+</p>
+<p><br/></p>
+<ul>
+<li>Survival function :</li>
+</ul>
+<p><span class="math display">\[S(t)=P(T &gt; t)\]</span></p>
+<p><br/></p>
+<ul>
+<li>Kaplan-Meier estimator :</li>
+</ul>
+<p><span class="math display">\[\hat S(t)=\prod_{j:t_j\le t}\left(1-\frac{d_j}{n_j}\right)=\prod_{s\le t}\left(1-\frac{\bigtriangleup N(s)}{Y(s)}\right)\]</span></p>
+<p><span class="math inline">\(d_j\)</span> : the number of individuals who experience the event at <span class="math inline">\(t_j\)</span>.<br />
+<span class="math inline">\(n_j\)</span> : the number individuals at risk at <span class="math inline">\(t_j\)</span>.<br />
+</p>
+<p><br/></p>
+<hr />
+<p><br/></p>
+<table>
+<tbody>
+<tr class="odd">
+<td>* Using data <strong>final_com, dat_mat, dat_wt</strong> (complete data version)</td>
+</tr>
+<tr class="even">
+<td>Using list <strong>dat_mat_list, dat_imp_list</strong> (missing data version)</td>
+</tr>
+<tr class="odd">
+<td>Outcome variable : <strong>HTN</strong></td>
+</tr>
+<tr class="even">
+<td>Follow-up period : <strong>DATEDIFF</strong></td>
+</tr>
+<tr class="odd">
+<td>Exposure variable : <strong>DM</strong></td>
+</tr>
+<tr class="even">
+<td>Covariates : <strong>Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)</strong></td>
+</tr>
+</tbody>
+</table>
+<p><br/></p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="kaplan-meier-curve.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load library</span></span>
+<span id="cb71-2"><a href="kaplan-meier-curve.html#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb71-3"><a href="kaplan-meier-curve.html#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span>
+<span id="cb71-4"><a href="kaplan-meier-curve.html#cb71-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggsci)</span>
+<span id="cb71-5"><a href="kaplan-meier-curve.html#cb71-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RISCA) <span class="co"># 서버에서는 library(IPWsurvival) 사용</span></span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="kaplan-meier-curve.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load data</span></span>
+<span id="cb72-2"><a href="kaplan-meier-curve.html#cb72-2" aria-hidden="true" tabindex="-1"></a>final_com <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;Data/final_com.csv&#39;</span>, <span class="at">header=</span>T)</span>
+<span id="cb72-3"><a href="kaplan-meier-curve.html#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;Data/dat_mat.RData&quot;</span>)</span>
+<span id="cb72-4"><a href="kaplan-meier-curve.html#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;Data/dat_wt.RData&quot;</span>)</span>
+<span id="cb72-5"><a href="kaplan-meier-curve.html#cb72-5" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;Data/dat_mat_list_0.4.RData&quot;</span>)</span>
+<span id="cb72-6"><a href="kaplan-meier-curve.html#cb72-6" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;Data/dat_imp_list.RData&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="kaplan-meier-curve.html#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Formula</span></span>
+<span id="cb73-2"><a href="kaplan-meier-curve.html#cb73-2" aria-hidden="true" tabindex="-1"></a>formula.wt <span class="ot">&lt;-</span> <span class="fu">formula</span>(DM <span class="sc">~</span> AGE <span class="sc">+</span> SEX <span class="sc">+</span> SES <span class="sc">+</span> REGION <span class="sc">+</span> BMI <span class="sc">+</span> CCI <span class="sc">+</span> DYS <span class="sc">+</span> IHD)</span></code></pre></div>
+<hr />
+<p><br/></p>
+</div>
+<div id="complete-data-version-2" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Complete data version<a href="kaplan-meier-curve.html#complete-data-version-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="kaplan-meier-curve-function" class="section level3 hasAnchor" number="6.2.1">
+<h3><span class="header-section-number">6.2.1</span> Kaplan-Meier curve function<a href="kaplan-meier-curve.html#kaplan-meier-curve-function" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Use <strong>survfit(), ggsurvplot()</strong> function in <strong>survival, survminer</strong> package to plot survival curve.</li>
+</ul>
+<p><br/></p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="kaplan-meier-curve.html#cb74-1" aria-hidden="true" tabindex="-1"></a>gg_km <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
+<span id="cb74-2"><a href="kaplan-meier-curve.html#cb74-2" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggsurvplot</span>(<span class="at">fit =</span> fit_km,</span>
+<span id="cb74-3"><a href="kaplan-meier-curve.html#cb74-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">title =</span> <span class="st">&quot;Kaplan-Meier Curve&quot;</span>,</span>
+<span id="cb74-4"><a href="kaplan-meier-curve.html#cb74-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ggtheme =</span> <span class="fu">theme</span>(<span class="at">axis.line =</span> <span class="fu">element_line</span>(<span class="at">color=</span><span class="st">&quot;black&quot;</span>), </span>
+<span id="cb74-5"><a href="kaplan-meier-curve.html#cb74-5" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb74-6"><a href="kaplan-meier-curve.html#cb74-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size=</span><span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb74-7"><a href="kaplan-meier-curve.html#cb74-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>), <span class="st">&quot;mm&quot;</span>),</span>
+<span id="cb74-8"><a href="kaplan-meier-curve.html#cb74-8" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">margin=</span><span class="fu">margin</span>(<span class="at">r=</span><span class="dv">13</span>)),</span>
+<span id="cb74-9"><a href="kaplan-meier-curve.html#cb74-9" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">margin=</span><span class="fu">margin</span>(<span class="at">t=</span><span class="dv">10</span>)),</span>
+<span id="cb74-10"><a href="kaplan-meier-curve.html#cb74-10" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fl">11.5</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb74-11"><a href="kaplan-meier-curve.html#cb74-11" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="fl">13.5</span>)),</span>
+<span id="cb74-12"><a href="kaplan-meier-curve.html#cb74-12" aria-hidden="true" tabindex="-1"></a>                  <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">&quot;#374E55FF&quot;</span>, <span class="st">&quot;#B24745FF&quot;</span>),</span>
+<span id="cb74-13"><a href="kaplan-meier-curve.html#cb74-13" aria-hidden="true" tabindex="-1"></a>                  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2500</span>), </span>
+<span id="cb74-14"><a href="kaplan-meier-curve.html#cb74-14" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb74-15"><a href="kaplan-meier-curve.html#cb74-15" aria-hidden="true" tabindex="-1"></a>                  <span class="do">### Censor Details </span></span>
+<span id="cb74-16"><a href="kaplan-meier-curve.html#cb74-16" aria-hidden="true" tabindex="-1"></a>                  <span class="at">censor =</span> <span class="cn">TRUE</span>, <span class="co"># logical value. If TRUE, censors will be drawn</span></span>
+<span id="cb74-17"><a href="kaplan-meier-curve.html#cb74-17" aria-hidden="true" tabindex="-1"></a>                  <span class="at">censor.shape=</span><span class="st">&quot;+&quot;</span>, <span class="co"># Default value is &quot;+&quot;, a sensible choice is &quot;|&quot;.</span></span>
+<span id="cb74-18"><a href="kaplan-meier-curve.html#cb74-18" aria-hidden="true" tabindex="-1"></a>                  <span class="at">censor.size =</span> <span class="dv">4</span>, </span>
+<span id="cb74-19"><a href="kaplan-meier-curve.html#cb74-19" aria-hidden="true" tabindex="-1"></a>                  <span class="do">### Confidence Interval</span></span>
+<span id="cb74-20"><a href="kaplan-meier-curve.html#cb74-20" aria-hidden="true" tabindex="-1"></a>                  <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="co"># To Remove conf intervals use FALSE</span></span>
+<span id="cb74-21"><a href="kaplan-meier-curve.html#cb74-21" aria-hidden="true" tabindex="-1"></a>                  <span class="do">### Format Axes (changes x,y axis label)</span></span>
+<span id="cb74-22"><a href="kaplan-meier-curve.html#cb74-22" aria-hidden="true" tabindex="-1"></a>                  <span class="at">xlab =</span> <span class="st">&quot;Time (Year)&quot;</span>, </span>
+<span id="cb74-23"><a href="kaplan-meier-curve.html#cb74-23" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ylab =</span> <span class="st">&quot;Survival probability&quot;</span>,</span>
+<span id="cb74-24"><a href="kaplan-meier-curve.html#cb74-24" aria-hidden="true" tabindex="-1"></a>                  <span class="at">font.x=</span><span class="fu">c</span>(<span class="dv">15</span>),</span>
+<span id="cb74-25"><a href="kaplan-meier-curve.html#cb74-25" aria-hidden="true" tabindex="-1"></a>                  <span class="at">font.y=</span><span class="fu">c</span>(<span class="dv">15</span>),</span>
+<span id="cb74-26"><a href="kaplan-meier-curve.html#cb74-26" aria-hidden="true" tabindex="-1"></a>                  <span class="at">font.xtickslab=</span><span class="fu">c</span>(<span class="dv">11</span>,<span class="st">&quot;plain&quot;</span>), </span>
+<span id="cb74-27"><a href="kaplan-meier-curve.html#cb74-27" aria-hidden="true" tabindex="-1"></a>                  <span class="at">font.ytickslab=</span><span class="fu">c</span>(<span class="dv">11</span>,<span class="st">&quot;plain&quot;</span>),</span>
+<span id="cb74-28"><a href="kaplan-meier-curve.html#cb74-28" aria-hidden="true" tabindex="-1"></a>                  <span class="do">### Format Legend</span></span>
+<span id="cb74-29"><a href="kaplan-meier-curve.html#cb74-29" aria-hidden="true" tabindex="-1"></a>                  <span class="at">legend.title =</span> <span class="st">&quot;Diabetes Mellitus&quot;</span>,</span>
+<span id="cb74-30"><a href="kaplan-meier-curve.html#cb74-30" aria-hidden="true" tabindex="-1"></a>                  <span class="at">legend.labs =</span> <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Case&quot;</span>), <span class="co"># Change the Strata Legend</span></span>
+<span id="cb74-31"><a href="kaplan-meier-curve.html#cb74-31" aria-hidden="true" tabindex="-1"></a>                  <span class="at">legend =</span> <span class="fu">c</span>(<span class="fl">0.15</span>,<span class="fl">0.2</span>), <span class="co"># c(0,0) corresponds to the &quot;bottom left&quot; and c(1,1) corresponds to the &quot;top right&quot; position</span></span>
+<span id="cb74-32"><a href="kaplan-meier-curve.html#cb74-32" aria-hidden="true" tabindex="-1"></a>                  <span class="do">### Risk Table </span></span>
+<span id="cb74-33"><a href="kaplan-meier-curve.html#cb74-33" aria-hidden="true" tabindex="-1"></a>                  <span class="at">risk.table =</span> F, <span class="co"># To Remove risk table use FALSE</span></span>
+<span id="cb74-34"><a href="kaplan-meier-curve.html#cb74-34" aria-hidden="true" tabindex="-1"></a>                  <span class="at">tables.height =</span> <span class="fl">0.25</span>, <span class="co"># Adjusts the height of the risk table</span></span>
+<span id="cb74-35"><a href="kaplan-meier-curve.html#cb74-35" aria-hidden="true" tabindex="-1"></a>                  <span class="at">tables.col =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb74-36"><a href="kaplan-meier-curve.html#cb74-36" aria-hidden="true" tabindex="-1"></a>                  <span class="at">tables.y.text =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb74-37"><a href="kaplan-meier-curve.html#cb74-37" aria-hidden="true" tabindex="-1"></a>                  <span class="at">tables.y.text.col =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb74-38"><a href="kaplan-meier-curve.html#cb74-38" aria-hidden="true" tabindex="-1"></a>                  <span class="at">risk.table.fontsize =</span> <span class="fl">4.5</span>,</span>
+<span id="cb74-39"><a href="kaplan-meier-curve.html#cb74-39" aria-hidden="true" tabindex="-1"></a>                  <span class="at">tables.theme =</span> <span class="fu">theme_cleantable</span>(<span class="at">font.y=</span><span class="dv">12</span>),</span>
+<span id="cb74-40"><a href="kaplan-meier-curve.html#cb74-40" aria-hidden="true" tabindex="-1"></a>                  <span class="do">### p-value details</span></span>
+<span id="cb74-41"><a href="kaplan-meier-curve.html#cb74-41" aria-hidden="true" tabindex="-1"></a>                  <span class="at">pval =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb74-42"><a href="kaplan-meier-curve.html#cb74-42" aria-hidden="true" tabindex="-1"></a>                  <span class="at">pval.size =</span> <span class="dv">5</span>,</span>
+<span id="cb74-43"><a href="kaplan-meier-curve.html#cb74-43" aria-hidden="true" tabindex="-1"></a>                  <span class="at">pval.coord =</span> <span class="fu">c</span>(<span class="dv">2100</span>,<span class="fl">0.1</span>)</span>
+<span id="cb74-44"><a href="kaplan-meier-curve.html#cb74-44" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb74-45"><a href="kaplan-meier-curve.html#cb74-45" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb74-46"><a href="kaplan-meier-curve.html#cb74-46" aria-hidden="true" tabindex="-1"></a>  p<span class="sc">$</span>plot <span class="ot">&lt;-</span> p<span class="sc">$</span>plot <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">2600</span>,<span class="fl">365.25</span>), <span class="at">labels=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">7</span>) </span>
+<span id="cb74-47"><a href="kaplan-meier-curve.html#cb74-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(p)</span>
+<span id="cb74-48"><a href="kaplan-meier-curve.html#cb74-48" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><br/></p>
+</div>
+<div id="general-version" class="section level3 hasAnchor" number="6.2.2">
+<h3><span class="header-section-number">6.2.2</span> General version<a href="kaplan-meier-curve.html#general-version" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="kaplan-meier-curve.html#cb75-1" aria-hidden="true" tabindex="-1"></a>fit_km <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(DATEDIFF, HTN<span class="sc">==</span><span class="dv">1</span>)<span class="sc">~</span> DM, <span class="at">data=</span>final_com)</span>
+<span id="cb75-2"><a href="kaplan-meier-curve.html#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_km</span>(fit_km)</span></code></pre></div>
+<pre><code>## Scale for x is already present.
+## Adding another scale for x, which will replace the existing scale.</code></pre>
+<p><img src="bookdown_sample_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
+</div>
+<div id="matching-version" class="section level3 hasAnchor" number="6.2.3">
+<h3><span class="header-section-number">6.2.3</span> Matching version<a href="kaplan-meier-curve.html#matching-version" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="kaplan-meier-curve.html#cb77-1" aria-hidden="true" tabindex="-1"></a>fit_km <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(DATEDIFF, HTN<span class="sc">==</span><span class="dv">1</span>)<span class="sc">~</span> DM, <span class="at">data=</span>dat_mat, <span class="at">weight =</span> weights)</span>
+<span id="cb77-2"><a href="kaplan-meier-curve.html#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_km</span>(fit_km)</span></code></pre></div>
+<pre><code>## Scale for x is already present.
+## Adding another scale for x, which will replace the existing scale.</code></pre>
+<p><img src="bookdown_sample_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+</div>
+<div id="weighting-version" class="section level3 hasAnchor" number="6.2.4">
+<h3><span class="header-section-number">6.2.4</span> Weighting version<a href="kaplan-meier-curve.html#weighting-version" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="kaplan-meier-curve.html#cb79-1" aria-hidden="true" tabindex="-1"></a>fit_km <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(DATEDIFF, HTN<span class="sc">==</span><span class="dv">1</span>)<span class="sc">~</span> DM, <span class="at">data=</span>dat_wt, <span class="at">weight =</span> weights)</span>
+<span id="cb79-2"><a href="kaplan-meier-curve.html#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_km</span>(fit_km)</span></code></pre></div>
+<pre><code>## Scale for x is already present.
+## Adding another scale for x, which will replace the existing scale.</code></pre>
+<p><img src="bookdown_sample_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+<p><br/>
+<br/></p>
+</div>
+</div>
+<div id="missing-data-version-2" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Missing data version<a href="kaplan-meier-curve.html#missing-data-version-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="matching-version-1" class="section level3 hasAnchor" number="6.3.1">
+<h3><span class="header-section-number">6.3.1</span> Matching version<a href="kaplan-meier-curve.html#matching-version-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="kaplan-meier-curve.html#cb81-1" aria-hidden="true" tabindex="-1"></a>fit_km <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(DATEDIFF, HTN<span class="sc">==</span><span class="dv">1</span>)<span class="sc">~</span> DM, <span class="at">data=</span>dat_mat_list_0<span class="fl">.4</span>[[<span class="dv">1</span>]])</span>
+<span id="cb81-2"><a href="kaplan-meier-curve.html#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_km</span>(fit_km)</span></code></pre></div>
+<pre><code>## Scale for x is already present.
+## Adding another scale for x, which will replace the existing scale.</code></pre>
+<p><img src="bookdown_sample_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
+</div>
+<div id="weighting-version-1" class="section level3 hasAnchor" number="6.3.2">
+<h3><span class="header-section-number">6.3.2</span> Weighting version<a href="kaplan-meier-curve.html#weighting-version-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="weighted-kaplan-meier-estimates" class="section level4 hasAnchor" number="6.3.2.1">
+<h4><span class="header-section-number">6.3.2.1</span> Weighted kaplan-meier estimates<a href="kaplan-meier-curve.html#weighted-kaplan-meier-estimates" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>Use <strong>ipw.survival()</strong> function in <strong>RISCA</strong> package to estimate adjusted survival curves by weighting the individual contributions by the inverse of the probability to be in the group (IPW).</li>
+</ul>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="kaplan-meier-curve.html#cb83-1" aria-hidden="true" tabindex="-1"></a>surv_res <span class="ot">&lt;-</span> <span class="cf">function</span>(data, time, status, group, formula){</span>
+<span id="cb83-2"><a href="kaplan-meier-curve.html#cb83-2" aria-hidden="true" tabindex="-1"></a>  p.score <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula=</span>formula, <span class="at">data=</span>data, <span class="at">family=</span><span class="st">&quot;binomial&quot;</span>, <span class="at">x=</span><span class="cn">TRUE</span>, <span class="at">y=</span><span class="cn">TRUE</span>)<span class="sc">$</span>fitted.values</span>
+<span id="cb83-3"><a href="kaplan-meier-curve.html#cb83-3" aria-hidden="true" tabindex="-1"></a>  wt <span class="ot">&lt;-</span> (data[,group]<span class="sc">==</span><span class="st">&quot;1&quot;</span>)<span class="sc">/</span>p.score <span class="sc">+</span> (data[,group]<span class="sc">==</span><span class="st">&quot;0&quot;</span>)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p.score)</span>
+<span id="cb83-4"><a href="kaplan-meier-curve.html#cb83-4" aria-hidden="true" tabindex="-1"></a>  pt <span class="ot">&lt;-</span> <span class="fu">sum</span>(data[,group]<span class="sc">==</span><span class="dv">1</span>)<span class="sc">/</span><span class="fu">nrow</span>(data)</span>
+<span id="cb83-5"><a href="kaplan-meier-curve.html#cb83-5" aria-hidden="true" tabindex="-1"></a>  sw <span class="ot">&lt;-</span> pt<span class="sc">*</span>(data[,group]<span class="sc">==</span><span class="dv">1</span>) <span class="sc">/</span>p.score <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>pt)<span class="sc">*</span>(data[,group]<span class="sc">==</span><span class="dv">0</span>)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>p.score)</span>
+<span id="cb83-6"><a href="kaplan-meier-curve.html#cb83-6" aria-hidden="true" tabindex="-1"></a>  res.akm <span class="ot">&lt;-</span> <span class="fu">ipw.survival</span>(<span class="at">times=</span>data[,time], <span class="at">failures=</span>data[,status], <span class="at">variable=</span>data[,group], <span class="at">weights=</span>sw)</span>
+<span id="cb83-7"><a href="kaplan-meier-curve.html#cb83-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(res.akm)</span>
+<span id="cb83-8"><a href="kaplan-meier-curve.html#cb83-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb83-9"><a href="kaplan-meier-curve.html#cb83-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-10"><a href="kaplan-meier-curve.html#cb83-10" aria-hidden="true" tabindex="-1"></a>res.akm <span class="ot">&lt;-</span> dat_imp_list <span class="sc">%&gt;%</span> <span class="fu">lapply</span>(<span class="cf">function</span>(x) <span class="fu">surv_res</span>(x,<span class="st">&quot;DATEDIFF&quot;</span>,<span class="st">&quot;HTN&quot;</span>,<span class="st">&quot;DM&quot;</span>, formula.wt)<span class="sc">$</span>table.surv)</span>
+<span id="cb83-11"><a href="kaplan-meier-curve.html#cb83-11" aria-hidden="true" tabindex="-1"></a>risk <span class="ot">&lt;-</span> <span class="fu">do.call</span>(<span class="st">&quot;cbind&quot;</span>,res.akm <span class="sc">%&gt;%</span> <span class="fu">lapply</span>(<span class="cf">function</span>(x) x<span class="sc">$</span>n.risk))</span>
+<span id="cb83-12"><a href="kaplan-meier-curve.html#cb83-12" aria-hidden="true" tabindex="-1"></a>event <span class="ot">&lt;-</span> <span class="fu">do.call</span>(<span class="st">&quot;cbind&quot;</span>,res.akm <span class="sc">%&gt;%</span> <span class="fu">lapply</span>(<span class="cf">function</span>(x) x<span class="sc">$</span>n.event))</span>
+<span id="cb83-13"><a href="kaplan-meier-curve.html#cb83-13" aria-hidden="true" tabindex="-1"></a>surv <span class="ot">&lt;-</span> <span class="fu">do.call</span>(<span class="st">&quot;cbind&quot;</span>,res.akm <span class="sc">%&gt;%</span> <span class="fu">lapply</span>(<span class="cf">function</span>(x) x<span class="sc">$</span>survival))</span>
+<span id="cb83-14"><a href="kaplan-meier-curve.html#cb83-14" aria-hidden="true" tabindex="-1"></a>km_res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">time=</span>res.akm[[<span class="dv">1</span>]]<span class="sc">$</span>times, <span class="at">strata=</span>res.akm[[<span class="dv">1</span>]]<span class="sc">$</span>variable,</span>
+<span id="cb83-15"><a href="kaplan-meier-curve.html#cb83-15" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n.risk=</span><span class="fu">apply</span>(risk,<span class="dv">1</span>,mean),</span>
+<span id="cb83-16"><a href="kaplan-meier-curve.html#cb83-16" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n.event=</span><span class="fu">apply</span>(event,<span class="dv">1</span>,mean),</span>
+<span id="cb83-17"><a href="kaplan-meier-curve.html#cb83-17" aria-hidden="true" tabindex="-1"></a>                     <span class="at">surv=</span><span class="fu">apply</span>(surv,<span class="dv">1</span>,mean))</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="kaplan-meier-curve.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(km_res)</span></code></pre></div>
+<pre><code>##   time strata   n.risk  n.event      surv
+## 1    0      0 2360.020 0.000000 1.0000000
+## 2    2      0 2360.020 2.099422 0.9991104
+## 3    5      0 2357.921 1.062941 0.9986600
+## 4    6      0 2353.958 3.045573 0.9973680
+## 5    7      0 2350.912 1.035237 0.9969288
+## 6    9      0 2349.877 4.227905 0.9951351</code></pre>
+</div>
+<div id="kaplan-meier-curve-by-using-ipw" class="section level4 hasAnchor" number="6.3.2.2">
+<h4><span class="header-section-number">6.3.2.2</span> Kaplan-Meier curve by Using IPW<a href="kaplan-meier-curve.html#kaplan-meier-curve-by-using-ipw" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>Use <strong>ggsurvplot_df()</strong> function in <strong>survminer</strong> package to plot survival curve from any data frame containing the summary of survival curves.</li>
+</ul>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="kaplan-meier-curve.html#cb86-1" aria-hidden="true" tabindex="-1"></a>ggsurv_plot <span class="ot">&lt;-</span> <span class="fu">ggsurvplot_df</span>(km_res,</span>
+<span id="cb86-2"><a href="kaplan-meier-curve.html#cb86-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">title =</span> <span class="st">&quot;Kaplan-Meier Curve&quot;</span>,</span>
+<span id="cb86-3"><a href="kaplan-meier-curve.html#cb86-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">ggtheme =</span> <span class="fu">theme</span>(<span class="at">axis.line =</span> <span class="fu">element_line</span>(<span class="at">color=</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb86-4"><a href="kaplan-meier-curve.html#cb86-4" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb86-5"><a href="kaplan-meier-curve.html#cb86-5" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size=</span><span class="dv">15</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb86-6"><a href="kaplan-meier-curve.html#cb86-6" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">5</span>), <span class="st">&quot;mm&quot;</span>),</span>
+<span id="cb86-7"><a href="kaplan-meier-curve.html#cb86-7" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">margin=</span><span class="fu">margin</span>(<span class="at">r=</span><span class="dv">13</span>)),</span>
+<span id="cb86-8"><a href="kaplan-meier-curve.html#cb86-8" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">margin=</span><span class="fu">margin</span>(<span class="at">t=</span><span class="dv">10</span>)),</span>
+<span id="cb86-9"><a href="kaplan-meier-curve.html#cb86-9" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">legend.background =</span><span class="fu">element_blank</span>(),</span>
+<span id="cb86-10"><a href="kaplan-meier-curve.html#cb86-10" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>),</span>
+<span id="cb86-11"><a href="kaplan-meier-curve.html#cb86-11" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">legend.title =</span> <span class="fu">element_text</span>( <span class="at">size=</span><span class="fl">13.5</span>),</span>
+<span id="cb86-12"><a href="kaplan-meier-curve.html#cb86-12" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">legend.spacing.x =</span> <span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">&#39;cm&#39;</span>),</span>
+<span id="cb86-13"><a href="kaplan-meier-curve.html#cb86-13" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">legend.spacing.y =</span> <span class="fu">unit</span>(<span class="fl">0.3</span>, <span class="st">&#39;cm&#39;</span>)),</span>
+<span id="cb86-14"><a href="kaplan-meier-curve.html#cb86-14" aria-hidden="true" tabindex="-1"></a>                             <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">&quot;#374E55FF&quot;</span>, <span class="st">&quot;#B24745FF&quot;</span>),</span>
+<span id="cb86-15"><a href="kaplan-meier-curve.html#cb86-15" aria-hidden="true" tabindex="-1"></a>                             <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2600</span>),</span>
+<span id="cb86-16"><a href="kaplan-meier-curve.html#cb86-16" aria-hidden="true" tabindex="-1"></a>                             <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.5</span>,<span class="dv">1</span>), </span>
+<span id="cb86-17"><a href="kaplan-meier-curve.html#cb86-17" aria-hidden="true" tabindex="-1"></a>                             <span class="at">size =</span> <span class="fl">1.2</span>,</span>
+<span id="cb86-18"><a href="kaplan-meier-curve.html#cb86-18" aria-hidden="true" tabindex="-1"></a>                             <span class="do">### Format Axes (changes x,y axis label)</span></span>
+<span id="cb86-19"><a href="kaplan-meier-curve.html#cb86-19" aria-hidden="true" tabindex="-1"></a>                             <span class="at">xlab=</span><span class="st">&quot;Time (Years)&quot;</span>, </span>
+<span id="cb86-20"><a href="kaplan-meier-curve.html#cb86-20" aria-hidden="true" tabindex="-1"></a>                             <span class="at">font.x =</span> <span class="fu">c</span>(<span class="dv">16</span>), </span>
+<span id="cb86-21"><a href="kaplan-meier-curve.html#cb86-21" aria-hidden="true" tabindex="-1"></a>                             <span class="at">font.y =</span> <span class="fu">c</span>(<span class="dv">16</span>),</span>
+<span id="cb86-22"><a href="kaplan-meier-curve.html#cb86-22" aria-hidden="true" tabindex="-1"></a>                             <span class="at">font.tickslab =</span> <span class="fu">c</span>(<span class="dv">13</span>),</span>
+<span id="cb86-23"><a href="kaplan-meier-curve.html#cb86-23" aria-hidden="true" tabindex="-1"></a>                             <span class="do">### Format Legend</span></span>
+<span id="cb86-24"><a href="kaplan-meier-curve.html#cb86-24" aria-hidden="true" tabindex="-1"></a>                             <span class="at">legend.title =</span> <span class="st">&quot;Diabetes Mellitus:  &quot;</span>,</span>
+<span id="cb86-25"><a href="kaplan-meier-curve.html#cb86-25" aria-hidden="true" tabindex="-1"></a>                             <span class="at">legend.labs =</span> <span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Case&quot;</span>), <span class="co"># Change the Strata Legend</span></span>
+<span id="cb86-26"><a href="kaplan-meier-curve.html#cb86-26" aria-hidden="true" tabindex="-1"></a>                             <span class="at">legend =</span> <span class="fu">c</span>(<span class="fl">0.2</span>,<span class="fl">0.2</span>) </span>
+<span id="cb86-27"><a href="kaplan-meier-curve.html#cb86-27" aria-hidden="true" tabindex="-1"></a>                             ) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">730.5</span>,<span class="dv">1461</span>,<span class="fl">2191.5</span>,<span class="dv">2922</span>,<span class="fl">3652.5</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">10</span>))</span></code></pre></div>
+<pre><code>## Scale for x is already present.
+## Adding another scale for x, which will replace the existing scale.</code></pre>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="kaplan-meier-curve.html#cb88-1" aria-hidden="true" tabindex="-1"></a>ggsurv_plot</span></code></pre></div>
+<p><img src="bookdown_sample_files/figure-html/unnamed-chunk-64-1.png" width="672" /></p>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="incidence-rate.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="logistic-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/05-kaplan-meier.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown_sample.pdf", "bookdown_sample.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

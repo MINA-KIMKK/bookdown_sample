@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>References | NHISS Example</title>
+  <title>Section 5 Incidence rate | NHISS Example</title>
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
 set in the _output.yml file.</p>" />
   <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="References | NHISS Example" />
+  <meta property="og:title" content="Section 5 Incidence rate | NHISS Example" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
@@ -19,7 +19,7 @@ set in the _output.yml file.</p>" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="References | NHISS Example" />
+  <meta name="twitter:title" content="Section 5 Incidence rate | NHISS Example" />
   
   <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
@@ -34,8 +34,8 @@ set in the _output.yml file.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="logistic-regression.html"/>
-
+<link rel="prev" href="propensity-score-weighting.html"/>
+<link rel="next" href="kaplan-meier-curve.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -224,17 +224,119 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered hasAnchor">
-<h1>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="incidence-rate" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Section 5</span> Incidence rate<a href="incidence-rate.html#incidence-rate" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<table>
+<tbody>
+<tr class="odd">
+<td>Using data <strong>final_com, dat_mat</strong> (complete data version)</td>
+</tr>
+<tr class="even">
+<td>Using list <strong>dat_mat_list, dat_imp_list</strong> (missing data version)</td>
+</tr>
+<tr class="odd">
+<td>Outcome variable : <strong>HTN</strong></td>
+</tr>
+<tr class="even">
+<td>Follow-up period : <strong>DATEDIFF</strong></td>
+</tr>
+<tr class="odd">
+<td>Exposure variable : <strong>DM</strong></td>
+</tr>
+<tr class="even">
+<td>Covariates : <strong>Age, Sex, SES, Region, BMI, CCI, Comorbidities(Dyslipidemia, Ischemic heart disease)</strong></td>
+</tr>
+</tbody>
+</table>
+<p><br/></p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="incidence-rate.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load library</span></span>
+<span id="cb60-2"><a href="incidence-rate.html#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="incidence-rate.html#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load data</span></span>
+<span id="cb61-2"><a href="incidence-rate.html#cb61-2" aria-hidden="true" tabindex="-1"></a>final_com <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;Data/final_com.csv&#39;</span>, <span class="at">header=</span>T)</span>
+<span id="cb61-3"><a href="incidence-rate.html#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;Data/dat_imp_list.RData&quot;</span>)</span>
+<span id="cb61-4"><a href="incidence-rate.html#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;Data/dat_mat_list_0.4.RData&quot;</span>)</span>
+<span id="cb61-5"><a href="incidence-rate.html#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;Data/dat_mat.RData&quot;</span>)</span></code></pre></div>
+<hr />
+<p><br/></p>
+<div id="incidence-rate-function" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Incidence rate function<a href="incidence-rate.html#incidence-rate-function" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="incidence-rate.html#cb62-1" aria-hidden="true" tabindex="-1"></a>IR <span class="ot">&lt;-</span> <span class="cf">function</span>(data, group, outcome, time, tconv, unit){</span>
+<span id="cb62-2"><a href="incidence-rate.html#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">attach</span>(data)</span>
+<span id="cb62-3"><a href="incidence-rate.html#cb62-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(group)</span>
+<span id="cb62-4"><a href="incidence-rate.html#cb62-4" aria-hidden="true" tabindex="-1"></a>  nrisk <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">table</span>(group),<span class="fu">sum</span>(<span class="fu">table</span>(group)))</span>
+<span id="cb62-5"><a href="incidence-rate.html#cb62-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(nrisk) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ctr&quot;</span>,<span class="st">&quot;trt&quot;</span>,<span class="st">&quot;total&quot;</span>)</span>
+<span id="cb62-6"><a href="incidence-rate.html#cb62-6" aria-hidden="true" tabindex="-1"></a>  nevent <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">table</span>(group, outcome)[,<span class="dv">2</span>],<span class="fu">sum</span>(<span class="fu">table</span>(group, outcome)[,<span class="dv">2</span>]))</span>
+<span id="cb62-7"><a href="incidence-rate.html#cb62-7" aria-hidden="true" tabindex="-1"></a>  ptime <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(time, <span class="fu">list</span>(group), <span class="at">FUN=</span>sum)</span>
+<span id="cb62-8"><a href="incidence-rate.html#cb62-8" aria-hidden="true" tabindex="-1"></a>  ptime[<span class="dv">3</span>,] <span class="ot">&lt;-</span> <span class="fu">sum</span>(ptime<span class="sc">$</span>x)</span>
+<span id="cb62-9"><a href="incidence-rate.html#cb62-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb62-10"><a href="incidence-rate.html#cb62-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (tconv <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)){</span>
+<span id="cb62-11"><a href="incidence-rate.html#cb62-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (tconv<span class="sc">==</span><span class="dv">1</span>) ptime.conv <span class="ot">=</span> ptime<span class="sc">$</span>x    </span>
+<span id="cb62-12"><a href="incidence-rate.html#cb62-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> <span class="cf">if</span> (tconv<span class="sc">==</span><span class="dv">2</span>) ptime.conv <span class="ot">=</span> ptime<span class="sc">$</span>x<span class="sc">/</span><span class="dv">12</span></span>
+<span id="cb62-13"><a href="incidence-rate.html#cb62-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> ptime.conv <span class="ot">=</span> ptime<span class="sc">$</span>x<span class="sc">/</span><span class="fl">365.25</span> </span>
+<span id="cb62-14"><a href="incidence-rate.html#cb62-14" aria-hidden="true" tabindex="-1"></a>  }<span class="cf">else</span> {</span>
+<span id="cb62-15"><a href="incidence-rate.html#cb62-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="fu">paste</span>(tconv, <span class="st">&quot;is not an acceptable entry to tconv&quot;</span>), <span class="at">call. =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb62-16"><a href="incidence-rate.html#cb62-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb62-17"><a href="incidence-rate.html#cb62-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb62-18"><a href="incidence-rate.html#cb62-18" aria-hidden="true" tabindex="-1"></a>  ir <span class="ot">&lt;-</span> nevent<span class="sc">/</span>ptime.conv<span class="sc">*</span>unit</span>
+<span id="cb62-19"><a href="incidence-rate.html#cb62-19" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(nrisk, nevent, <span class="at">ptime2=</span>ptime.conv<span class="sc">/</span>unit, <span class="at">py=</span><span class="fu">round</span>(ptime.conv,<span class="dv">2</span>), <span class="at">ir=</span><span class="fu">round</span>(ir,<span class="dv">2</span>))</span>
+<span id="cb62-20"><a href="incidence-rate.html#cb62-20" aria-hidden="true" tabindex="-1"></a>  ci <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(res), <span class="cf">function</span>(i) <span class="fu">exp</span>(<span class="fu">confint.default</span>(<span class="fu">glm</span>(nevent<span class="sc">~</span><span class="fu">offset</span>(<span class="fu">log</span>(ptime2)), <span class="at">data=</span>res[i,], <span class="at">family=</span><span class="st">&quot;poisson&quot;</span>)))))</span>
+<span id="cb62-21"><a href="incidence-rate.html#cb62-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(ci) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;lir&quot;</span>, <span class="st">&quot;uir&quot;</span>)</span>
+<span id="cb62-22"><a href="incidence-rate.html#cb62-22" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">cbind</span>(res, <span class="fu">round</span>(ci,<span class="dv">2</span>))</span>
+<span id="cb62-23"><a href="incidence-rate.html#cb62-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">detach</span>(data)</span>
+<span id="cb62-24"><a href="incidence-rate.html#cb62-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(res)</span>
+<span id="cb62-25"><a href="incidence-rate.html#cb62-25" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><br/></p>
+<ul>
+<li>IR(data, group, status, time, tconv, unit)</li>
+<li>tconv: Used time criteria in dataset
+<ul>
+<li>1: year / 2: month / 3: day</li>
+</ul></li>
+<li>unit: Person year criteria (ex. unit = 1000 for incidence rate per 1000PY)</li>
+</ul>
+<p><br/></p>
+<div id="complete-data-_-general-version" class="section level3 hasAnchor" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Complete data _ General version<a href="incidence-rate.html#complete-data-_-general-version" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="incidence-rate.html#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">IR</span>(final_com, DM, HTN, DATEDIFF, <span class="dv">3</span>, <span class="dv">1000</span>)</span></code></pre></div>
+<pre><code>##       nrisk nevent    ptime2      py     ir   lir    uir
+## ctr     825     80 3.4564709 3456.47  23.14 18.59  28.82
+## trt      61     23 0.1906311  190.63 120.65 80.18 181.56
+## total   886    103 3.6471020 3647.10  28.24 23.28  34.26</code></pre>
+</div>
+<div id="complete-data-_-matching-version" class="section level3 hasAnchor" number="5.1.2">
+<h3><span class="header-section-number">5.1.2</span> Complete data _ Matching version<a href="incidence-rate.html#complete-data-_-matching-version" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="incidence-rate.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">IR</span>(dat_mat, DM, HTN, DATEDIFF, <span class="dv">3</span>, <span class="dv">1000</span>)</span></code></pre></div>
+<pre><code>##       nrisk nevent   ptime2      py     ir   lir    uir
+## ctr     230     39 0.886883  886.88  43.97 32.13  60.19
+## trt      46     16 0.159436  159.44 100.35 61.48 163.81
+## total   276     55 1.046319 1046.32  52.57 40.36  68.47</code></pre>
+</div>
+<div id="missing-data-_-before-matching" class="section level3 hasAnchor" number="5.1.3">
+<h3><span class="header-section-number">5.1.3</span> Missing data _ Before Matching<a href="incidence-rate.html#missing-data-_-before-matching" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="incidence-rate.html#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">IR</span>(dat_imp_list[[<span class="dv">1</span>]], DM, HTN, DATEDIFF, <span class="dv">3</span>, <span class="dv">1000</span>)</span></code></pre></div>
+<pre><code>##       nrisk nevent     ptime2       py     ir    lir    uir
+## ctr    2356    141 10.0459849 10045.98  14.04  11.90  16.55
+## trt     118     49  0.3551129   355.11 137.98 104.29 182.57
+## total  2474    190 10.4010979 10401.10  18.27  15.85  21.06</code></pre>
+</div>
+<div id="missing-data-_-matching-version" class="section level3 hasAnchor" number="5.1.4">
+<h3><span class="header-section-number">5.1.4</span> Missing data _ Matching version<a href="incidence-rate.html#missing-data-_-matching-version" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="incidence-rate.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">IR</span>(dat_mat_list_0<span class="fl">.4</span>[[<span class="dv">1</span>]], DM, HTN, DATEDIFF, <span class="dv">3</span>, <span class="dv">1000</span>)</span></code></pre></div>
+<pre><code>##       nrisk nevent    ptime2      py     ir   lir    uir
+## ctr     336     51 1.2416099 1241.61  41.08 31.22  54.05
+## trt     112     46 0.3449254  344.93 133.36 99.89 178.05
+## total   448     97 1.5865352 1586.54  61.14 50.11  74.60</code></pre>
 
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="logistic-regression.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="propensity-score-weighting.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="kaplan-meier-curve.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +367,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/07-logistic_regression.Rmd",
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/04-incidence_rate.Rmd",
 "text": "Edit"
 },
 "history": {
